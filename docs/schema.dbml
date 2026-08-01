@@ -1,0 +1,62 @@
+// Database Markup Language (DBML) Specification for AgriRent Platform
+// Use dbdiagram.io to generate visual ER diagram
+
+Table users {
+  id ObjectId [pk]
+  name varchar [not null]
+  email varchar [unique, not null]
+  password varchar [not null]
+  phone varchar [not null]
+  role varchar [not null, note: 'farmer | owner | admin']
+  location varchar [not null]
+  avatar varchar [default: '']
+  createdAt timestamp [default: `now()`]
+  updatedAt timestamp [default: `now()`]
+}
+
+Table equipment {
+  id ObjectId [pk]
+  ownerId ObjectId [ref: > users.id, not null]
+  name varchar [not null]
+  category varchar [not null, note: 'Tractor | Harvester | Tiller | Seeder | Sprayer | Attachment']
+  description text [not null]
+  dailyRate decimal [not null]
+  location varchar [not null]
+  horsepower int [default: 0]
+  fuelType varchar [default: 'Diesel']
+  isDriverAvailable boolean [default: false]
+  driverRatePerDay decimal [default: 0]
+  isAvailable boolean [default: true]
+  images string[] [not null]
+  averageRating decimal [default: 0.0]
+  numReviews int [default: 0]
+  createdAt timestamp [default: `now()`]
+  updatedAt timestamp [default: `now()`]
+}
+
+Table bookings {
+  id ObjectId [pk]
+  equipmentId ObjectId [ref: > equipment.id, not null]
+  farmerId ObjectId [ref: > users.id, not null]
+  startDate date [not null]
+  endDate date [not null]
+  totalDays int [not null]
+  dailyRate decimal [not null]
+  includeDriver boolean [default: false]
+  driverCost decimal [default: 0]
+  totalPrice decimal [not null]
+  status varchar [default: 'Pending', note: 'Pending | Approved | Rejected | Completed | Cancelled']
+  notes text [default: '']
+  createdAt timestamp [default: `now()`]
+  updatedAt timestamp [default: `now()`]
+}
+
+Table reviews {
+  id ObjectId [pk]
+  equipmentId ObjectId [ref: > equipment.id, not null]
+  farmerId ObjectId [ref: > users.id, not null]
+  bookingId ObjectId [ref: > bookings.id, not null]
+  rating int [not null, note: '1 to 5']
+  comment text [not null]
+  createdAt timestamp [default: `now()`]
+}
