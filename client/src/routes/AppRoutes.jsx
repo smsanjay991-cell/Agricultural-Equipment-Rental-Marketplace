@@ -6,9 +6,9 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
-import FarmerDashboard from '../pages/FarmerDashboard/FarmerDashboard';
-import OwnerDashboard from '../pages/OwnerDashboard/OwnerDashboard';
-import AdminDashboard from '../pages/AdminDashboard/AdminDashboard';
+import Farmer from '../pages/Farmer/Farmer';
+import Owner from '../pages/Owner/Owner';
+import Admin from '../pages/Admin/Admin';
 import Equipment from '../pages/Equipment/Equipment';
 import Booking from '../pages/Booking/Booking';
 import Profile from '../pages/Profile/Profile';
@@ -23,10 +23,10 @@ const AppRoutes = () => {
       <Route path="/equipment" element={<MainLayout><Equipment /></MainLayout>} />
       <Route path="/booking" element={<MainLayout><Booking /></MainLayout>} />
 
-      {/* Dashboard & User Management Pages wrapped in DashboardLayout */}
-      <Route path="/farmer-dashboard" element={<DashboardLayout><FarmerDashboard /></DashboardLayout>} />
-      <Route path="/owner-dashboard" element={<DashboardLayout><OwnerDashboard /></DashboardLayout>} />
-      <Route path="/admin-dashboard" element={<DashboardLayout><AdminDashboard /></DashboardLayout>} />
+      {/* Role Dashboard & Management Pages wrapped in DashboardLayout */}
+      <Route path="/farmer-dashboard" element={<DashboardLayout><Farmer /></DashboardLayout>} />
+      <Route path="/owner-dashboard" element={<DashboardLayout><Owner /></DashboardLayout>} />
+      <Route path="/admin-dashboard" element={<DashboardLayout><Admin /></DashboardLayout>} />
       <Route path="/profile" element={<DashboardLayout><Profile /></DashboardLayout>} />
 
       {/* Catch-all fallback */}

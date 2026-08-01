@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero/Hero';
 import EquipmentCard from '../../components/EquipmentCard/EquipmentCard';
+import CategoryCard from '../../components/CategoryCard/CategoryCard';
 import Loader from '../../components/Loader/Loader';
 import { equipmentService } from '../../services/equipmentService';
-import { Tractor, ArrowRight, ShieldCheck, Zap, Coins, ThumbsUp, Wrench } from 'lucide-react';
+import { Tractor, ArrowRight, ShieldCheck, Wrench, Sprout, Wind, Droplets } from 'lucide-react';
 
 const Home = () => {
   const [featuredEquipment, setFeaturedEquipment] = useState([]);
@@ -24,11 +25,40 @@ const Home = () => {
     loadFeatured();
   }, []);
 
+  const categories = [
+    { title: 'Heavy Tractors', key: 'Tractor', count: '120+', icon: Tractor, description: '35 to 75+ HP tractors for tilling, ploughing, and heavy field haulage.' },
+    { title: 'Combine Harvesters', key: 'Harvester', count: '45+', icon: Wind, description: 'High capacity paddy and wheat harvesters for clean grain collection.' },
+    { title: 'Tillers & Rotavators', key: 'Tiller', count: '80+', icon: Wrench, description: 'Rotary tillers for rapid soil conditioning and seedbed preparation.' },
+    { title: 'Precision Seeders', key: 'Seeder', count: '35+', icon: Sprout, description: 'Pneumatic automatic seed planters for uniform seed depth and spacing.' },
+    { title: 'Power Sprayers', key: 'Sprayer', count: '60+', icon: Droplets, description: 'Tractor-mounted boom sprayers for crop protection and liquid fertilization.' }
+  ];
+
   return (
     <div className="space-y-16 pb-16">
       
       {/* Hero Section */}
       <Hero />
+
+      {/* Equipment Categories Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div>
+          <div className="text-xs uppercase font-bold text-emerald-400 tracking-wider">Machinery Categories</div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Explore Equipment By Farm Operation</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categories.map((cat) => (
+            <CategoryCard 
+              key={cat.key}
+              title={cat.title}
+              categoryKey={cat.key}
+              count={cat.count}
+              icon={cat.icon}
+              description={cat.description}
+            />
+          ))}
+        </div>
+      </section>
 
       {/* Featured Equipment Catalog Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
