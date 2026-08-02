@@ -12,17 +12,25 @@ const protect = async (req, res, next) => {
       
       req.user = await User.findById(decoded.id).select('-password');
       if (!req.user) {
-        // Fallback for mocked token decoding if user is not in live DB
-        req.user = { _id: decoded.id, role: decoded.role || 'farmer' };
+        return res.status(401).json({
+          success: false,
+          message: 'Not authorized, user no longer exists'
+        });
       }
       return next();
     } catch (error) {
-      return res.status(401).json({ message: 'Not authorized, token failed' });
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized, token failed validation'
+      });
     }
   }
 
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token provided' });
+    return res.status(401).json({
+      success: false,
+      message: 'Not authorized, no token provided'
+    });
   }
 };
 
@@ -30,6 +38,7 @@ const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
       return res.status(403).json({
+        success: false,
         message: `User role '${req.user ? req.user.role : 'guest'}' is not authorized to access this route`
       });
     }
