@@ -1,38 +1,25 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
-import DashboardLayout from '../layouts/DashboardLayout';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from '../pages/Home/Home';
-import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register';
-import Farmer from '../pages/Farmer/Farmer';
-import Owner from '../pages/Owner/Owner';
-import Admin from '../pages/Admin/Admin';
-import Equipment from '../pages/Equipment/Equipment';
-import Booking from '../pages/Booking/Booking';
-import Profile from '../pages/Profile/Profile';
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import FarmerDashboard from "../pages/FarmerDashboard";
+import OwnerDashboard from "../pages/OwnerDashboard";
+import NotFound from "../pages/NotFound";
 
-const AppRoutes = () => {
+function AppRoutes() {
   return (
-    <Routes>
-      {/* Public Pages wrapped in MainLayout */}
-      <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-      <Route path="/login" element={<MainLayout><Login /></MainLayout>} />
-      <Route path="/register" element={<MainLayout><Register /></MainLayout>} />
-      <Route path="/equipment" element={<MainLayout><Equipment /></MainLayout>} />
-      <Route path="/booking" element={<MainLayout><Booking /></MainLayout>} />
-
-      {/* Role Dashboard & Management Pages wrapped in DashboardLayout */}
-      <Route path="/farmer-dashboard" element={<DashboardLayout><Farmer /></DashboardLayout>} />
-      <Route path="/owner-dashboard" element={<DashboardLayout><Owner /></DashboardLayout>} />
-      <Route path="/admin-dashboard" element={<DashboardLayout><Admin /></DashboardLayout>} />
-      <Route path="/profile" element={<DashboardLayout><Profile /></DashboardLayout>} />
-
-      {/* Catch-all fallback */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/farmer" element={<FarmerDashboard />} />
+        <Route path="/owner" element={<OwnerDashboard />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default AppRoutes;
