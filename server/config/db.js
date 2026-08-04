@@ -1,17 +1,51 @@
-const mongoose = require('mongoose');
-const dns = require('dns');
+const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path');
 
-// Configure Node.js internal c-ares DNS resolver to use Google and Cloudflare DNS
-// This resolves querySrv ECONNREFUSED issues on Jio Hotspot / local router DNS
-dns.setServers(['8.8.8.8', '1.1.1.1']);
+const pool = mysql.createPool({
+  host: process.env.MYSQL_HOST || 'localhost',
+  port: Number(process.env.MYSQL_PORT) || 3306,
+  user: process.env.MYSQL_USER || 'root',
+  password: process.env.MYSQL_PASSWORD || '',
+  database: process.env.MYSQL_DATABASE || 'agrirent',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  multipleStatements: true
+});
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/agrirent');
-    console.log(`🍃 MongoDB Connected: ${conn.connection.host}`);
+    // Attempt connection to host (without database first in case database needs auto-creating)
+    const initConnection = await mysql.createConnection({
+      host: process.env.MYSQL_HOST || 'localhost',
+      port: Number(process.env.MYSQL_PORT) || 3306,
+      user: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      multipleStatements: true
+    });
+
+    const dbName = process.env.MYSQL_DATABASE || 'agrirent';
+    await initConnection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+    await initConnection.query(`USE \`${dbName}\`;`);
+
+    // Auto-create database schema tables if schema.sql exists
+    const schemaPath = path.join(__dirname, 'schema.sql');
+    if (fs.existsSync(schemaPath)) {
+      const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+      await initConnection.query(schemaSql);
+    }
+    await initConnection.end();
+
+    // Verify connection pool
+    const connection = await pool.getConnection();
+    console.log(`🐬 MySQL Connected: Database '${dbName}' ready on ${process.env.MYSQL_HOST || 'localhost'}:${process.env.MYSQL_PORT || 3306}`);
+    connection.release();
   } catch (error) {
-    console.error(`MongoDB Connection Error: ${error.message}`);
+    console.error(`❌ MySQL Connection Error: ${error.message}`);
   }
 };
+
+connectDB.pool = pool;
 
 module.exports = connectDB;

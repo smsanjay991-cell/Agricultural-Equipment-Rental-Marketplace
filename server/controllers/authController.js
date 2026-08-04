@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
     }
 
     // Check if user already exists
-    const userExists = await User.findOne({ email: email.toLowerCase() });
+    const userExists = await User.findByEmail(email);
     if (userExists) {
       return res.status(400).json({
         success: false,
@@ -45,7 +45,7 @@ const registerUser = async (req, res) => {
       ? role.toLowerCase()
       : 'farmer';
 
-    // Create user in MongoDB Atlas (password is hashed via pre-save hook)
+    // Create user in MySQL (password is hashed inside User.create)
     const user = await User.create({
       name,
       email: email.toLowerCase(),
@@ -62,6 +62,7 @@ const registerUser = async (req, res) => {
         message: 'User registered successfully',
         data: {
           _id: user._id,
+          id: user._id,
           name: user.name,
           email: user.email,
           phone: user.phone,
@@ -99,16 +100,17 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Find user and explicitly include password field
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
+    // Find user and include password for comparison
+    const user = await User.findByEmail(email, true);
 
-    if (user && (await user.matchPassword(password))) {
+    if (user && (await User.matchPassword(password, user.password))) {
       const token = generateToken(user._id, user.role);
       return res.status(200).json({
         success: true,
         message: 'Login successful',
         data: {
           _id: user._id,
+          id: user._id,
           name: user.name,
           email: user.email,
           phone: user.phone,
@@ -144,6 +146,7 @@ const getUserProfile = async (req, res) => {
         success: true,
         data: {
           _id: user._id,
+          id: user._id,
           name: user.name,
           email: user.email,
           phone: user.phone,

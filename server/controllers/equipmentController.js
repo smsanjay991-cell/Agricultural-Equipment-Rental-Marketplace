@@ -7,35 +7,16 @@ const Review = require('../models/Review');
 const getEquipment = async (req, res) => {
   try {
     const { category, search, location, minPrice, maxPrice, isDriverAvailable } = req.query;
-    let query = {};
 
-    if (category && category !== 'All') {
-      query.category = category;
-    }
+    const equipmentList = await Equipment.find({
+      category,
+      search,
+      location,
+      minPrice,
+      maxPrice,
+      isDriverAvailable
+    });
 
-    if (location) {
-      query.location = { $regex: location, $options: 'i' };
-    }
-
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { category: { $regex: search, $options: 'i' } }
-      ];
-    }
-
-    if (minPrice || maxPrice) {
-      query.dailyRate = {};
-      if (minPrice) query.dailyRate.$gte = Number(minPrice);
-      if (maxPrice) query.dailyRate.$lte = Number(maxPrice);
-    }
-
-    if (isDriverAvailable === 'true') {
-      query.isDriverAvailable = true;
-    }
-
-    const equipmentList = await Equipment.find(query).populate('owner', 'name phone location email');
     res.json(equipmentList);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,12 +28,12 @@ const getEquipment = async (req, res) => {
 // @access  Public
 const getEquipmentById = async (req, res) => {
   try {
-    const item = await Equipment.findById(req.params.id).populate('owner', 'name phone location email avatar');
+    const item = await Equipment.findById(req.params.id);
     if (!item) {
       return res.status(404).json({ message: 'Equipment listing not found' });
     }
-    const reviews = await Review.find({ equipment: req.params.id }).populate('farmer', 'name avatar');
-    res.json({ ...item.toObject(), reviews });
+    const reviews = await Review.find({ equipment: req.params.id });
+    res.json({ ...item, reviews });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -76,7 +57,7 @@ const createEquipment = async (req, res) => {
       images
     } = req.body;
 
-    const equipment = new Equipment({
+    const createdEquipment = await Equipment.create({
       owner: req.user._id,
       name,
       category,
@@ -90,7 +71,6 @@ const createEquipment = async (req, res) => {
       images: images && images.length ? images : ['https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80']
     });
 
-    const createdEquipment = await equipment.save();
     res.status(201).json(createdEquipment);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -108,12 +88,14 @@ const updateEquipment = async (req, res) => {
       return res.status(404).json({ message: 'Equipment not found' });
     }
 
-    if (equipment.owner.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    const ownerIdStr = equipment.owner ? (equipment.owner._id || equipment.owner.id).toString() : '';
+    const userIdStr = (req.user._id || req.user.id).toString();
+
+    if (ownerIdStr !== userIdStr && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to edit this equipment' });
     }
 
-    Object.assign(equipment, req.body);
-    const updatedEquipment = await equipment.save();
+    const updatedEquipment = await Equipment.update(req.params.id, req.body);
     res.json(updatedEquipment);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -131,11 +113,14 @@ const deleteEquipment = async (req, res) => {
       return res.status(404).json({ message: 'Equipment not found' });
     }
 
-    if (equipment.owner.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    const ownerIdStr = equipment.owner ? (equipment.owner._id || equipment.owner.id).toString() : '';
+    const userIdStr = (req.user._id || req.user.id).toString();
+
+    if (ownerIdStr !== userIdStr && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to delete this equipment' });
     }
 
-    await equipment.deleteOne();
+    await Equipment.deleteById(req.params.id);
     res.json({ message: 'Equipment listing removed successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

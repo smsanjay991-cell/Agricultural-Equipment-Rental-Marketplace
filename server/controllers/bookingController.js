@@ -39,7 +39,7 @@ const createBooking = async (req, res) => {
       includeDriver
     });
 
-    const booking = new Booking({
+    const createdBooking = await Booking.create({
       equipment: equipmentId,
       farmer: req.user._id,
       startDate,
@@ -53,7 +53,6 @@ const createBooking = async (req, res) => {
       status: 'Pending'
     });
 
-    const createdBooking = await booking.save();
     res.status(201).json(createdBooking);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -66,25 +65,14 @@ const createBooking = async (req, res) => {
 const getMyBookings = async (req, res) => {
   try {
     if (req.user.role === 'owner') {
-      const ownerEquipment = await Equipment.find({ owner: req.user._id }).select('_id');
-      const equipmentIds = ownerEquipment.map(item => item._id);
+      const ownerEquipment = await Equipment.find({ owner: req.user._id });
+      const equipmentIds = ownerEquipment.map(item => item._id || item.id);
 
-      const ownerBookings = await Booking.find({ equipment: { $in: equipmentIds } })
-        .populate('equipment', 'name category images location dailyRate')
-        .populate('farmer', 'name phone email location')
-        .sort({ createdAt: -1 });
-
+      const ownerBookings = await Booking.findByEquipmentIds(equipmentIds);
       return res.json(ownerBookings);
     }
 
-    const farmerBookings = await Booking.find({ farmer: req.user._id })
-      .populate({
-        path: 'equipment',
-        select: 'name category images location dailyRate owner',
-        populate: { path: 'owner', select: 'name phone location email' }
-      })
-      .sort({ createdAt: -1 });
-
+    const farmerBookings = await Booking.findByFarmer(req.user._id);
     res.json(farmerBookings);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -103,21 +91,24 @@ const updateBookingStatus = async (req, res) => {
       return res.status(400).json({ message: 'Invalid status transition' });
     }
 
-    const booking = await Booking.findById(req.params.id).populate('equipment');
+    const booking = await Booking.findById(req.params.id);
     if (!booking) {
       return res.status(404).json({ message: 'Booking record not found' });
     }
 
-    const isOwner = booking.equipment.owner.toString() === req.user._id.toString();
-    const isFarmer = booking.farmer.toString() === req.user._id.toString();
+    const ownerIdStr = booking.equipment && booking.equipment.owner ? (booking.equipment.owner._id || booking.equipment.owner.id).toString() : '';
+    const farmerIdStr = booking.farmer ? (booking.farmer._id || booking.farmer.id).toString() : '';
+    const userIdStr = (req.user._id || req.user.id).toString();
+
+    const isOwner = ownerIdStr === userIdStr;
+    const isFarmer = farmerIdStr === userIdStr;
     const isAdmin = req.user.role === 'admin';
 
     if (!isOwner && !isFarmer && !isAdmin) {
       return res.status(403).json({ message: 'Not authorized to update this booking' });
     }
 
-    booking.status = status;
-    const updatedBooking = await booking.save();
+    const updatedBooking = await Booking.updateStatus(req.params.id, status);
     res.json(updatedBooking);
   } catch (error) {
     res.status(500).json({ message: error.message });

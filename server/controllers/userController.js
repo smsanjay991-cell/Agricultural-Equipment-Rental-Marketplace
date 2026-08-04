@@ -5,7 +5,7 @@ const User = require('../models/User');
 // @access  Private/Admin
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password');
+    const users = await User.getAll();
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -17,23 +17,19 @@ const getUsers = async (req, res) => {
 // @access  Private
 const updateUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const updatedUser = await User.updateProfile(req.user._id, {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      location: req.body.location,
+      avatar: req.body.avatar,
+      password: req.body.password
+    });
 
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-      user.phone = req.body.phone || user.phone;
-      user.location = req.body.location || user.location;
-      if (req.body.avatar) user.avatar = req.body.avatar;
-
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
-
-      const updatedUser = await user.save();
-
+    if (updatedUser) {
       res.json({
         _id: updatedUser._id,
+        id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
         phone: updatedUser.phone,

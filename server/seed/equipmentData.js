@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const User = require('../models/User');
 const Equipment = require('../models/Equipment');
+const Category = require('../models/Category');
 const connectDB = require('../config/db');
 
 dotenv.config();
@@ -73,11 +73,17 @@ const seedData = async () => {
   try {
     await connectDB();
 
-    console.log('Clearing old equipment data...');
+    console.log('Seeding initial categories into MySQL...');
+    const categories = ['Tractor', 'Harvester', 'Tiller', 'Seeder', 'Sprayer', 'Attachment', 'Other'];
+    for (const cat of categories) {
+      await Category.create(cat, `${cat} equipment category`);
+    }
+
+    console.log('Clearing old equipment data from MySQL...');
     await Equipment.deleteMany();
 
-    // Get an owner user or create demo owner
-    let owner = await User.findOne({ role: 'owner' });
+    // Ensure demo owner user exists
+    let owner = await User.findByEmail('owner@agrirent.com');
     if (!owner) {
       owner = await User.create({
         name: 'Ram Singh (Fleet Owner)',
@@ -89,16 +95,29 @@ const seedData = async () => {
       });
     }
 
+    // Ensure demo farmer user exists
+    let farmer = await User.findByEmail('farmer@agrirent.com');
+    if (!farmer) {
+      await User.create({
+        name: 'Kisan Kumar (Farmer)',
+        email: 'farmer@agrirent.com',
+        password: 'password123',
+        phone: '+91 91234 56789',
+        role: 'farmer',
+        location: 'Amritsar, Punjab'
+      });
+    }
+
     const equipmentWithOwner = sampleEquipment.map(item => ({
       ...item,
-      owner: owner._id
+      owner: owner._id || owner.id
     }));
 
     await Equipment.insertMany(equipmentWithOwner);
-    console.log('Sample Equipment Seeded Successfully!');
-    process.exit();
+    console.log('🌱 Sample Equipment & Users Seeded Successfully into MySQL!');
+    process.exit(0);
   } catch (error) {
-    console.error(`Error Seeding Data: ${error.message}`);
+    console.error(`❌ Error Seeding Data: ${error.message}`);
     process.exit(1);
   }
 };
