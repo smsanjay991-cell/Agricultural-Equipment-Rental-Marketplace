@@ -108,6 +108,19 @@ const seedData = async () => {
       });
     }
 
+    // Ensure demo admin user exists
+    let admin = await User.findByEmail('admin@agrirent.com');
+    if (!admin) {
+      await User.create({
+        name: 'System Admin',
+        email: 'admin@agrirent.com',
+        password: 'password123',
+        phone: '+91 99999 88888',
+        role: 'admin',
+        location: 'Chandigarh, UT'
+      });
+    }
+
     const equipmentWithOwner = sampleEquipment.map(item => ({
       ...item,
       owner: owner._id || owner.id

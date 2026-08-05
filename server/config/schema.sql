@@ -63,28 +63,39 @@ CREATE TABLE IF NOT EXISTS equipment (
   INDEX idx_equipment_location (location)
 ) ENGINE=InnoDB;
 
--- 4. Bookings Table
+-- 4. Bookings Table (Aligned with Step 2 Requirements)
 CREATE TABLE IF NOT EXISTS bookings (
   id INT AUTO_INCREMENT PRIMARY KEY,
   equipment_id INT NOT NULL,
   farmer_id INT NOT NULL,
+  owner_id INT NOT NULL,
+  booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   total_days INT NOT NULL CHECK (total_days > 0),
-  daily_rate DECIMAL(10,2) NOT NULL,
+  daily_rent DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  daily_rate DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   include_driver TINYINT(1) DEFAULT 0,
   driver_cost DECIMAL(10,2) DEFAULT 0.00,
-  total_price DECIMAL(10,2) NOT NULL CHECK (total_price >= 0),
+  total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  total_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  deposit_amount DECIMAL(10,2) DEFAULT 0.00,
+  booking_status ENUM('pending', 'approved', 'rejected', 'cancelled', 'completed') NOT NULL DEFAULT 'pending',
   status ENUM('Pending', 'Approved', 'Rejected', 'Completed', 'Cancelled') NOT NULL DEFAULT 'Pending',
+  payment_status ENUM('pending', 'paid', 'refunded') NOT NULL DEFAULT 'pending',
+  remarks TEXT,
   notes TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (equipment_id) REFERENCES equipment(id) ON DELETE CASCADE,
   FOREIGN KEY (farmer_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
   INDEX idx_bookings_equipment (equipment_id),
   INDEX idx_bookings_farmer (farmer_id),
+  INDEX idx_bookings_owner (owner_id),
   INDEX idx_bookings_dates (start_date, end_date),
-  INDEX idx_bookings_status (status)
+  INDEX idx_bookings_booking_status (booking_status),
+  INDEX idx_bookings_payment_status (payment_status)
 ) ENGINE=InnoDB;
 
 -- 5. Payments Table

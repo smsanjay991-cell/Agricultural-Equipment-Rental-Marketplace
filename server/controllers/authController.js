@@ -60,6 +60,7 @@ const registerUser = async (req, res) => {
       return res.status(201).json({
         success: true,
         message: 'User registered successfully',
+        token,
         data: {
           _id: user._id,
           id: user._id,
@@ -108,6 +109,7 @@ const loginUser = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: 'Login successful',
+        token,
         data: {
           _id: user._id,
           id: user._id,

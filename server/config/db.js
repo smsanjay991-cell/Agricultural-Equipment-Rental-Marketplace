@@ -35,6 +35,27 @@ const connectDB = async () => {
       const schemaSql = fs.readFileSync(schemaPath, 'utf8');
       await initConnection.query(schemaSql);
     }
+
+    // Auto-migrate missing columns for existing bookings table
+    const alterQueries = [
+      "ALTER TABLE bookings ADD COLUMN owner_id INT DEFAULT NULL",
+      "ALTER TABLE bookings ADD COLUMN booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+      "ALTER TABLE bookings ADD COLUMN daily_rent DECIMAL(10,2) DEFAULT 0.00",
+      "ALTER TABLE bookings ADD COLUMN total_amount DECIMAL(10,2) DEFAULT 0.00",
+      "ALTER TABLE bookings ADD COLUMN deposit_amount DECIMAL(10,2) DEFAULT 0.00",
+      "ALTER TABLE bookings ADD COLUMN booking_status VARCHAR(50) DEFAULT 'pending'",
+      "ALTER TABLE bookings ADD COLUMN payment_status VARCHAR(50) DEFAULT 'pending'",
+      "ALTER TABLE bookings ADD COLUMN remarks TEXT"
+    ];
+
+    for (const alterSql of alterQueries) {
+      try {
+        await initConnection.query(alterSql);
+      } catch (err) {
+        // Ignore duplicate column name error if column already exists
+      }
+    }
+
     await initConnection.end();
 
     // Verify connection pool
