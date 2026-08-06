@@ -1,0 +1,73 @@
+```mermaid
+flowchart TD
+    %% Styling & Theme Classes
+    classDef clientStyle fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#0f172a
+    classDef reactStyle fill:#1e40af,stroke:#1d4ed8,stroke-width:2px,color:#ffffff
+    classDef backendStyle fill:#ffffff,stroke:#1d4ed8,stroke-width:2px,color:#0f172a
+    classDef logicStyle fill:#ffffff,stroke:#0284c7,stroke-width:2px,color:#0f172a
+    classDef dbStyle fill:#ffffff,stroke:#0369a1,stroke-width:2px,color:#0f172a
+    classDef completedModule fill:#dbeafe,stroke:#93c5fd,stroke-width:1px,color:#1d4ed8
+    classDef futureModule fill:#f8fafc,stroke:#cbd5e1,stroke-dasharray: 5 5,color:#64748b
+
+    subgraph L1 ["LAYER 1: Client Layer"]
+        direction LR
+        subgraph Users ["User Roles"]
+            Farmer["👨‍🌾 Farmer"]
+            Owner["🚜 Equipment Owner"]
+            Admin["🛡️ Admin"]
+        end
+        ReactApp["💻 React.js Frontend SPA<br/>(State Mgmt, Axios, JWT Store)"]:::reactStyle
+        Users -->|User Actions| ReactApp
+    end
+
+    L1 -->|HTTPS / REST API Requests (JWT Auth Header)| L2
+
+    subgraph L2 ["LAYER 2: Backend Layer (Express REST API)"]
+        direction LR
+        AuthController["🔐 Auth Controller<br/>(Signup, Login, bcrypt)"]:::completedModule
+        EquipController["🚜 Equipment Controller<br/>(CRUD, Filters, Photos)"]:::completedModule
+        BookingController["📅 Booking Controller<br/>(Reservations & Status)"]:::completedModule
+        PaymentController["💳 Payment Controller<br/>(Transaction Processing)"]:::futureModule
+        NotifController["🔔 Notification Controller<br/>(Alerts & Emails)"]:::futureModule
+    end
+
+    L2 -->|Controller Execution & Service Middleware| L3
+
+    subgraph L3 ["LAYER 3: Business Logic & Middleware Layer"]
+        direction LR
+        JWTAuth["🔑 JWT Auth Middleware"]:::completedModule
+        Authz["🛡️ Role Authorization"]:::completedModule
+        Validation["📋 Validation Middleware"]:::completedModule
+        BookingLogic["⚙️ Booking Conflict Engine"]:::completedModule
+        PaymentLogic["💰 Payment Logic Engine"]:::futureModule
+    end
+
+    L3 -->|SQL Queries & File I/O| L45
+
+    subgraph L45 ["LAYERS 4 & 5: Persistence & External Integrations"]
+        direction LR
+        subgraph DB ["🗄️ Database Layer (MySQL)"]
+            UsersT["users (✓)"]
+            CatT["categories (✓)"]
+            EquipT["equipment (✓)"]
+            BookingsT["bookings (✓)"]
+            PayT["payments (⏳)"]
+            NotifT["notifications (⏳)"]
+            RevT["reviews (⏳)"]
+        end
+
+        subgraph Storage ["📁 File Storage"]
+            Uploads["uploads/<br/>├── equipment/<br/>└── profiles/"]
+        end
+
+        subgraph ExtServices ["🌐 Future External Services"]
+            PayGateway["💳 Payment Gateway API<br/>(Stripe / Razorpay)"]:::futureModule
+            EmailService["✉️ Email SMTP Service<br/>(SendGrid / Nodemailer)"]:::futureModule
+        end
+    end
+
+    class L1 clientStyle
+    class L2 backendStyle
+    class L3 logicStyle
+    class L45 dbStyle
+```

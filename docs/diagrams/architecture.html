@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Architecture Diagram - Agricultural Equipment Rental Marketplace</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #ffffff;
+    color: #0f172a;
+    padding: 35px;
+    width: 1450px;
+    margin: 0 auto;
+  }
+
+  .canvas {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .project-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1d4ed8;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .tech-stack-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-pill {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 6px;
+  }
+
+  .tech-pill.highlight {
+    background: #1e40af;
+    color: #ffffff;
+    border-color: #1e40af;
+  }
+
+  /* Legend */
+  .legend-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+
+  .badge-completed-sample {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #93c5fd;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .badge-future-sample {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px dashed #cbd5e1;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* Layer Card Base */
+  .layer-container { margin-bottom: 20px; }
+
+  .layer-card {
+    background: #ffffff;
+    border: 2px solid #3b82f6;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+  }
+
+  .layer-card.layer-client { border-color: #2563eb; background: #fafafa; }
+  .layer-card.layer-backend { border-color: #1d4ed8; background: #ffffff; }
+  .layer-card.layer-logic { border-color: #0284c7; background: #ffffff; }
+  .layer-card.layer-storage { border-color: #0369a1; background: #ffffff; }
+
+  .layer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .layer-title { display: flex; align-items: center; gap: 10px; }
+
+  .layer-num {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .layer-name { font-size: 16px; font-weight: 800; color: #0f172a; }
+  .layer-subtitle { font-size: 12px; color: #64748b; font-weight: 500; }
+
+  /* Arrows */
+  .connector-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .connector-label {
+    background: #ffffff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.08);
+  }
+
+  /* Grid Layouts */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 2.2fr; gap: 16px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .grid-custom-storage { display: grid; grid-template-columns: 2.2fr 1fr 1.2fr; gap: 16px; }
+
+  /* Cards */
+  .box-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .box-card.active {
+    background: #ffffff;
+    border: 1.5px solid #60a5fa;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
+  }
+
+  .box-card.future {
+    background: #f8fafc;
+    border: 1.5px dashed #94a3b8;
+  }
+
+  .box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .box-title { font-size: 13px; font-weight: 700; color: #0f172a; }
+
+  .status-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .status-badge.completed { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+  .status-badge.future { background: #f1f5f9; color: #64748b; border: 1px dashed #cbd5e1; }
+
+  .box-desc { font-size: 11px; color: #475569; line-height: 1.4; }
+
+  /* Roles */
+  .role-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .role-icon { font-size: 20px; margin-bottom: 4px; }
+  .role-name { font-size: 12px; font-weight: 700; color: #0f172a; }
+  .role-desc { font-size: 10px; color: #64748b; }
+
+  /* Frontend Box */
+  .frontend-main-box {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .frontend-main-box h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .frontend-main-box p { font-size: 11px; color: #bfdbfe; margin-bottom: 10px; }
+
+  .tags-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .tag-item { background: rgba(255, 255, 255, 0.2); color: #ffffff; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+
+  /* DB Tables */
+  .tables-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+  .table-pill { background: #ffffff; border: 1px solid #93c5fd; border-radius: 6px; padding: 8px; }
+  .table-pill.future-table { border-style: dashed; border-color: #cbd5e1; background: #f8fafc; }
+  .table-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #1e3a8a; margin-bottom: 3px; }
+  .table-cols { font-size: 10px; color: #64748b; line-height: 1.3; }
+
+  .storage-item {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #0f172a;
+  }
+
+  .ext-service-box {
+    background: #faf5ff;
+    border: 1.5px dashed #c084fc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+
+  .footer-note { margin-top: 20px; text-align: center; font-size: 11px; color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<div class="canvas">
+  <div class="header">
+    <div class="project-badge">Capstone System Architecture</div>
+    <h1>Agricultural Equipment Rental Marketplace</h1>
+    <p>Comprehensive Multi-Layer Software Architecture & Data Flow</p>
+
+    <div class="tech-stack-bar">
+      <div class="tech-pill highlight">Frontend: React.js</div>
+      <div class="tech-pill highlight">Backend: Node.js & Express.js</div>
+      <div class="tech-pill highlight">Database: MySQL</div>
+      <div class="tech-pill">Auth: JWT</div>
+      <div class="tech-pill">Hash: bcrypt</div>
+      <div class="tech-pill">Uploads: Multer</div>
+      <div class="tech-pill">API: REST API</div>
+      <div class="tech-pill">VCS: Git & GitHub</div>
+    </div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="legend-item"><span>Legend:</span></div>
+    <div class="legend-item"><span class="badge-completed-sample">✓ Completed Module</span></div>
+    <div class="legend-item"><span class="badge-future-sample">⏳ Future Module</span></div>
+    <div class="legend-item"><span style="color:#2563eb; font-weight:bold;">⬇ HTTPS / JSON REST API</span></div>
+    <div class="legend-item"><span style="color:#0284c7; font-weight:bold;">🗄️ MySQL Persistence</span></div>
+  </div>
+
+  <!-- LAYER 1 -->
+  <div class="layer-container">
+    <div class="layer-card layer-client">
+      <div class="layer-header">
+        <div class="layer-title"><span class="layer-num">Layer 1</span><span class="layer-name">Client Layer</span></div>
+        <span class="layer-subtitle">User Roles & Single Page Application (SPA)</span>
+      </div>
+      <div class="grid-2">
+        <div class="grid-3">
+          <div class="role-box"><div class="role-icon">👨‍🌾</div><div class="role-name">Farmer</div><div class="role-desc">Browse & Rent Equipment</div></div>
+          <div class="role-box"><div class="role-icon">🚜</div><div class="role-name">Equipment Owner</div><div class="role-desc">List Machinery</div></div>
+          <div class="role-box"><div class="role-icon">🛡️</div><div class="role-name">Admin</div><div class="role-desc">Platform Management</div></div>
+        </div>
+        <div class="frontend-main-box">
+          <h3>React.js Frontend Application</h3>
+          <p>Single Page Application, State Management, Axios Client, JWT Local Storage</p>
+          <div class="tags-list">
+            <span class="tag-item">React Components</span>
+            <span class="tag-item">React Router v6</span>
+            <span class="tag-item">JWT Bearer Interceptor</span>
+            <span class="tag-item">Responsive CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-arrow">
+    <div class="connector-label">⬇ HTTPS / JSON REST API Requests (Authorization: Bearer &lt;JWT&gt;)</div>
+  </div>
+
+  <!-- LAYER 2 -->
+  <div class="layer-container">
+    <div class="layer-card layer-backend">
+      <div class="layer-header">
+        <div class="layer-title"><span class="layer-num">Layer 2</span><span class="layer-name">Backend Controller Layer</span></div>
+        <span class="layer-subtitle">Express.js API Routes & Controllers</span>
+      </div>
+      <div class="grid-5">
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">🔐 Auth Controller</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Signup, Login, Token generation & bcrypt hashing.</div>
+        </div>
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">🚜 Equipment Controller</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Listings CRUD, Category filter & Multer image handling.</div>
+        </div>
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">📅 Booking Controller</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Reservations, date validation & booking status updates.</div>
+        </div>
+        <div class="box-card future">
+          <div class="box-header"><span class="box-title">💳 Payment Controller</span><span class="status-badge future">Future</span></div>
+          <div class="box-desc">Payment transactions, gateway webhooks & billing.</div>
+        </div>
+        <div class="box-card future">
+          <div class="box-header"><span class="box-title">🔔 Notification Controller</span><span class="status-badge future">Future</span></div>
+          <div class="box-desc">Email alerts & system notifications dispatching.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-arrow">
+    <div class="connector-label">⬇ Internal Service Pipeline & Middleware Execution</div>
+  </div>
+
+  <!-- LAYER 3 -->
+  <div class="layer-container">
+    <div class="layer-card layer-logic">
+      <div class="layer-header">
+        <div class="layer-title"><span class="layer-num">Layer 3</span><span class="layer-name">Business Logic & Middleware Layer</span></div>
+        <span class="layer-subtitle">Security, Validation & Core Domain Logic</span>
+      </div>
+      <div class="grid-5">
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">🔑 JWT Auth</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Token validation, signature check & context injection.</div>
+        </div>
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">🛡️ Authorization</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Role-based permission enforcement (Farmer/Owner/Admin).</div>
+        </div>
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">📋 Validation</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Payload sanitization & input schema verification.</div>
+        </div>
+        <div class="box-card active">
+          <div class="box-header"><span class="box-title">⚙️ Booking Logic</span><span class="status-badge completed">Completed</span></div>
+          <div class="box-desc">Date overlap checking & total rent pricing calculation.</div>
+        </div>
+        <div class="box-card future">
+          <div class="box-header"><span class="box-title">💰 Payment Logic</span><span class="status-badge future">Future</span></div>
+          <div class="box-desc">Payout calculations, transaction state machine.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-arrow">
+    <div class="connector-label">⬇ Persistence & Data Storage Layer Access</div>
+  </div>
+
+  <!-- LAYERS 4 & 5 -->
+  <div class="layer-container">
+    <div class="layer-card layer-storage">
+      <div class="layer-header">
+        <div class="layer-title"><span class="layer-num">Layers 4 & 5</span><span class="layer-name">Database, Storage & External Services</span></div>
+        <span class="layer-subtitle">MySQL Relational Persistence, Disk Uploads & Third-Party APIs</span>
+      </div>
+      <div class="grid-custom-storage">
+        <div class="box-card active" style="background:#ffffff; border-color:#0284c7;">
+          <div class="box-header"><span class="box-title" style="color:#0369a1;">🗄️ MySQL Database</span><span class="status-badge completed">MySQL 8.0</span></div>
+          <div class="box-desc">Relational database persistence tables:</div>
+          <div class="tables-grid">
+            <div class="table-pill"><div class="table-name">users ✓</div><div class="table-cols">id, name, email, password, role</div></div>
+            <div class="table-pill"><div class="table-name">categories ✓</div><div class="table-cols">id, name, image, description</div></div>
+            <div class="table-pill"><div class="table-name">equipment ✓</div><div class="table-cols">id, owner_id, title, price, status</div></div>
+            <div class="table-pill"><div class="table-name">bookings ✓</div><div class="table-cols">id, equipment_id, farmer_id, dates</div></div>
+            <div class="table-pill future-table"><div class="table-name">payments ⏳</div><div class="table-cols">id, booking_id, amount, status</div></div>
+            <div class="table-pill future-table"><div class="table-name">notifications ⏳</div><div class="table-cols">id, user_id, message, is_read</div></div>
+            <div class="table-pill future-table"><div class="table-name">reviews ⏳</div><div class="table-cols">id, equipment_id, rating, comment</div></div>
+          </div>
+        </div>
+
+        <div class="box-card active" style="background:#ffffff; border-color:#0284c7;">
+          <div class="box-header"><span class="box-title" style="color:#0369a1;">📁 File Storage</span><span class="status-badge completed">Multer</span></div>
+          <div class="box-desc">Disk media directories:</div>
+          <div class="storage-item">🖼️ uploads/equipment/</div>
+          <div class="storage-item">👤 uploads/profiles/</div>
+        </div>
+
+        <div class="box-card future">
+          <div class="box-header"><span class="box-title" style="color:#6b21a8;">🌐 External Services</span><span class="status-badge future">Planned</span></div>
+          <div class="ext-service-box">
+            <div style="font-size:12px; font-weight:700; color:#6b21a8;">💳 Payment Gateway</div>
+            <div style="font-size:10px; color:#7e22ce;">Stripe / Razorpay API integration</div>
+          </div>
+          <div class="ext-service-box">
+            <div style="font-size:12px; font-weight:700; color:#6b21a8;">✉️ Email Service</div>
+            <div style="font-size:10px; color:#7e22ce;">SendGrid / Nodemailer SMTP alerts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">Agricultural Equipment Rental Marketplace • Capstone System Architecture</div>
+</div>
+
+</body>
+</html>

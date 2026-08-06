@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Diagram - Agricultural Equipment Rental Marketplace</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #ffffff;
+    color: #0f172a;
+    padding: 35px;
+    width: 1450px;
+    margin: 0 auto;
+  }
+
+  .canvas {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .badge-hdr {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 8px;
+  }
+
+  .header h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: #64748b; font-weight: 500; }
+
+  .class-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .class-card {
+    background: #ffffff;
+    border: 2px solid #2563eb;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.06);
+  }
+
+  .class-card.enum-card { border-color: #7c3aed; }
+  .class-card.ctrl-card { border-color: #059669; }
+
+  .class-header {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: center;
+  }
+
+  .class-card.enum-card .class-header { background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%); }
+  .class-card.ctrl-card .class-header { background: linear-gradient(135deg, #047857 0%, #059669 100%); }
+
+  .class-stereotype { font-size: 10px; font-style: italic; opacity: 0.8; }
+  .class-name { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+
+  .class-body { padding: 10px; }
+
+  .class-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 4px 0 2px 0;
+  }
+
+  .field-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #334155;
+    padding: 2px 0;
+  }
+
+  .vis-plus { color: #16a34a; font-weight: bold; }
+  .vis-minus { color: #dc2626; font-weight: bold; }
+
+  .footer-note { text-align: center; margin-top: 20px; font-size: 11px; color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<div class="canvas">
+  <div class="header">
+    <div class="badge-hdr">Object-Oriented Domain Model</div>
+    <h1>System Class Diagram</h1>
+    <p>Agricultural Equipment Rental Marketplace Data Models, Controllers & Enums</p>
+  </div>
+
+  <div class="class-grid">
+    <!-- User Class -->
+    <div class="class-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;model&gt;&gt;</div>
+        <div class="class-name">User</div>
+      </div>
+      <div class="class-body">
+        <div class="class-section-title">Attributes</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long id</div>
+        <div class="field-item"><span class="vis-plus">+</span> String name</div>
+        <div class="field-item"><span class="vis-plus">+</span> String email</div>
+        <div class="field-item"><span class="vis-plus">+</span> String password</div>
+        <div class="field-item"><span class="vis-plus">+</span> String phone</div>
+        <div class="field-item"><span class="vis-plus">+</span> UserRole role</div>
+        <div class="field-item"><span class="vis-plus">+</span> String location</div>
+        <div class="field-item"><span class="vis-plus">+</span> String avatar</div>
+        <div class="class-section-title">Methods</div>
+        <div class="field-item"><span class="vis-plus">+</span> register()</div>
+        <div class="field-item"><span class="vis-plus">+</span> authenticate()</div>
+      </div>
+    </div>
+
+    <!-- Equipment Class -->
+    <div class="class-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;model&gt;&gt;</div>
+        <div class="class-name">Equipment</div>
+      </div>
+      <div class="class-body">
+        <div class="class-section-title">Attributes</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long id</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long ownerId</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long categoryId</div>
+        <div class="field-item"><span class="vis-plus">+</span> String name</div>
+        <div class="field-item"><span class="vis-plus">+</span> Double dailyRent</div>
+        <div class="field-item"><span class="vis-plus">+</span> Double deposit</div>
+        <div class="field-item"><span class="vis-plus">+</span> Boolean isAvailable</div>
+        <div class="field-item"><span class="vis-plus">+</span> Double avgRating</div>
+        <div class="class-section-title">Methods</div>
+        <div class="field-item"><span class="vis-plus">+</span> updateAvailability()</div>
+        <div class="field-item"><span class="vis-plus">+</span> calculateRating()</div>
+      </div>
+    </div>
+
+    <!-- Booking Class -->
+    <div class="class-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;model&gt;&gt;</div>
+        <div class="class-name">Booking</div>
+      </div>
+      <div class="class-body">
+        <div class="class-section-title">Attributes</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long id</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long equipmentId</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long farmerId</div>
+        <div class="field-item"><span class="vis-plus">+</span> LocalDate startDate</div>
+        <div class="field-item"><span class="vis-plus">+</span> LocalDate endDate</div>
+        <div class="field-item"><span class="vis-plus">+</span> Double totalAmount</div>
+        <div class="field-item"><span class="vis-plus">+</span> BookingStatus status</div>
+        <div class="class-section-title">Methods</div>
+        <div class="field-item"><span class="vis-plus">+</span> checkConflict()</div>
+        <div class="field-item"><span class="vis-plus">+</span> computeTotalCost()</div>
+      </div>
+    </div>
+
+    <!-- Category Class -->
+    <div class="class-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;model&gt;&gt;</div>
+        <div class="class-name">Category</div>
+      </div>
+      <div class="class-body">
+        <div class="class-section-title">Attributes</div>
+        <div class="field-item"><span class="vis-plus">+</span> Long id</div>
+        <div class="field-item"><span class="vis-plus">+</span> String name</div>
+        <div class="field-item"><span class="vis-plus">+</span> String image</div>
+        <div class="field-item"><span class="vis-plus">+</span> String description</div>
+      </div>
+    </div>
+
+    <!-- UserRole Enum -->
+    <div class="class-card enum-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;enumeration&gt;&gt;</div>
+        <div class="class-name">UserRole</div>
+      </div>
+      <div class="class-body">
+        <div class="field-item">FARMER</div>
+        <div class="field-item">EQUIPMENT_OWNER</div>
+        <div class="field-item">ADMIN</div>
+      </div>
+    </div>
+
+    <!-- BookingStatus Enum -->
+    <div class="class-card enum-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;enumeration&gt;&gt;</div>
+        <div class="class-name">BookingStatus</div>
+      </div>
+      <div class="class-body">
+        <div class="field-item">PENDING</div>
+        <div class="field-item">APPROVED</div>
+        <div class="field-item">REJECTED</div>
+        <div class="field-item">COMPLETED</div>
+      </div>
+    </div>
+
+    <!-- AuthController -->
+    <div class="class-card ctrl-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;controller&gt;&gt;</div>
+        <div class="class-name">AuthController</div>
+      </div>
+      <div class="class-body">
+        <div class="field-item"><span class="vis-plus">+</span> registerUser()</div>
+        <div class="field-item"><span class="vis-plus">+</span> loginUser()</div>
+        <div class="field-item"><span class="vis-plus">+</span> getProfile()</div>
+      </div>
+    </div>
+
+    <!-- BookingController -->
+    <div class="class-card ctrl-card">
+      <div class="class-header">
+        <div class="class-stereotype">&lt;&lt;controller&gt;&gt;</div>
+        <div class="class-name">BookingController</div>
+      </div>
+      <div class="class-body">
+        <div class="field-item"><span class="vis-plus">+</span> createBooking()</div>
+        <div class="field-item"><span class="vis-plus">+</span> getMyBookings()</div>
+        <div class="field-item"><span class="vis-plus">+</span> updateStatus()</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">Agricultural Equipment Rental Marketplace • Class Diagram Specification</div>
+</div>
+
+</body>
+</html>
