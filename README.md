@@ -355,7 +355,7 @@ erDiagram
 - ✅ JWT Authentication & User Management
 - ✅ Equipment Management (CRUD & Filters)
 - ✅ Image Upload Handling (Multer)
-- ⏳ Booking Module (Next Step)
+- ✅ Booking Module (Next Step)
 - ⏳ Payments Module
 - ⏳ Review & Rating System
 - ⏳ Notifications System
