@@ -1,0 +1,218 @@
+<mxfile host="Electron" modified="2026-08-07T09:52:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-component-diagram" name="AgriRent Enterprise Component Diagram">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2100" pageHeight="1400" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="2000" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 COMPONENT DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="1960" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="Subsystem Boundaries, Component Specifications, Interface Dependencies &amp; Data Flow Architecture | Capstone Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1960" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Bar -->
+        <mxCell id="legend-bg" value="Legend:   ■ Active Completed Component   |   ╍ Dashed Purple Box [Future Phase / Planned Module]   |   ■ Green Box (External Infrastructure)   |   ──▶ Provided REST Call" style="text;html=1;rounded=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=15;fontSize=12;fontStyle=1;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry x="40" y="125" width="2000" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 1: FRONTEND PRESENTATION LAYER -->
+        <mxCell id="subsys-frontend" value="«subsystem» Frontend Presentation Layer (React.js SPA)" style="shape=rect;fillColor=#FFFFFF;strokeColor=#1D4ED8;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#1E3A8A;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="1460" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-login" value="«component» [Active]&#xa;&lt;b&gt;Login Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Login.jsx / Axios&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-register" value="«component» [Active]&#xa;&lt;b&gt;Registration Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Register.jsx / Axios&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="235" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-dash" value="«component» [Active]&#xa;&lt;b&gt;Dashboard Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Owner/Farmer Views&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="410" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-equip" value="«component» [Active]&#xa;&lt;b&gt;Equipment Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Catalog &amp; Form&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="585" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-booking" value="«component» [Active]&#xa;&lt;b&gt;Booking Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Reservation UI&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="760" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-pay-fe" value="«component» [Future Phase]&#xa;&lt;b&gt;Payment Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Checkout UI (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="935" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-notif-fe" value="«component» [Future Phase]&#xa;&lt;b&gt;Notification Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Alerts UI (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-rev-fe" value="«component» [Future Phase]&#xa;&lt;b&gt;Review Module&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Rating UI (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1285" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 2: BACKEND API ROUTING LAYER -->
+        <mxCell id="subsys-api" value="«subsystem» Backend API Routing Tier (Express Router)" style="shape=rect;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#15803D;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="405" width="1460" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-auth" value="«component» [Active]&#xa;&lt;b&gt;Auth Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/auth/*&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="70" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-equip" value="«component» [Active]&#xa;&lt;b&gt;Equipment Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/equipment/*&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="305" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-booking" value="«component» [Active]&#xa;&lt;b&gt;Booking Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/bookings/*&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="540" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-pay" value="«component» [Future Phase]&#xa;&lt;b&gt;Payment Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/payments/* (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="775" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-notif" value="«component» [Future Phase]&#xa;&lt;b&gt;Notification Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/notifications/* (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r-rev" value="«component» [Future Phase]&#xa;&lt;b&gt;Review Routes&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;/api/reviews/* (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="460" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 3: CONTROLLER LAYER -->
+        <mxCell id="subsys-ctrl" value="«subsystem» Controller Layer (Express Controllers)" style="shape=rect;fillColor=#FFFFFF;strokeColor=#EA580C;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#C2410C;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="625" width="1460" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-auth" value="«component» [Active]&#xa;&lt;b&gt;Auth Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;authController.js&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="70" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-equip" value="«component» [Active]&#xa;&lt;b&gt;Equipment Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;equipmentController.js&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="305" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-booking" value="«component» [Active]&#xa;&lt;b&gt;Booking Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;bookingController.js&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="540" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-pay" value="«component» [Future Phase]&#xa;&lt;b&gt;Payment Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;paymentController.js (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="775" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-notif" value="«component» [Future Phase]&#xa;&lt;b&gt;Notification Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;notificationController.js (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl-rev" value="«component» [Future Phase]&#xa;&lt;b&gt;Review Controller&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;reviewController.js (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="680" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 4: BUSINESS SERVICES & MIDDLEWARE LAYER -->
+        <mxCell id="subsys-biz" value="«subsystem» Business Services &amp; Middleware Tier" style="shape=rect;fillColor=#FFFFFF;strokeColor=#9333EA;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#7E22CE;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="845" width="1460" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b-jwt" value="«component» [Active]&#xa;&lt;b&gt;JWT Authentication Service&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;jsonwebtoken / Sign &amp; Verify Token&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="70" y="900" width="320" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b-auth-guard" value="«component» [Active]&#xa;&lt;b&gt;Authorization Guard&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;authMiddleware.js / Role Verification&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="425" y="900" width="320" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b-val" value="«component» [Active]&#xa;&lt;b&gt;Input Validation Service&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;bcrypt / Express Validation &amp; Hashing&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="780" y="900" width="320" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b-multer" value="«component» [Active]&#xa;&lt;b&gt;File Upload Service&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Multer / Storage Engine (/uploads)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="1135" y="900" width="320" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 5: MYSQL DATABASE LAYER -->
+        <mxCell id="subsys-db" value="«subsystem» Relational Database Layer (MySQL Engine)" style="shape=rect;fillColor=#FFFFFF;strokeColor=#DC2626;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#B91C1C;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1065" width="1460" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-users" value="«component» [Active]&#xa;&lt;b&gt;Users&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: users&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-cat" value="«component» [Active]&#xa;&lt;b&gt;Categories&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: categories&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="265" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-equip" value="«component» [Active]&#xa;&lt;b&gt;Equipment&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: equipment&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-booking" value="«component» [Active]&#xa;&lt;b&gt;Bookings&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: bookings&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="675" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-pay" value="«component» [Future Phase]&#xa;&lt;b&gt;Payments&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: payments (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="880" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-notif" value="«component» [Future Phase]&#xa;&lt;b&gt;Notifications&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: notifications (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db-rev" value="«component» [Future Phase]&#xa;&lt;b&gt;Reviews&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Table: reviews (Planned)&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="1120" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SUBSYSTEM 6: EXTERNAL INTEGRATIONS LAYER -->
+        <mxCell id="subsys-ext" value="«subsystem» External Integrations &amp; Infrastructure" style="shape=rect;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#065F46;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="180" width="500" height="1060" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-pay" value="«external component» [Future Phase / Planned Module]&#xa;&lt;b&gt;Razorpay Payment Gateway&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;REST API / Escrow Webhook Integration (Planned)&#xa;UPI, NetBanking, Credit Card Processing&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=12;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1570" y="250" width="440" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-email" value="«external component» [Future Phase / Planned Module]&#xa;&lt;b&gt;Email Notification Service&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;SMTP / SendGrid Transactional API (Planned)&#xa;Booking Alert &amp; Invoice Email Dispatch&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=12;fontColor=#6B21A8;" vertex="1" parent="1">
+          <mxGeometry x="1570" y="440" width="440" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-github" value="«external infrastructure» [Active SCM]&#xa;&lt;b&gt;GitHub Repository&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Git Version Control &amp; SCM Repository&#xa;Continuous Integration &amp; Deployment Pipeline&lt;/font&gt;" style="shape=component;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=1.5;fontSize=12;fontColor=#065F46;" vertex="1" parent="1">
+          <mxGeometry x="1570" y="630" width="440" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTORS / INTERFACES -->
+        <mxCell id="conn-fe-api" value="HTTP REST / JSON (Axios)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#1D4ED8;" edge="1" parent="1" source="subsys-frontend" target="subsys-api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-api-ctrl" value="Route Dispatcher (express.Router)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#15803D;" edge="1" parent="1" source="subsys-api" target="subsys-ctrl">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-ctrl-biz" value="Service Invocations &amp; Auth Guards" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA580C;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#C2410C;" edge="1" parent="1" source="subsys-ctrl" target="subsys-biz">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-biz-db" value="SQL Query Execution (mysql2 Pool)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#1D4ED8;" edge="1" parent="1" source="subsys-biz" target="subsys-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-booking-pay" value="Booking Controller ──▶ Payment API [Future Phase]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2;dashed=1;fontSize=11;fontStyle=1;fontColor=#7E22CE;" edge="1" parent="1" source="ctrl-booking" target="ext-pay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-booking-email" value="Booking Controller ──▶ Email Service [Future Phase]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2;dashed=1;fontSize=11;fontColor=#7E22CE;" edge="1" parent="1" source="ctrl-booking" target="ext-email">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

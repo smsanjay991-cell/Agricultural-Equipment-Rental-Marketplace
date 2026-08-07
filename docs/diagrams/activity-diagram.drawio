@@ -1,0 +1,148 @@
+<mxfile host="Electron" modified="2026-08-06T23:32:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-activity" name="AgriRent Enterprise UML Activity Diagram">
+    <mxGraphModel dx="1800" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1600" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Header Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="2120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 ACTIVITY DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="2080" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="Multi-Swimlane End-to-End Workflow | Farmer, Owner, Admin &amp; System Gateway Activity Execution" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="2080" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- SWIMLANES CONTAINER -->
+        <mxCell id="lane-farmer" value="👨‍🌾 FARMER / RENTER SWIMLANE" style="swimlane;startSize=40;fillColor=#F0F9FF;strokeColor=#0284C7;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#0369A1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="520" height="1400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lane-owner" value="🚜 EQUIPMENT OWNER SWIMLANE" style="swimlane;startSize=40;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#15803D;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="140" width="520" height="1400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lane-admin" value="🛡️ SYSTEM ADMIN SWIMLANE" style="swimlane;startSize=40;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#B45309;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="140" width="500" height="1400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lane-system" value="⚡ SYSTEM &amp; DATABASE GATEWAY" style="swimlane;startSize=40;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#7E22CE;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="140" width="520" height="1400" as="geometry" />
+        </mxCell>
+
+        <!-- FARMER ACTIVITIES -->
+        
+        <!-- Start Node -->
+        <mxCell id="act-start" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#0F172A;strokeColor=#0F172A;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="240" y="60" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-open" value="Open AgriRent Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="120" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-auth" value="Register / Login Account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="200" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Role Decision -->
+        <mxCell id="dec-role" value="User Role?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="200" y="360" width="110" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-browse" value="Browse Equipment Catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="470" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-view-details" value="View Equipment Details" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="550" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-create-booking" value="Create Booking Request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="630" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-wait-approval" value="Wait for Owner Approval" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="165" y="870" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Booking Approved Decision -->
+        <mxCell id="dec-approved" value="Approved?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="200" y="960" width="110" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-make-payment" value="Process Escrow Payment (Upcoming)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="60" y="1080" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-rejected" value="Booking Rejected Notice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="270" y="1080" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-farmer-end" value="" style="ellipse;html=1;shape=endState;fillColor=#0F172A;strokeColor=#0F172A;" vertex="1" parent="lane-farmer">
+          <mxGeometry x="240" y="1250" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- OWNER ACTIVITIES -->
+        <mxCell id="act-owner-manage" value="Manage Equipment Listings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-owner">
+          <mxGeometry x="170" y="470" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-view-requests" value="View Pending Rental Requests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-owner">
+          <mxGeometry x="170" y="730" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec-owner-action" value="Approve or Reject?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-owner">
+          <mxGeometry x="195" y="810" width="130" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ADMIN ACTIVITIES -->
+        <mxCell id="act-admin-manage" value="Manage Users &amp; Equipment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D97706;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-admin">
+          <mxGeometry x="160" y="470" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-admin-monitor" value="System Monitoring &amp; Analytics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D97706;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-admin">
+          <mxGeometry x="160" y="560" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SYSTEM & DATABASE ACTIVITIES -->
+        <mxCell id="act-jwt-val" value="Validate JWT Token Signature" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9333EA;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-system">
+          <mxGeometry x="170" y="280" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-date-check" value="Verify Booking Date Availability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9333EA;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-system">
+          <mxGeometry x="170" y="630" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-update-db" value="Update Booking Status in MySQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9333EA;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-system">
+          <mxGeometry x="170" y="810" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act-dispatch-notif" value="Dispatch Alert Notification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-system">
+          <mxGeometry x="170" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTIONS AND FLOWS -->
+        <mxCell id="flow-start-open" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;" edge="1" parent="1" source="act-start" target="act-open">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-open-auth" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;" edge="1" parent="1" source="act-open" target="act-auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-auth-jwt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9333EA;strokeWidth=2;" edge="1" parent="1" source="act-auth" target="act-jwt-val">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-jwt-role" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;" edge="1" parent="1" source="act-jwt-val" target="dec-role">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-role-farmer" value="[Farmer]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="dec-role" target="act-browse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

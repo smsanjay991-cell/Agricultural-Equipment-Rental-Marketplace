@@ -1,0 +1,145 @@
+<mxfile host="Electron" modified="2026-08-06T23:00:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-uml-class" name="AgriRent Enterprise UML Class Diagram">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Header Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1920" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 CLASS DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="1880" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="Object-Oriented Architecture | Models, Controllers, Middlewares, Database Abstraction &amp; Associations" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1880" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="legend-box" value="UML 2.5 NOTATION LEGEND:  + Public Attribute/Method  |  - Private Attribute  |  # Protected  |  --&gt; Association  |  ..&gt; Dependency  |  Header: Blue = Models, Green = Controllers, Orange = Middleware" style="rounded=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;strokeWidth=1;fontSize=11;fontColor=#334155;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="1920" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ================= MODELS COMPARTMENT ================= -->
+        
+        <!-- User Model -->
+        <mxCell id="cls-user" value="User&#xa;----------------------------------&#xa;+ id : int&#xa;+ name : string&#xa;+ email : string&#xa;- password : string&#xa;+ role : string&#xa;+ phone : string&#xa;+ address : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findByEmail() : User&#xa;+ findById() : User&#xa;+ comparePassword() : bool" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="260" height="250" as="geometry" />
+        </mxCell>
+
+        <!-- Category Model -->
+        <mxCell id="cls-category" value="Category&#xa;----------------------------------&#xa;+ id : int&#xa;+ name : string&#xa;+ description : string&#xa;+ image_url : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findAll() : Category[]&#xa;+ findById() : Category" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="220" width="240" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Equipment Model -->
+        <mxCell id="cls-equipment" value="Equipment&#xa;----------------------------------&#xa;+ id : int&#xa;+ owner_id : int&#xa;+ category_id : int&#xa;+ title : string&#xa;+ description : string&#xa;+ daily_rate : float&#xa;+ location : string&#xa;+ condition_status : string&#xa;+ is_available : bool&#xa;+ image_url : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findAll() : Equipment[]&#xa;+ findById() : Equipment&#xa;+ update() : bool&#xa;+ delete() : bool" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="220" width="280" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- Booking Model -->
+        <mxCell id="cls-booking" value="Booking&#xa;----------------------------------&#xa;+ id : int&#xa;+ equipment_id : int&#xa;+ farmer_id : int&#xa;+ start_date : Date&#xa;+ end_date : Date&#xa;+ total_days : int&#xa;+ total_price : float&#xa;+ status : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findById() : Booking&#xa;+ findByFarmer() : Booking[]&#xa;+ findByOwner() : Booking[]&#xa;+ updateStatus() : bool&#xa;+ checkAvailability() : bool" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="220" width="280" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- Payment Model -->
+        <mxCell id="cls-payment" value="Payment&#xa;----------------------------------&#xa;+ id : int&#xa;+ booking_id : int&#xa;+ transaction_id : string&#xa;+ amount : float&#xa;+ payment_method : string&#xa;+ payment_status : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findByBooking() : Payment&#xa;+ updateStatus() : bool" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="220" width="260" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Notification Model -->
+        <mxCell id="cls-notification" value="Notification&#xa;----------------------------------&#xa;+ id : int&#xa;+ user_id : int&#xa;+ booking_id : int&#xa;+ title : string&#xa;+ message : string&#xa;+ type : string&#xa;+ is_read : bool&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findByUser() : Notification[]&#xa;+ markAsRead() : bool" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1630" y="220" width="260" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Review Model -->
+        <mxCell id="cls-review" value="Review&#xa;----------------------------------&#xa;+ id : int&#xa;+ equipment_id : int&#xa;+ user_id : int&#xa;+ rating : int&#xa;+ comment : string&#xa;----------------------------------&#xa;+ create() : int&#xa;+ findByEquipment() : Review[]&#xa;+ getAverageRating() : float" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="560" width="280" height="210" as="geometry" />
+        </mxCell>
+
+        <!-- ================= CONTROLLERS COMPARTMENT ================= -->
+        
+        <!-- AuthController -->
+        <mxCell id="cls-auth-ctrl" value="AuthController&#xa;----------------------------------&#xa;+ registerUser(req, res, next)&#xa;+ loginUser(req, res, next)&#xa;+ getMe(req, res, next)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="560" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- EquipmentController -->
+        <mxCell id="cls-equip-ctrl" value="EquipmentController&#xa;----------------------------------&#xa;+ getAllEquipment(req, res)&#xa;+ getEquipmentById(req, res)&#xa;+ createEquipment(req, res)&#xa;+ updateEquipment(req, res)&#xa;+ deleteEquipment(req, res)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="560" width="240" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- BookingController -->
+        <mxCell id="cls-booking-ctrl" value="BookingController&#xa;----------------------------------&#xa;+ createBooking(req, res)&#xa;+ getMyBookings(req, res)&#xa;+ getOwnerBookings(req, res)&#xa;+ approveBooking(req, res)&#xa;+ rejectBooking(req, res)&#xa;+ cancelBooking(req, res)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="560" width="280" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- PaymentController -->
+        <mxCell id="cls-payment-ctrl" value="PaymentController (Future)&#xa;----------------------------------&#xa;+ processPayment(req, res)&#xa;+ getPaymentDetails(req, res)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#94A3B8;strokeWidth=2;strokeDasharray=3 3;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="560" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- ================= MIDDLEWARES & DATABASE ================= -->
+
+        <!-- AuthMiddleware -->
+        <mxCell id="cls-auth-mw" value="AuthMiddleware&#xa;----------------------------------&#xa;+ protect(req, res, next)&#xa;+ authorizeRoles(...roles)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#EA580C;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="750" width="260" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- UploadMiddleware -->
+        <mxCell id="cls-upload-mw" value="UploadMiddleware&#xa;----------------------------------&#xa;+ uploadSingle(fieldName)&#xa;+ uploadToCloudinary(file)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#EA580C;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="750" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- DBConnection -->
+        <mxCell id="cls-db" value="DBConnection&#xa;----------------------------------&#xa;- pool : mysql2.Pool&#xa;----------------------------------&#xa;+ query(sql, params) : Promise&#xa;+ getConnection() : Connection" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="750" width="280" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ASSOCIATIONS & DEPENDENCIES ================= -->
+
+        <!-- User 1 -- * Equipment -->
+        <mxCell id="rel-user-equip" value="1 : * (owns)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E40AF;strokeWidth=2;fontColor=#1E40AF;fontSize=11;" edge="1" parent="1" source="cls-user" target="cls-equipment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Category 1 -- * Equipment -->
+        <mxCell id="rel-cat-equip" value="1 : * (classifies)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E40AF;strokeWidth=2;fontColor=#1E40AF;fontSize=11;" edge="1" parent="1" source="cls-category" target="cls-equipment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Equipment 1 -- * Booking -->
+        <mxCell id="rel-equip-booking" value="1 : * (reserved in)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E40AF;strokeWidth=2;fontColor=#1E40AF;fontSize=11;" edge="1" parent="1" source="cls-equipment" target="cls-booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Booking 1 -- 1 Payment -->
+        <mxCell id="rel-booking-pay" value="1 : 1 (creates)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=2;fontColor=#15803D;fontSize=11;" edge="1" parent="1" source="cls-booking" target="cls-payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Booking 1 -- * Notification -->
+        <mxCell id="rel-booking-notif" value="1 : * (triggers)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E40AF;strokeWidth=2;fontColor=#1E40AF;fontSize=11;" edge="1" parent="1" source="cls-booking" target="cls-notification">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Equipment 1 -- * Review -->
+        <mxCell id="rel-equip-review" value="1 : * (receives)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E40AF;strokeWidth=2;fontColor=#1E40AF;fontSize=11;" edge="1" parent="1" source="cls-equipment" target="cls-review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AuthController ..> User -->
+        <mxCell id="dep-auth-user" value="..&gt; (uses)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" edge="1" parent="1" source="cls-auth-ctrl" target="cls-user">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- BookingController ..> Booking -->
+        <mxCell id="dep-book-model" value="..&gt; (uses)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" edge="1" parent="1" source="cls-booking-ctrl" target="cls-booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

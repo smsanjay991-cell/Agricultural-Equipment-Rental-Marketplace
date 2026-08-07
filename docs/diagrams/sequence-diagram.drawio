@@ -1,0 +1,199 @@
+<mxfile host="Electron" modified="2026-08-06T23:35:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-sequence" name="AgriRent Enterprise UML Sequence Diagram">
+    <mxGraphModel dx="1800" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1600" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="2320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 SEQUENCE DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="2280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="End-to-End Equipment Search, JWT Verification &amp; Booking Reservation Sequence Flow | Capstone Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="2280" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- PARTICIPANT HEADERS -->
+        <mxCell id="p-farmer" value="👨‍🌾 Farmer&#xa;(Actor)" style="rounded=1;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-react" value="💻 React SPA&#xa;(Frontend)" style="rounded=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#0369A1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="140" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-router" value="🔀 Express Router&#xa;(API Gateway)" style="rounded=1;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#15803D;" vertex="1" parent="1">
+          <mxGeometry x="540" y="140" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-authmw" value="🔐 Auth Middleware&#xa;(JWT Verifier)" style="rounded=1;fillColor=#FFF7ED;strokeColor=#EA580C;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#C2410C;" vertex="1" parent="1">
+          <mxGeometry x="790" y="140" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-ctrl" value="📅 Booking Controller&#xa;(Controller)" style="rounded=1;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#15803D;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="140" width="170" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-eqmodel" value="🚜 Equipment Model&#xa;(Model)" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1E40AF;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="140" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-bkmodel" value="📋 Booking Model&#xa;(Model)" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1E40AF;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="1550" y="140" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-db" value="🗄️ MySQL Database&#xa;(Persistence)" style="rounded=1;fillColor=#FEF2F2;strokeColor=#DC2626;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#B91C1C;" vertex="1" parent="1">
+          <mxGeometry x="1800" y="140" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p-extpay" value="💳 Payment Gateway&#xa;(Future API)" style="rounded=1;fillColor=#F1F5F9;strokeColor=#94A3B8;strokeWidth=2;strokeDasharray=3 3;fontSize=12;fontStyle=1;fontColor=#64748B;" vertex="1" parent="1">
+          <mxGeometry x="2050" y="140" width="170" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- LIFELINES (DASHED VERTICAL LINES) -->
+        <mxCell id="life-farmer" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="145" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-react" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-router" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-authmw" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="865" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-ctrl" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-eqmodel" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1375" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-bkmodel" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1625" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="life-db" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#94A3B8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1875" y="190" width="10" height="1300" as="geometry" />
+        </mxCell>
+
+        <!-- SEQUENCE MESSAGES -->
+
+        <!-- 1. Open App -->
+        <mxCell id="msg1" value="1. Open Application" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="240" as="sourcePoint" />
+            <mxPoint x="375" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2. POST /api/auth/login -->
+        <mxCell id="msg2" value="2. POST /api/auth/login (email, password)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="290" as="sourcePoint" />
+            <mxPoint x="620" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 3. Return JWT -->
+        <mxCell id="msg3" value="3. HTTP 200 OK { token, user }" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="340" as="sourcePoint" />
+            <mxPoint x="375" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. GET /api/equipment -->
+        <mxCell id="msg4" value="4. GET /api/equipment (filters)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="400" as="sourcePoint" />
+            <mxPoint x="1380" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 5. Query MySQL -->
+        <mxCell id="msg5" value="5. SELECT * FROM equipment WHERE is_available=1" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#DC2626;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1380" y="440" as="sourcePoint" />
+            <mxPoint x="1880" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. Return Data -->
+        <mxCell id="msg6" value="6. HTTP 200 OK Equipment List JSON" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1880" y="490" as="sourcePoint" />
+            <mxPoint x="375" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. POST /api/bookings -->
+        <mxCell id="msg7" value="7. POST /api/bookings (Header: Bearer JWT, Body: start_date, end_date, equipment_id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="560" as="sourcePoint" />
+            <mxPoint x="620" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. Verify JWT -->
+        <mxCell id="msg8" value="8. verifyToken(JWT_SECRET)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#EA580C;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="600" as="sourcePoint" />
+            <mxPoint x="870" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9. Forward Request -->
+        <mxCell id="msg9" value="9. req.user attached -> next()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="640" as="sourcePoint" />
+            <mxPoint x="1125" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 10. Check Availability -->
+        <mxCell id="msg10" value="10. checkAvailability(equipment_id, start_date, end_date)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#1E40AF;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1125" y="690" as="sourcePoint" />
+            <mxPoint x="1630" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 11. DB Overlap Query -->
+        <mxCell id="msg11" value="11. SELECT COUNT(*) FROM bookings WHERE overlap" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#DC2626;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1630" y="730" as="sourcePoint" />
+            <mxPoint x="1880" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 12. Create Booking -->
+        <mxCell id="msg12" value="12. INSERT INTO bookings (equipment_id, farmer_id, dates, total_price, status='pending')" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#DC2626;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1630" y="790" as="sourcePoint" />
+            <mxPoint x="1880" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 13. HTTP 201 Created -->
+        <mxCell id="msg13" value="13. HTTP 201 Created { success: true, booking_id }" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#16A34A;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1125" y="860" as="sourcePoint" />
+            <mxPoint x="375" y="860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 14. Display Confirmation -->
+        <mxCell id="msg14" value="14. Display Booking Confirmation Modal" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;strokeColor=#0284C7;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="910" as="sourcePoint" />
+            <mxPoint x="150" y="910" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

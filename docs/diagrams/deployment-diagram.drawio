@@ -1,0 +1,105 @@
+<mxfile host="Electron" modified="2026-08-07T09:53:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-deployment-diagram" name="AgriRent Enterprise Deployment Diagram">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2100" pageHeight="1300" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="2000" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 DEPLOYMENT DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="1960" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="Physical Nodes, Execution Environments, Artifact Topography &amp; Network Communication Protocols | Capstone Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1960" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Bar -->
+        <mxCell id="legend-bg" value="Legend:   📦 Active Node Box   |   ╍ Dashed Purple Box [Future Phase / Planned Module]   |   📄 Deployed Artifact   |   ──▶ HTTPS Connection" style="text;html=1;rounded=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=15;fontSize=12;fontStyle=1;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry x="40" y="125" width="2000" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- CLIENT NODE -->
+        <mxCell id="node-client" value="«device»&#xa;&lt;b&gt;User Client Device (Farmer / Owner) [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Hardware: Desktop, Laptop, Mobile Smartphone&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#1D4ED8;strokeWidth=2;fontSize=12;fontColor=#1E3A8A;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="520" height="950" as="geometry" />
+        </mxCell>
+
+        <mxCell id="exec-browser" value="«execution environment»&#xa;&lt;b&gt;Web Browser Engine [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#64748B&quot;&gt;Chrome, Edge, Firefox, Safari&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#1D4ED8;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="480" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="art-react" value="«artifact»&#xa;&lt;b&gt;React SPA Application Bundle [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;HTML5, JS ES6+, CSS3 (Tailwind)&#xa;Axios HTTP Client Instance&#xa;Client State: Hooks, Context API, LocalStorage (JWT)&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#1D4ED8;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="320" width="440" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- APP SERVER NODE -->
+        <mxCell id="node-app" value="«device»&#xa;&lt;b&gt;Cloud Application Server Instance (Node.js Environment) [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;OS: Linux Ubuntu Server 22.04 LTS / AWS EC2&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#1D4ED8;strokeWidth=2;fontSize=12;fontColor=#1E3A8A;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="180" width="760" height="500" as="geometry" />
+        </mxCell>
+
+        <mxCell id="exec-nodejs" value="«execution environment»&#xa;&lt;b&gt;Node.js Runtime Engine (v18.x+) &amp; Express Framework [Active]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#2563EB;strokeWidth=1.5;fontSize=11;fontColor=#1D4ED8;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="660" y="260" width="720" height="400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="art-express" value="«artifact»&#xa;&lt;b&gt;Express REST API Server (server.js / app.js) [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Routers: AuthRoutes, EquipmentRoutes, BookingRoutes [Active]&#xa;Controllers: authController, equipmentController, bookingController [Active]&#xa;Future Handlers: paymentController, notificationController, reviewController [Future Phase]&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#1D4ED8;strokeWidth=1.5;fontSize=11;fontColor=#0F172A;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="680" y="310" width="680" height="320" as="geometry" />
+        </mxCell>
+
+        <!-- FILE STORAGE NODE -->
+        <mxCell id="node-storage" value="«storage»&#xa;&lt;b&gt;Local File System Volume [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Path: server/uploads/ (Machinery Photos)&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontColor=#1E3A8A;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="710" width="370" height="420" as="geometry" />
+        </mxCell>
+
+        <!-- MYSQL DB NODE -->
+        <mxCell id="node-db" value="«device»&#xa;&lt;b&gt;Relational Database Server (MySQL) [Active]&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#7F1D1D&quot;&gt;MySQL Enterprise Server 8.0 / Amazon RDS&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#DC2626;strokeWidth=2;fontSize=12;fontColor=#991B1B;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="710" width="360" height="420" as="geometry" />
+        </mxCell>
+
+        <mxCell id="store-db" value="«storage»&#xa;&lt;b&gt;Relational Schema (agrirent_db)&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Active Tables: users, categories, equipment, bookings&#xa;Future Tables: payments, notifications, reviews [Future Phase]&#xa;Pool: mysql2/promise Connection Pool (TCP 3306)&lt;/font&gt;" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=#FFF5F5;strokeColor=#FCA5A5;strokeWidth=1.5;fontSize=11;fontColor=#991B1B;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="775" width="320" height="330" as="geometry" />
+        </mxCell>
+
+        <!-- EXTERNAL NODES -->
+        <mxCell id="node-ext" value="«device»&#xa;&lt;b&gt;External Integration Nodes &amp; Cloud Gateways&lt;/b&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=2;fontSize=12;fontColor=#065F46;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="180" width="580" height="950" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-razorpay" value="«external device» [Future Phase / Planned Module]&#xa;&lt;b&gt;Razorpay Payment Gateway Server&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;HTTPS REST API / Webhooks Escrow Holding (Planned)&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="260" width="540" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-sendgrid" value="«external device» [Future Phase / Planned Module]&#xa;&lt;b&gt;SMTP / SendGrid Email Gateway Server&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Transactional Emails &amp; Booking Alerts (Planned)&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=1.5;dashed=1;fontSize=11;fontColor=#6B21A8;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="550" width="540" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext-github" value="«external infrastructure» [Active SCM]&#xa;&lt;b&gt;GitHub Code Repository &amp; SCM&lt;/b&gt;&#xa;&lt;font size=&quot;1&quot; color=&quot;#475569&quot;&gt;Git Version Control &amp; CI/CD Pipeline&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=1.5;fontSize=11;fontColor=#065F46;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="830" width="540" height="260" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTIONS -->
+        <mxCell id="conn-client-app" value="HTTPS / TLS 1.3 (Port 443 / 5000)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#1D4ED8;" edge="1" parent="1" source="node-client" target="node-app">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-app-db" value="MySQL Protocol (TCP / IP 3306)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DC2626;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#991B1B;" edge="1" parent="1" source="node-app" target="node-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-app-storage" value="File I/O" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#1D4ED8;" edge="1" parent="1" source="node-app" target="node-storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-app-razorpay" value="HTTPS REST [Future Phase]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2;dashed=1;fontSize=11;fontStyle=1;fontColor=#6B21A8;" edge="1" parent="1" source="node-app" target="ext-razorpay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-app-sendgrid" value="SMTP / REST [Future Phase]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2;dashed=1;fontSize=11;fontStyle=1;fontColor=#6B21A8;" edge="1" parent="1" source="node-app" target="ext-sendgrid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

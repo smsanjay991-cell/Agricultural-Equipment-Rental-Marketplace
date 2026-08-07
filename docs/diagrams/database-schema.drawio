@@ -1,0 +1,106 @@
+<mxfile host="Electron" modified="2026-08-06T22:30:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-db-schema" name="AgriRent Database Physical Schema Diagram">
+    <mxGraphModel dx="1420" dy="880" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title & Header Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#F0F9FF;strokeColor=#BAE6FD;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1520" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - MYSQL 8.0 PHYSICAL DATABASE SCHEMA DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0369A1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="1480" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="MySQL Workbench Physical Schema Representation | Table Columns, Datatypes, Constraints, Indexes &amp; Foreign Keys" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1480" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="legend-box" value="SCHEMA LEGEND:  PK = Primary Key (Auto-Increment) | FK = Foreign Key | UQ = Unique Constraint | IDX = Index Pointer | NOT NULL / NULL&#xa;Style: MySQL Workbench Professional | Modern Blue/Grey Theme | Crow's Foot Connector Lines" style="rounded=1;fillColor=#F8FAFC;strokeColor=#E2E8F0;strokeWidth=1;fontSize=11;fontColor=#334155;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="1520" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 1. USERS TABLE -->
+        <mxCell id="tbl-users" value="users (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[UQ] email : VARCHAR(255) (NOT NULL)&#xa;     name : VARCHAR(100) (NOT NULL)&#xa;     password : VARCHAR(255) (NOT NULL)&#xa;[IDX] role : ENUM('farmer','owner','admin')&#xa;     phone : VARCHAR(20) (NULL)&#xa;     address : TEXT (NULL)&#xa;     created_at : DATETIME (DEFAULT NOW)&#xa;     updated_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="320" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- 2. CATEGORIES TABLE -->
+        <mxCell id="tbl-categories" value="categories (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[UQ] name : VARCHAR(100) (NOT NULL)&#xa;     description : TEXT (NULL)&#xa;     image_url : VARCHAR(255) (NULL)&#xa;     created_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="220" width="280" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- 3. EQUIPMENT TABLE -->
+        <mxCell id="tbl-equipment" value="equipment (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[FK] owner_id : INT (NOT NULL -> users.id)&#xa;[FK] category_id : INT (NOT NULL -> categories.id)&#xa;     title : VARCHAR(150) (NOT NULL)&#xa;     description : TEXT (NOT NULL)&#xa;     daily_rate : DECIMAL(10,2) (NOT NULL)&#xa;     location : VARCHAR(255) (NOT NULL)&#xa;     condition_status : ENUM('excellent',...)&#xa;[IDX] is_available : BOOLEAN (DEFAULT TRUE)&#xa;     image_url : VARCHAR(255) (NULL)&#xa;     created_at : DATETIME (DEFAULT NOW)&#xa;     updated_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="220" width="340" height="270" as="geometry" />
+        </mxCell>
+
+        <!-- 4. BOOKINGS TABLE -->
+        <mxCell id="tbl-bookings" value="bookings (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[FK] equipment_id : INT (NOT NULL -> equipment.id)&#xa;[FK] farmer_id : INT (NOT NULL -> users.id)&#xa;     start_date : DATE (NOT NULL)&#xa;     end_date : DATE (NOT NULL)&#xa;     total_days : INT (NOT NULL)&#xa;     total_price : DECIMAL(10,2) (NOT NULL)&#xa;[IDX] status : ENUM('pending','approved',...)&#xa;     created_at : DATETIME (DEFAULT NOW)&#xa;     updated_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="220" width="340" height="250" as="geometry" />
+        </mxCell>
+
+        <!-- 5. PAYMENTS TABLE -->
+        <mxCell id="tbl-payments" value="payments (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[FK,UQ] booking_id : INT (NOT NULL -> bookings.id)&#xa;[UQ] transaction_id : VARCHAR(100) (NOT NULL)&#xa;     amount : DECIMAL(10,2) (NOT NULL)&#xa;     payment_method : ENUM('card','upi',...)&#xa;[IDX] payment_status : ENUM('pending',...)&#xa;     payment_date : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="570" width="340" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- 6. NOTIFICATIONS TABLE -->
+        <mxCell id="tbl-notifications" value="notifications (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[FK] user_id : INT (NOT NULL -> users.id)&#xa;[FK] booking_id : INT (NULL -> bookings.id)&#xa;     title : VARCHAR(150) (NOT NULL)&#xa;     message : TEXT (NOT NULL)&#xa;     type : ENUM('booking','payment',...)&#xa;[IDX] is_read : BOOLEAN (DEFAULT FALSE)&#xa;     created_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="570" width="320" height="220" as="geometry" />
+        </mxCell>
+
+        <!-- 7. REVIEWS TABLE -->
+        <mxCell id="tbl-reviews" value="reviews (InnoDB, utf8mb4)&#xa;===================================&#xa;[PK] id : INT (AUTO_INC, NOT NULL)&#xa;[FK] equipment_id : INT (NOT NULL -> equipment.id)&#xa;[FK] user_id : INT (NOT NULL -> users.id)&#xa;     rating : INT (NOT NULL, CHECK 1..5)&#xa;     comment : TEXT (NULL)&#xa;[UQ] (user_id, equipment_id) (UNIQUE KEY)&#xa;     created_at : DATETIME (DEFAULT NOW)" style="swipeable=0;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;spacingRight=12;verticalAlign=top;fontStyle=0;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="570" width="340" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTORS -->
+        <mxCell id="rel-users-equip" value="FK: owner_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-users" target="tbl-equipment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-cat-equip" value="FK: category_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-categories" target="tbl-equipment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-equip-bookings" value="FK: equipment_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-equipment" target="tbl-bookings">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-users-bookings" value="FK: farmer_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-users" target="tbl-bookings">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="490" />
+              <mxPoint x="1370" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel-booking-payments" value="FK: booking_id (1:1)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=2;fontColor=#15803D;fontSize=10;" edge="1" parent="1" source="tbl-bookings" target="tbl-payments">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-users-notif" value="FK: user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-users" target="tbl-notifications">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-equip-reviews" value="FK: equipment_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-equipment" target="tbl-reviews">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-users-reviews" value="FK: user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=10;" edge="1" parent="1" source="tbl-users" target="tbl-reviews">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="530" />
+              <mxPoint x="750" y="530" />
+              <mxPoint x="750" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

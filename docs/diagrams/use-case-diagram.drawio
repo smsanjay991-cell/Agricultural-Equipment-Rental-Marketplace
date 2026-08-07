@@ -1,0 +1,132 @@
+<mxfile host="Electron" modified="2026-08-06T23:30:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="agrirent-use-case" name="AgriRent Enterprise Use Case Diagram">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title-bg" value="" style="rounded=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1920" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="title-text" value="AGRIRENT - ENTERPRISE UML 2.5 USE CASE DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="45" width="1880" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle-text" value="Actor Interactions, Core Business Use Cases &amp; System Boundary | Capstone Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=0;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1880" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- System Boundary Box -->
+        <mxCell id="sys-boundary" value="AgriRent Platform System Boundary" style="shape=rect;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=2;dashed=0;fontSize=14;fontStyle=1;fontColor=#1E3A8A;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="150" width="1360" height="1100" as="geometry" />
+        </mxCell>
+
+        <!-- PRIMARY ACTORS (LEFT) -->
+        
+        <!-- Farmer Actor -->
+        <mxCell id="actor-farmer" value="👨‍🌾 Farmer / Renter" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="350" width="50" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Owner Actor -->
+        <mxCell id="actor-owner" value="🚜 Equipment Owner" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="650" width="50" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Actor -->
+        <mxCell id="actor-admin" value="🛡️ System Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="950" width="50" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- SECONDARY ACTORS (RIGHT) -->
+
+        <!-- Payment Gateway Actor -->
+        <mxCell id="actor-pay" value="💳 Payment Gateway&#xa;(Razorpay/Stripe)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1750" y="450" width="50" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Email Service Actor -->
+        <mxCell id="actor-email" value="✉️ Email Service&#xa;(SendGrid/SMTP)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1750" y="750" width="50" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- USE CASES INSIDE SYSTEM BOUNDARY -->
+
+        <!-- Auth Subsystem -->
+        <mxCell id="uc-register" value="Register Account" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-login" value="Login to System" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-jwt" value="JWT Authentication" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;fontSize=11;fontStyle=0;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry x="640" y="280" width="170" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Equipment Subsystem -->
+        <mxCell id="uc-browse" value="Browse Catalog" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="380" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-add-equip" value="Add New Equipment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="600" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-edit-equip" value="Edit Equipment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="680" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Booking Subsystem -->
+        <mxCell id="uc-create-booking" value="Create Booking" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-val-avail" value="Validate Date Availability" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;fontSize=11;fontStyle=0;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry x="640" y="470" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-approve-booking" value="Approve Booking Request" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="760" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-reject-booking" value="Reject Booking Request" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="360" y="840" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Payment Subsystem -->
+        <mxCell id="uc-make-payment" value="Make Online Payment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#15803D;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="450" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-verify-payment" value="Verify Payment Token" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=1.5;fontSize=11;fontStyle=0;fontColor=#15803D;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="450" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Notification Subsystem -->
+        <mxCell id="uc-send-notif" value="Send Email Alert" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#7E22CE;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="750" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Subsystem -->
+        <mxCell id="uc-manage-users" value="Manage Users &amp; Roles" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#B45309;" vertex="1" parent="1">
+          <mxGeometry x="360" y="950" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-view-dashboard" value="View Analytics Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;fontSize=12;fontStyle=1;fontColor=#B45309;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1030" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- STEREOTYPED CONNECTIONS -->
+        <mxCell id="rel-login-jwt" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#2563EB;strokeWidth=1.5;fontSize=10;fontColor=#1E3A8A;" edge="1" parent="1" source="uc-login" target="uc-jwt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-booking-val" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#2563EB;strokeWidth=1.5;fontSize=10;fontColor=#1E3A8A;" edge="1" parent="1" source="uc-create-booking" target="uc-val-avail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-pay-verify" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#16A34A;strokeWidth=1.5;fontSize=10;fontColor=#15803D;" edge="1" parent="1" source="uc-make-payment" target="uc-verify-payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel-approve-notif" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#9333EA;strokeWidth=1.5;fontSize=10;fontColor=#7E22CE;" edge="1" parent="1" source="uc-send-notif" target="uc-approve-booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

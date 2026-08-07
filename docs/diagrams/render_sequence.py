@@ -1,0 +1,182 @@
+import os
+from html2image import Html2Image
+
+output_dir = os.path.abspath("docs/diagrams")
+
+svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2160 1150" width="2160" height="1150" style="background:#ffffff; font-family: 'Inter', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <style>
+      .hdr-title { font-size: 26px; font-weight: 800; fill: #1e3a8a; text-anchor: middle; }
+      .hdr-sub { font-size: 14px; font-weight: 500; fill: #475569; text-anchor: middle; }
+      .legend { font-size: 12px; font-weight: 600; fill: #334155; }
+      
+      .part-title { font-size: 12px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .msg-text { font-size: 11px; font-weight: 700; fill: #0f172a; }
+      .ret-text { font-size: 11px; font-weight: 700; fill: #16a34a; }
+      .err-text { font-size: 11px; font-weight: 700; fill: #dc2626; }
+    </style>
+
+    <marker id="seq-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="seq-ret" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="2160" height="1150" fill="#ffffff"/>
+
+  <!-- Header Banner -->
+  <rect x="40" y="30" width="2080" height="80" rx="12" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
+  <text x="1080" y="65" class="hdr-title">AGRIRENT — ENTERPRISE UML 2.5 SEQUENCE DIAGRAM</text>
+  <text x="1080" y="92" class="hdr-sub">End-to-End Equipment Search, JWT Verification &amp; Booking Reservation Sequence Flow | Capstone Architecture</text>
+
+  <!-- Legend Bar -->
+  <rect x="40" y="125" width="2080" height="35" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="60" y="147" class="legend">Legend:  <tspan fill="#2563eb" font-weight="700">Solid Arrow (─▶)</tspan> Synchronous Request Message  |  <tspan fill="#16a34a" font-weight="700">Dashed Arrow (- - ▶)</tspan> Asynchronous Return Response  |  <tspan fill="#dc2626" font-weight="700">Red Line</tspan> Database Query Execution</text>
+
+  <!-- PARTICIPANTS -->
+  
+  <!-- Farmer -->
+  <g transform="translate(60, 180)">
+    <rect width="140" height="45" rx="8" fill="#1e40af"/>
+    <text x="70" y="27" class="part-title">👨‍🌾 Farmer</text>
+  </g>
+
+  <!-- React SPA -->
+  <g transform="translate(280, 180)">
+    <rect width="150" height="45" rx="8" fill="#0284c7"/>
+    <text x="75" y="27" class="part-title">💻 React SPA</text>
+  </g>
+
+  <!-- Express Router -->
+  <g transform="translate(510, 180)">
+    <rect width="160" height="45" rx="8" fill="#16a34a"/>
+    <text x="80" y="27" class="part-title">🔀 Express Router</text>
+  </g>
+
+  <!-- Auth Middleware -->
+  <g transform="translate(750, 180)">
+    <rect width="160" height="45" rx="8" fill="#ea580c"/>
+    <text x="80" y="27" class="part-title">🔐 Auth Middleware</text>
+  </g>
+
+  <!-- Booking Controller -->
+  <g transform="translate(990, 180)">
+    <rect width="170" height="45" rx="8" fill="#16a34a"/>
+    <text x="85" y="27" class="part-title">📅 Booking Controller</text>
+  </g>
+
+  <!-- Equipment Model -->
+  <g transform="translate(1240, 180)">
+    <rect width="160" height="45" rx="8" fill="#1e40af"/>
+    <text x="80" y="27" class="part-title">🚜 Equipment Model</text>
+  </g>
+
+  <!-- Booking Model -->
+  <g transform="translate(1480, 180)">
+    <rect width="160" height="45" rx="8" fill="#1e40af"/>
+    <text x="80" y="27" class="part-title">📋 Booking Model</text>
+  </g>
+
+  <!-- MySQL DB -->
+  <g transform="translate(1720, 180)">
+    <rect width="160" height="45" rx="8" fill="#dc2626"/>
+    <text x="80" y="27" class="part-title">🗄️ MySQL Database</text>
+  </g>
+
+  <!-- Payment Gateway -->
+  <g transform="translate(1960, 180)">
+    <rect width="160" height="45" rx="8" fill="#94a3b8"/>
+    <text x="80" y="27" class="part-title">💳 Payment Gateway</text>
+  </g>
+
+  <!-- LIFELINES -->
+  <line x1="130" y1="225" x2="130" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="355" y1="225" x2="355" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="590" y1="225" x2="590" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="830" y1="225" x2="830" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="1075" y1="225" x2="1075" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="1320" y1="225" x2="1320" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="1560" y1="225" x2="1560" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="1800" y1="225" x2="1800" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="2040" y1="225" x2="2040" y2="1080" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- MESSAGES -->
+
+  <!-- 1. Open App -->
+  <line x1="130" y1="270" x2="355" y2="270" stroke="#2563eb" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="145" y="262" class="msg-text">1. Open Application (Load SPA UI)</text>
+
+  <!-- 2. Login -->
+  <line x1="355" y1="320" x2="590" y2="320" stroke="#2563eb" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="370" y="312" class="msg-text">2. POST /api/auth/login (email, password)</text>
+
+  <!-- 3. Return JWT -->
+  <line x1="590" y1="370" x2="355" y2="370" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#seq-ret)"/>
+  <text x="370" y="362" class="ret-text">3. HTTP 200 OK { token, user } (Store JWT in LocalStorage)</text>
+
+  <!-- 4. Browse Equipment -->
+  <line x1="355" y1="430" x2="1320" y2="430" stroke="#2563eb" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="370" y="422" class="msg-text">4. GET /api/equipment (filters, pagination)</text>
+
+  <!-- 5. DB Query Equipment -->
+  <line x1="1320" y1="480" x2="1800" y2="480" stroke="#dc2626" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="1335" y="472" class="msg-text" fill="#dc2626">5. SELECT * FROM equipment WHERE is_available = 1</text>
+
+  <!-- 6. Return Equipment JSON -->
+  <line x1="1800" y1="530" x2="355" y2="530" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#seq-ret)"/>
+  <text x="370" y="522" class="ret-text">6. HTTP 200 OK Equipment List JSON Array</text>
+
+  <!-- 7. Select & Submit Booking -->
+  <line x1="355" y1="600" x2="590" y2="600" stroke="#2563eb" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="370" y="592" class="msg-text">7. POST /api/bookings (Header: Authorization Bearer JWT)</text>
+
+  <!-- 8. Auth Guard Verify Token -->
+  <line x1="590" y1="650" x2="830" y2="650" stroke="#ea580c" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="605" y="642" class="msg-text" fill="#ea580c">8. Verify JWT Signature &amp; Role ('farmer')</text>
+
+  <!-- 9. Forward to Controller -->
+  <line x1="830" y1="700" x2="1075" y2="700" stroke="#16a34a" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="845" y="692" class="msg-text">9. req.user attached -&gt; createBooking()</text>
+
+  <!-- 10. Check Date Availability -->
+  <line x1="1075" y1="750" x2="1560" y2="750" stroke="#1e40af" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="1090" y="742" class="msg-text">10. checkAvailability(equipment_id, start_date, end_date)</text>
+
+  <!-- 11. DB Overlap Query -->
+  <line x1="1560" y1="800" x2="1800" y2="800" stroke="#dc2626" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="1575" y="792" class="msg-text" fill="#dc2626">11. SELECT COUNT(*) FROM bookings WHERE date_overlap</text>
+
+  <!-- 12. Insert Booking Record -->
+  <line x1="1560" y1="860" x2="1800" y2="860" stroke="#dc2626" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="1575" y="852" class="msg-text" fill="#dc2626">12. INSERT INTO bookings (equipment_id, farmer_id, dates, status='pending')</text>
+
+  <!-- 13. Return 201 Created -->
+  <line x1="1075" y1="920" x2="355" y2="920" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#seq-ret)"/>
+  <text x="370" y="912" class="ret-text">13. HTTP 201 Created { success: true, booking_id, status: 'pending' }</text>
+
+  <!-- 14. Display UI Modal -->
+  <line x1="355" y1="970" x2="130" y2="970" stroke="#2563eb" stroke-width="2" marker-end="url(#seq-arrow)"/>
+  <text x="145" y="962" class="msg-text">14. Render Booking Confirmation Modal</text>
+
+</svg>
+"""
+
+svg_path = os.path.join(output_dir, "sequence-diagram.svg")
+with open(svg_path, "w", encoding="utf-8") as f:
+    f.write(svg_content)
+
+print("Successfully created docs/diagrams/sequence-diagram.svg")
+
+hti = Html2Image(
+    browser_executable=r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    output_path=output_dir,
+    size=(2180, 1170),
+    custom_flags=['--force-device-scale-factor=2', '--hide-scrollbars', '--disable-gpu']
+)
+
+html_str = f"<html><body style='margin:0;padding:0;background:#ffffff;'>{svg_content}</body></html>"
+hti.screenshot(html_str=html_str, save_as="sequence-diagram.png")
+print("Successfully generated docs/diagrams/sequence-diagram.png")
