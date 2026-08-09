@@ -17,6 +17,14 @@ export const authService = {
 
   getProfile: async () => {
     return await fetchWithAuth('/auth/profile');
+  },
+
+  updateProfile: async (userData) => {
+    return await fetchWithAuth('/users/profile', {
+      method: 'PUT',
+      body: JSON.stringify(userData)
+    });
   }
 };
+
 

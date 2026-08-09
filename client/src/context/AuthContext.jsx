@@ -60,6 +60,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (profileData) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await authService.updateProfile(profileData);
+      const updatedUser = response.data || response;
+      const mergedUser = { ...user, ...updatedUser };
+      setUser(mergedUser);
+      localStorage.setItem('agrirent_user', JSON.stringify(mergedUser));
+      setLoading(false);
+      return mergedUser;
+    } catch (err) {
+      setError(err.message || 'Profile update failed');
+      setLoading(false);
+      throw err;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('agrirent_token');
@@ -82,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, register, logout, switchDemoRole }}>
+    <AuthContext.Provider value={{ user, loading, error, login, register, logout, updateProfile, switchDemoRole }}>
       {children}
     </AuthContext.Provider>
   );
@@ -98,10 +116,12 @@ export const useAuth = () => {
       login: async () => {},
       register: async () => {},
       logout: () => {},
+      updateProfile: async () => {},
       switchDemoRole: () => {}
     };
   }
   return context;
 };
+
 
 
