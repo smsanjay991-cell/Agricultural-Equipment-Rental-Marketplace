@@ -12,16 +12,16 @@ AgriRent is a modern full-stack web application that connects **farmers** with *
 
 # 📌 Table of Contents
 
-- [About](#-about)
-- [Completed Modules](#-completed-modules)
-- [Technology Stack](#-technology-stack)
-- [Project Folder Structure](#-project-folder-structure)
-- [System Architecture Diagram](#-system-architecture-diagram)
-- [ER Diagram](#-er-diagram)
-- [Database Schema Diagram](#-database-schema-diagram)
-- [Installation & Setup](#-installation--setup)
-- [API Endpoints](#-api-endpoints)
-- [Roadmap & Status](#-roadmap--status)
+-  [About](#-about)
+-  [Completed Modules](#-completed-modules)
+-  [Technology Stack](#-technology-stack)
+-  [Project Folder Structure](#-project-folder-structure)
+-  [System Architecture Diagram](#-system-architecture-diagram)
+-  [ER Diagram](#-er-diagram)
+-  [Database Schema Diagram](#-database-schema-diagram)
+-  [Installation & Setup](#-installation--setup)
+-  [API Endpoints](#-api-endpoints)
+-  [Roadmap & Status](#-roadmap--status)
 
 ---
 
