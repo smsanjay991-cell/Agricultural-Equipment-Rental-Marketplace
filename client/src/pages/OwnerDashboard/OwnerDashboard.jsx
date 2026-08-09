@@ -35,10 +35,27 @@ const OwnerDashboard = () => {
     }
   };
 
+  // Robust Status Extraction Utility
+  const getBookingStatus = (b) => {
+    if (!b) return '';
+    const raw = b.bookingStatus || b.booking_status || b.status || '';
+    return typeof raw === 'string' ? raw.trim().toLowerCase() : '';
+  };
+
   const handleApproveBooking = async (bookingId) => {
     if (!window.confirm('Are you sure you want to approve this booking request?')) return;
     setActionError('');
     setActionSuccess('');
+
+    // Optimistic state update for instant UI feedback
+    setBookings(prev => prev.map(b => {
+      const bId = b._id || b.id;
+      if (String(bId) === String(bookingId)) {
+        return { ...b, bookingStatus: 'approved', booking_status: 'approved', status: 'Approved' };
+      }
+      return b;
+    }));
+
     try {
       await bookingService.approve(bookingId);
       setActionSuccess('Booking request approved successfully!');
@@ -47,6 +64,7 @@ const OwnerDashboard = () => {
     } catch (err) {
       console.error('Error approving booking:', err);
       setActionError(err.message || 'Failed to approve booking request.');
+      loadData(); // Revert back on error
     }
   };
 
@@ -54,6 +72,16 @@ const OwnerDashboard = () => {
     if (!window.confirm('Are you sure you want to decline this booking request?')) return;
     setActionError('');
     setActionSuccess('');
+
+    // Optimistic state update
+    setBookings(prev => prev.map(b => {
+      const bId = b._id || b.id;
+      if (String(bId) === String(bookingId)) {
+        return { ...b, bookingStatus: 'rejected', booking_status: 'rejected', status: 'Rejected' };
+      }
+      return b;
+    }));
+
     try {
       await bookingService.reject(bookingId);
       setActionSuccess('Booking request declined.');
@@ -62,6 +90,7 @@ const OwnerDashboard = () => {
     } catch (err) {
       console.error('Error rejecting booking:', err);
       setActionError(err.message || 'Failed to decline booking request.');
+      loadData(); // Revert back on error
     }
   };
 
@@ -82,15 +111,12 @@ const OwnerDashboard = () => {
 
   const totalRevenue = bookings
     .filter(b => {
-      const s = (b.bookingStatus || b.status || '').toLowerCase();
+      const s = getBookingStatus(b);
       return s === 'approved' || s === 'completed';
     })
     .reduce((sum, b) => sum + Number(b.totalPrice || b.totalAmount || b.total_amount || b.total_price || 0), 0);
 
-  const pendingRequests = bookings.filter(b => {
-    const s = (b.bookingStatus || b.status || '').toLowerCase();
-    return s === 'pending';
-  });
+  const pendingRequests = bookings.filter(b => getBookingStatus(b) === 'pending');
 
   return (
     <div className="space-y-8">
@@ -105,7 +131,7 @@ const OwnerDashboard = () => {
         <div className="flex items-center gap-3">
           <button 
             onClick={loadData}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold"
+            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
             title="Refresh Fleet Data"
           >
             <RefreshCw className="w-4 h-4" /> Refresh
@@ -174,7 +200,7 @@ const OwnerDashboard = () => {
           <div className="space-y-3">
             {bookings.map((booking) => {
               const bookingId = booking._id || booking.id;
-              const normStatus = (booking.bookingStatus || booking.status || 'pending').toLowerCase();
+              const normStatus = getBookingStatus(booking);
               const isPending = normStatus === 'pending';
 
               const eqName = booking.equipment?.name || booking.equipmentName || 'Equipment Listing';
@@ -191,7 +217,7 @@ const OwnerDashboard = () => {
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-sm font-bold text-white">{eqName}</span>
                       <span className="text-[10px] text-slate-400 font-mono">#{bookingId}</span>
-                      <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${normStatus === 'pending' ? 'bg-amber-950 text-amber-400 border border-amber-800' : normStatus === 'approved' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-800'}`}>
+                      <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${normStatus === 'pending' ? 'bg-amber-950 text-amber-400 border border-amber-800' : normStatus === 'approved' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : normStatus === 'rejected' ? 'bg-red-950 text-red-400 border border-red-800' : 'bg-slate-800 text-slate-400 border border-slate-700'}`}>
                         {normStatus}
                       </span>
                     </div>
@@ -331,5 +357,6 @@ const OwnerDashboard = () => {
 };
 
 export default OwnerDashboard;
+
 
 

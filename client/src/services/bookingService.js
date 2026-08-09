@@ -11,12 +11,16 @@ export const bookingService = {
 
   getMyBookings: async () => {
     const response = await fetchWithAuth('/bookings/my');
-    return response.data || [];
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    return [];
   },
 
   getOwnerBookings: async () => {
     const response = await fetchWithAuth('/bookings/owner');
-    return response.data || [];
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    return [];
   },
 
   getById: async (bookingId) => {
@@ -53,4 +57,5 @@ export const bookingService = {
     return response.data || response;
   }
 };
+
 
