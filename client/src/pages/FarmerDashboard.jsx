@@ -1,5 +1,3 @@
-function FarmerDashboard() {
-  return <h1>Farmer Dashboard</h1>;
-}
-
+import FarmerDashboard from './FarmerDashboard/FarmerDashboard';
 export default FarmerDashboard;
+

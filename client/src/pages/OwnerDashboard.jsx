@@ -1,5 +1,3 @@
-function OwnerDashboard() {
-  return <h1>Owner Dashboard</h1>;
-}
-
+import OwnerDashboard from './OwnerDashboard/OwnerDashboard';
 export default OwnerDashboard;
+

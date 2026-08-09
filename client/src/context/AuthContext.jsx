@@ -24,13 +24,15 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await authService.login(email, password);
-      if (data.token) {
-        localStorage.setItem('agrirent_token', data.token);
+      const response = await authService.login(email, password);
+      const token = response.token || (response.data && response.data.token);
+      const userObj = response.data || response;
+      if (token) {
+        localStorage.setItem('agrirent_token', token);
       }
-      setUser(data);
+      setUser(userObj);
       setLoading(false);
-      return data;
+      return userObj;
     } catch (err) {
       setError(err.message || 'Login failed');
       setLoading(false);
@@ -42,13 +44,15 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await authService.register(userData);
-      if (data.token) {
-        localStorage.setItem('agrirent_token', data.token);
+      const response = await authService.register(userData);
+      const token = response.token || (response.data && response.data.token);
+      const userObj = response.data || response;
+      if (token) {
+        localStorage.setItem('agrirent_token', token);
       }
-      setUser(data);
+      setUser(userObj);
       setLoading(false);
-      return data;
+      return userObj;
     } catch (err) {
       setError(err.message || 'Registration failed');
       setLoading(false);
@@ -64,7 +68,8 @@ export const AuthProvider = ({ children }) => {
 
   const switchDemoRole = (role) => {
     const demoUser = {
-      _id: 'u_' + role,
+      _id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
+      id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
       name: role === 'farmer' ? 'Harpreet Singh (Farmer)' : role === 'owner' ? 'Rajesh Patel (Fleet Owner)' : 'System Administrator',
       email: `${role}@agrirent.com`,
       role: role,
@@ -84,3 +89,4 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
