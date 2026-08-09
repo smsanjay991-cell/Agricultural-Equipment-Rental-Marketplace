@@ -45,7 +45,10 @@ function AppRoutes() {
         <Route path="/admin" element={<DashboardLayout><AdminDashboard /></DashboardLayout>} />
 
         <Route path="/booking" element={<MainLayout><Booking /></MainLayout>} />
+        <Route path="/bookings" element={<DashboardLayout><FarmerDashboard /></DashboardLayout>} />
+        <Route path="/bookings/my" element={<DashboardLayout><FarmerDashboard /></DashboardLayout>} />
         <Route path="/profile" element={<DashboardLayout><Profile /></DashboardLayout>} />
+
 
         {/* Catch-all 404 Route */}
         <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />

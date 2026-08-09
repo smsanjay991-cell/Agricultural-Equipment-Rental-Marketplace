@@ -4,54 +4,93 @@ import { equipmentService } from '../../services/equipmentService';
 import { bookingService } from '../../services/bookingService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
-import { PlusCircle, Tractor, CheckCircle, XCircle, Clock, MapPin, DollarSign, Fuel, Gauge, Trash2, Edit3, Eye } from 'lucide-react';
+import { PlusCircle, Tractor, CheckCircle, XCircle, Clock, MapPin, Trash2, Edit3, Eye, RefreshCw, AlertCircle } from 'lucide-react';
 
 const OwnerDashboard = () => {
   const [equipmentList, setEquipmentList] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
+  const [actionSuccess, setActionSuccess] = useState('');
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
+    setLoading(true);
+    setError('');
+    setActionError('');
     try {
       const eq = await equipmentService.getMyEquipment();
-      const b = await bookingService.getMyBookings();
-      setEquipmentList(eq || []);
-      setBookings(b || []);
+      const b = await bookingService.getOwnerBookings();
+      setEquipmentList(Array.isArray(eq) ? eq : []);
+      setBookings(Array.isArray(b) ? b : []);
     } catch (err) {
-      console.error(err);
+      console.error('Error loading owner dashboard data:', err);
+      setError(err.message || 'Failed to load fleet listings and booking requests.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleStatusUpdate = async (bookingId, newStatus) => {
+  const handleApproveBooking = async (bookingId) => {
+    if (!window.confirm('Are you sure you want to approve this booking request?')) return;
+    setActionError('');
+    setActionSuccess('');
     try {
-      await bookingService.updateStatus(bookingId, newStatus);
+      await bookingService.approve(bookingId);
+      setActionSuccess('Booking request approved successfully!');
       loadData();
+      setTimeout(() => setActionSuccess(''), 3000);
     } catch (err) {
-      alert('Error updating status: ' + err.message);
+      console.error('Error approving booking:', err);
+      setActionError(err.message || 'Failed to approve booking request.');
+    }
+  };
+
+  const handleRejectBooking = async (bookingId) => {
+    if (!window.confirm('Are you sure you want to decline this booking request?')) return;
+    setActionError('');
+    setActionSuccess('');
+    try {
+      await bookingService.reject(bookingId);
+      setActionSuccess('Booking request declined.');
+      loadData();
+      setTimeout(() => setActionSuccess(''), 3000);
+    } catch (err) {
+      console.error('Error rejecting booking:', err);
+      setActionError(err.message || 'Failed to decline booking request.');
     }
   };
 
   const handleDeleteEquipment = async (id) => {
     if (!window.confirm('Are you sure you want to delete this equipment listing?')) return;
+    setActionError('');
     try {
       await equipmentService.delete(id);
+      setActionSuccess('Equipment listing removed.');
       loadData();
+      setTimeout(() => setActionSuccess(''), 3000);
     } catch (err) {
-      alert(err.message || 'Failed to delete equipment');
+      setActionError(err.message || 'Failed to delete equipment');
     }
   };
 
   if (loading) return <Loader message="Loading your machinery fleet & rental requests..." />;
 
   const totalRevenue = bookings
-    .filter(b => b.status === 'Approved' || b.status === 'Completed' || b.booking_status === 'approved' || b.booking_status === 'completed')
-    .reduce((sum, b) => sum + (b.totalPrice || b.total_amount || b.total_price || 0), 0);
+    .filter(b => {
+      const s = (b.bookingStatus || b.status || '').toLowerCase();
+      return s === 'approved' || s === 'completed';
+    })
+    .reduce((sum, b) => sum + Number(b.totalPrice || b.totalAmount || b.total_amount || b.total_price || 0), 0);
+
+  const pendingRequests = bookings.filter(b => {
+    const s = (b.bookingStatus || b.status || '').toLowerCase();
+    return s === 'pending';
+  });
 
   return (
     <div className="space-y-8">
@@ -63,18 +102,28 @@ const OwnerDashboard = () => {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Machinery & Bookings Manager</h1>
         </div>
 
-        <Link 
-          to="/equipment/new"
-          className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer w-fit"
-        >
-          <PlusCircle className="w-4 h-4" /> Add New Equipment
-        </Link>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={loadData}
+            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold"
+            title="Refresh Fleet Data"
+          >
+            <RefreshCw className="w-4 h-4" /> Refresh
+          </button>
+          
+          <Link 
+            to="/equipment/new"
+            className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer w-fit"
+          >
+            <PlusCircle className="w-4 h-4" /> Add New Equipment
+          </Link>
+        </div>
       </div>
 
       {/* Revenue & Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Estimated Revenue</div>
+          <div className="text-xs text-slate-400 font-medium">Approved Revenue</div>
           <div className="text-2xl font-extrabold text-emerald-400">₹{totalRevenue.toLocaleString()}</div>
         </div>
 
@@ -86,69 +135,104 @@ const OwnerDashboard = () => {
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
           <div className="text-xs text-slate-400 font-medium">Pending Requests</div>
           <div className="text-2xl font-extrabold text-amber-400">
-            {bookings.filter(b => b.status === 'Pending' || b.booking_status === 'pending').length} Requests
+            {pendingRequests.length} Requests
           </div>
         </div>
       </div>
 
+      {/* Action Alerts */}
+      {actionSuccess && (
+        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-400 text-xs font-bold flex items-center gap-2">
+          <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" /> {actionSuccess}
+        </div>
+      )}
+
+      {actionError && (
+        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {actionError}
+        </div>
+      )}
+
+      {error && (
+        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between">
+          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {error}</span>
+          <button onClick={loadData} className="underline text-emerald-400 font-bold">Retry</button>
+        </div>
+      )}
+
       {/* Incoming Rental Requests */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <Clock className="w-5 h-5 text-emerald-400" /> Incoming Rental Requests
+          <Clock className="w-5 h-5 text-emerald-400" /> Incoming Rental Requests ({bookings.length})
         </h2>
 
         {bookings.length === 0 ? (
           <div className="glass-panel p-6 rounded-2xl text-center text-xs text-slate-400">
-            No rental requests received yet.
+            No rental requests received yet for your listed equipment.
           </div>
         ) : (
           <div className="space-y-3">
-            {bookings.map((booking) => (
-              <div 
-                key={booking._id || booking.id} 
-                className="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-white">{booking.equipment?.name || 'Equipment'}</span>
-                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${(booking.status === 'Pending' || booking.booking_status === 'pending') ? 'bg-amber-950 text-amber-400 border border-amber-800' : (booking.status === 'Approved' || booking.booking_status === 'approved') ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-800'}`}>
-                      {booking.status || booking.booking_status}
-                    </span>
-                  </div>
+            {bookings.map((booking) => {
+              const bookingId = booking._id || booking.id;
+              const normStatus = (booking.bookingStatus || booking.status || 'pending').toLowerCase();
+              const isPending = normStatus === 'pending';
 
-                  <p className="text-xs text-slate-400">
-                    Renter: <strong className="text-slate-200">{booking.farmer?.name || 'Farmer'}</strong> ({booking.farmer?.phone || 'N/A'})
-                  </p>
-                  <p className="text-xs text-slate-400">
-                    Dates: {new Date(booking.startDate || booking.start_date).toLocaleDateString()} - {new Date(booking.endDate || booking.end_date).toLocaleDateString()} ({booking.totalDays || booking.total_days} Days)
-                  </p>
-                </div>
+              const eqName = booking.equipment?.name || booking.equipmentName || 'Equipment Listing';
+              const farmerName = booking.farmer?.name || 'Farmer Renter';
+              const farmerPhone = booking.farmer?.phone || 'Contact Private';
+              const totalFee = booking.totalPrice !== undefined ? booking.totalPrice : (booking.totalAmount !== undefined ? booking.totalAmount : (booking.total_amount || 0));
 
-                <div className="flex items-center gap-4 justify-between md:justify-end border-t md:border-t-0 border-slate-800 pt-3 md:pt-0">
-                  <div className="text-right">
-                    <div className="text-xs text-slate-400">Total Price</div>
-                    <div className="text-lg font-bold text-emerald-400">₹{Number(booking.totalPrice || booking.total_amount || 0).toLocaleString()}</div>
-                  </div>
-
-                  {(booking.status === 'Pending' || booking.booking_status === 'pending') && (
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleStatusUpdate(booking._id || booking.id, 'Approved')}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
-                      >
-                        <CheckCircle className="w-3.5 h-3.5" /> Accept
-                      </button>
-                      <button
-                        onClick={() => handleStatusUpdate(booking._id || booking.id, 'Rejected')}
-                        className="bg-red-950 hover:bg-red-900 text-red-400 border border-red-800 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
-                      >
-                        <XCircle className="w-3.5 h-3.5" /> Reject
-                      </button>
+              return (
+                <div 
+                  key={bookingId} 
+                  className="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-bold text-white">{eqName}</span>
+                      <span className="text-[10px] text-slate-400 font-mono">#{bookingId}</span>
+                      <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${normStatus === 'pending' ? 'bg-amber-950 text-amber-400 border border-amber-800' : normStatus === 'approved' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-800'}`}>
+                        {normStatus}
+                      </span>
                     </div>
-                  )}
+
+                    <p className="text-xs text-slate-400">
+                      Renter: <strong className="text-slate-200">{farmerName}</strong> ({farmerPhone})
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Dates: {new Date(booking.startDate || booking.start_date).toLocaleDateString()} - {new Date(booking.endDate || booking.end_date).toLocaleDateString()} ({booking.totalDays || booking.total_days || 1} Days)
+                    </p>
+                    {(booking.notes || booking.remarks) && (
+                      <p className="text-[11px] text-slate-400 italic pt-0.5">"{booking.notes || booking.remarks}"</p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-4 justify-between md:justify-end border-t md:border-t-0 border-slate-800 pt-3 md:pt-0 shrink-0">
+                    <div className="text-right">
+                      <div className="text-xs text-slate-400">Total Price</div>
+                      <div className="text-lg font-bold text-emerald-400">₹{Number(totalFee).toLocaleString()}</div>
+                    </div>
+
+                    {isPending && (
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleApproveBooking(bookingId)}
+                          className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
+                        >
+                          <CheckCircle className="w-3.5 h-3.5" /> Accept
+                        </button>
+                        <button
+                          onClick={() => handleRejectBooking(bookingId)}
+                          className="bg-red-950 hover:bg-red-900 text-red-400 border border-red-800 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
+                        >
+                          <XCircle className="w-3.5 h-3.5" /> Reject
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -247,4 +331,5 @@ const OwnerDashboard = () => {
 };
 
 export default OwnerDashboard;
+
 
