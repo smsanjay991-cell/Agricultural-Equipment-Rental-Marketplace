@@ -336,4 +336,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 👥 Author / Contact
 
-Developed by the AgriRent Capstone Project Team.
+  Developed by SANJAY S M
+3RD YR-INFORMATION TECHNOLOGY
+       JJCET-TRICHY
