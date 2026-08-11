@@ -5,7 +5,7 @@ import Footer from '../components/Footer/Footer';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-[#04160d] text-slate-100">
       <Navbar />
       <div className="flex-1 flex flex-col md:flex-row">
         <Sidebar />

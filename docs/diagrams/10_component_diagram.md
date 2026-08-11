@@ -127,7 +127,7 @@ BookingCtrl ..> EmailService : SMTP Confirmation (Future)
 
 ### 3.1 Presentation Layer (`«subsystem» React SPA Client`)
 
-The client tier is implemented as a modern single-page application (SPA) built with **React.js**, **Vite**, and styled with **Tailwind CSS**. It communicates asynchronously with the backend via **Axios**.
+The client tier is implemented as a modern single-page application (SPA) built with **React.js**, **Vite**, and styled with **Tailwind CSS**. It communicates asynchronously with the backend via native **Fetch API** (`fetchWithAuth`).
 
 | Component Name | Stereotype | File Location | Status | Responsibility |
 |---|---|---|---|---|
@@ -272,7 +272,7 @@ Relational persistence tier running MySQL database engine accessed via `mysql2` 
 
 | Subsystem Tier | Layer | Primary Technologies & Libraries |
 |---|---|---|
-| **Presentation Tier** | Frontend Client | React.js (v18), Vite, Tailwind CSS, Axios, Lucide Icons |
+| **Presentation Tier** | Frontend Client | React.js (v18), Vite, Tailwind CSS, Native Fetch API, Lucide Icons |
 | **API Gateway Tier** | Web Server | Node.js (v18+), Express.js (v4), CORS Middleware |
 | **Security & Business Tier** | Security / Utilities | JSON Web Token (`jsonwebtoken`), `bcrypt.js`, Multer Disk Storage |
 | **Data Tier** | Database | MySQL Server (v8.0), `mysql2` Promise Connection Pool |

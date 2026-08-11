@@ -1,5 +1,5 @@
 // Database Markup Language (DBML) Specification for AgriRent Platform
-// Current Completed Modules: Authentication & Equipment Management
+// Verified Actual Schema (7 Tables) for Capstone Review-I
 
 Table users {
   id int [pk, increment]
@@ -45,6 +45,64 @@ Table equipment {
   images json
   average_rating decimal(3,2) [default: 0.00]
   num_reviews int [default: 0]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table bookings {
+  id int [pk, increment]
+  equipment_id int [ref: > equipment.id, not null]
+  farmer_id int [ref: > users.id, not null]
+  owner_id int [ref: > users.id, not null]
+  booking_date timestamp [default: `CURRENT_TIMESTAMP`]
+  start_date date [not null]
+  end_date date [not null]
+  total_days int [not null]
+  daily_rent decimal(10,2) [not null, default: 0.00]
+  daily_rate decimal(10,2) [not null, default: 0.00]
+  include_driver tinyint(1) [default: 0]
+  driver_cost decimal(10,2) [default: 0.00]
+  total_amount decimal(10,2) [not null, default: 0.00]
+  total_price decimal(10,2) [not null, default: 0.00]
+  deposit_amount decimal(10,2) [default: 0.00]
+  booking_status enum('pending', 'approved', 'rejected', 'cancelled', 'completed') [not null, default: 'pending']
+  status enum('Pending', 'Approved', 'Rejected', 'Completed', 'Cancelled') [not null, default: 'Pending']
+  payment_status enum('pending', 'paid', 'refunded') [not null, default: 'pending']
+  remarks text
+  notes text
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table payments {
+  id int [pk, increment]
+  booking_id int [ref: > bookings.id, not null]
+  farmer_id int [ref: > users.id, not null]
+  amount decimal(10,2) [not null]
+  payment_status enum('Pending', 'Completed', 'Failed', 'Refunded') [not null, default: 'Pending']
+  payment_method varchar(50) [not null, default: 'Cash/Manual']
+  transaction_id varchar(100) [unique]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table reviews {
+  id int [pk, increment]
+  equipment_id int [ref: > equipment.id, not null]
+  farmer_id int [ref: > users.id, not null]
+  booking_id int [ref: > bookings.id, not null]
+  rating int [not null]
+  comment text [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table notifications {
+  id int [pk, increment]
+  user_id int [ref: > users.id, not null]
+  title varchar(150) [not null]
+  message text [not null]
+  is_read tinyint(1) [default: 0]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }

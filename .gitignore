@@ -21,7 +21,9 @@ dist/
 build/
 out/
 
-# File uploads
+# Runtime uploaded equipment images
+server/uploads/*
+!server/uploads/.gitkeep
 backend/uploads/*
 !backend/uploads/.gitkeep
 

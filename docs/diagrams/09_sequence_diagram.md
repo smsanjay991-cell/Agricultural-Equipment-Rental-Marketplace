@@ -107,7 +107,7 @@ sequenceDiagram
 1. **User Authentication:** Farmer submits credentials via `POST /api/auth/login`. Upon hash match, backend signs JWT token and returns JSON string stored in browser `LocalStorage`.
 2. **Catalog Browsing:** React issues `GET /api/equipment`. Controller invokes `Equipment.findAll()`, executing parameterized SQL read on MySQL `equipment` table.
 3. **Reservation Initiation:** Farmer selects rental date range (`start_date`, `end_date`) and clicks **Submit Booking**.
-4. **Header Interception:** Axios interceptor injects `Authorization: Bearer <JWT>` header in `POST /api/bookings` request.
+4. **Header Interception:** `fetchWithAuth` authentication wrapper injects `Authorization: Bearer <JWT>` header in `POST /api/bookings` request.
 5. **JWT Signature Validation:** `protect` middleware executes `jwt.verify(token, JWT_SECRET)`.
 6. **Date Overlap Prevention:** `Booking.checkAvailability()` queries database for conflicting reservations where `status IN ('pending', 'approved')`.
 7. **Reservation Creation:** If clear, `INSERT INTO bookings` persists record with status `'pending'`, returning `HTTP 201 Created`.
@@ -119,7 +119,7 @@ sequenceDiagram
 ### 5.1 Scenario A: Invalid / Expired JWT Token
 * **Trigger:** Client sends expired token string or missing `Authorization` header.
 * **Flow:** `protect` middleware traps `JsonWebTokenError` / `TokenExpiredError`, aborts execution, and outputs `HTTP 401 Unauthorized`.
-* **Client Action:** React Axios response interceptor redirects user to `/login`.
+* **Client Action:** React `fetchWithAuth` response handler redirects user to `/login`.
 
 ### 5.2 Scenario B: Date Overlap Conflict
 * **Trigger:** Equipment requested is already reserved for overlapping dates.

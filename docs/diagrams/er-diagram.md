@@ -2,7 +2,7 @@
 **Project Title:** Agricultural Equipment Rental Marketplace  
 **Capstone Stage:** Capstone Review-I (Day 11)  
 **Database Engine:** MySQL 8 RDBMS (`agrirent`)  
-**Target Path:** `docs/diagrams/04_er_diagram.md`  
+**Target Path:** `docs/diagrams/er-diagram.md`  
 
 ---
 
@@ -196,7 +196,7 @@ erDiagram
 | `users` | `equipment` | **1 : N** | `equipment.owner_id` | Equipment Owner publishes 1 or more machinery listings. |
 | `users` | `bookings` | **1 : N** | `bookings.farmer_id` | Farmer submits 1 or more rental bookings. |
 | `users` | `bookings` | **1 : N** | `bookings.owner_id` | Equipment Owner manages 1 or more rental bookings. |
-| `categories` | `equipment` | **1 : N** | `categories.id` → `equipment.category_id` | Category classifies 1 or more machinery items. |
+| `categories` | `equipment` | **1 : N** | `equipment.category_id` | Category classifies 1 or more machinery items. |
 | `equipment` | `bookings` | **1 : N** | `bookings.equipment_id` | Equipment item receives 1 or more rental bookings over time. |
 | `bookings` | `payments` | **1 : N** | `payments.booking_id` | Booking reservation generates payment transaction records. |
 | `users` | `payments` | **1 : N** | `payments.farmer_id` | Farmer executes 1 or more rental payments. |

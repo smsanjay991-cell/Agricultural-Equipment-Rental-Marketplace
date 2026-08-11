@@ -49,6 +49,13 @@ export const bookingService = {
     return response.data || response;
   },
 
+  getAllBookings: async () => {
+    const response = await fetchWithAuth('/bookings/all');
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    return [];
+  },
+
   updateStatus: async (bookingId, status, paymentStatus) => {
     const response = await fetchWithAuth(`/bookings/${bookingId}/status`, {
       method: 'PUT',
@@ -57,5 +64,6 @@ export const bookingService = {
     return response.data || response;
   }
 };
+
 
 

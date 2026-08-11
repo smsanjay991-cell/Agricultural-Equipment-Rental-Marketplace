@@ -62,7 +62,7 @@ graph TD
     subgraph PRESENTATION ["Layer 1: Presentation Tier (Client)"]
         ReactApp["React 18 SPA (Vite + Tailwind CSS)"]
         StateContext["Auth & Booking Context / State"]
-        AxiosWrapper["Axios HTTP Interceptors"]
+        FetchClient["Native Fetch API Client (fetchWithAuth)"]
     end
 
     subgraph GATEWAY ["Layer 2: Gateway & Security Tier"]
@@ -96,8 +96,8 @@ graph TD
 ```
 
 ### 4.1 Layer 1: Presentation Tier (React Client)
-- **Built With:** React.js, Vite, Tailwind CSS, Axios, Lucide React Icons.
-- **Role:** Delivers a responsive Single Page Application (SPA) supporting multiple user personas (Farmers, Owners, Admins). It manages state client-side and communicates with the backend asynchronously using Axios REST requests.
+- **Built With:** React.js, Vite, Tailwind CSS, Native Fetch API, Lucide React Icons.
+- **Role:** Delivers a responsive Single Page Application (SPA) supporting multiple user personas (Farmers, Owners, Admins). It manages state client-side and communicates with the backend asynchronously using native Fetch API requests (`fetchWithAuth`).
 
 ### 4.2 Layer 2: API Gateway & Security Tier
 - **Built With:** Express Middleware (`cors`, `helmet`, custom JWT verification).
@@ -170,7 +170,7 @@ sequenceDiagram
 | Layer             | Technologies Used                              |
 +-------------------+------------------------------------------------+
 | Frontend UI       | React.js 18, Vite, Tailwind CSS, Lucide Icons  |
-| State & HTTP      | React Context API, Axios Interceptors          |
+| State & HTTP      | React Context API, Native Fetch API Client     |
 | Backend Runtime   | Node.js (v18+ LTS), Express.js (v4)            |
 | Authentication    | JSON Web Tokens (jsonwebtoken), bcryptjs       |
 | Database Engine   | MySQL 8.0 Community Server, mysql2 Driver      |

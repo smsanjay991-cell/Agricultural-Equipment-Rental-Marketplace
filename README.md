@@ -1,6 +1,7 @@
 # 🌾 AgriRent - Agricultural Equipment Rental Marketplace
 
-![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![React](https://img.shields.io/badge/React-18.0-blue?logo=react)
+![Vite](https://img.shields.io/badge/Vite-5.1-purple?logo=vite)
 ![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
 ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Styling-38BDF8?logo=tailwindcss)
@@ -10,65 +11,134 @@ AgriRent is a modern full-stack web application that connects **farmers** with *
 
 ---
 
-# 📌 Table of Contents
+## 📌 Table of Contents
 
--  [About](#-about)
--  [Completed Modules](#-completed-modules)
--  [Technology Stack](#-technology-stack)
--  [Project Folder Structure](#-project-folder-structure)
--  [System Architecture Diagram](#-system-architecture-diagram)
--  [ER Diagram](#-er-diagram)
--  [Database Schema Diagram](#-database-schema-diagram)
--  [Installation & Setup](#-installation--setup)
--  [API Endpoints](#-api-endpoints)
--  [Roadmap & Status](#-roadmap--status)
-
----
-
-# 🌱 About
-
-AgriRent empowers farmers by providing affordable, direct access to farming machinery without heavy capital investments. Equipment owners can monetize their unused machinery by listing equipment for rent.
+- [About](#-about)
+- [Live Demo](#-live-demo)
+- [Completed Core Modules](#-completed-core-modules)
+- [Technology Stack](#-technology-stack)
+- [System Architecture](#-system-architecture)
+- [Project Folder Structure](#-project-folder-structure)
+- [Installation & Setup](#-installation--setup)
+- [Environment Variables](#-environment-variables)
+- [API Documentation](#-api-documentation)
+- [Testing](#-testing)
+- [Deployment](#-deployment)
+- [Future Enhancements](#-future-enhancements)
+- [License](#-license)
+- [Author / Contact](#-author--contact)
 
 ---
 
-# ✅ Completed Modules
+## 🌱 About
 
-1. **Authentication & Authorization**:
-   - User Registration & Login (Farmer, Owner, Admin roles)
-   - Password hashing with `bcrypt`
-   - Secure JWT token handling & route protection middleware
+AgriRent empowers farmers by providing affordable, direct access to farming machinery without heavy capital investments. Equipment owners can monetize their unused machinery by listing equipment for rent, setting daily rates, and accepting rental requests.
+
+---
+
+## 🌐 Live Demo
+
+Not deployed yet. Production deployment is planned for Capstone Review-II.
+
+---
+
+## ✅ Completed Core Modules
+
+1. **Authentication & User Management**:
+   - Account Registration & Login with role selection (`farmer`, `owner`, `admin`)
+   - Secure password hashing with `bcrypt` / `bcryptjs`
+   - Stateless session handling with JWT bearer tokens
+   - Client-side route protection using `<ProtectedRoute>` guards
+
 2. **Equipment Management**:
-   - Create, Read, Update, and Delete (CRUD) operations for equipment
-   - Category selection, daily rental rate calculation, and location filtering
-3. **MySQL Database**:
-   - Relational MySQL schema with foreign keys, index optimization, and transaction-safe connection pool (`mysql2`)
-4. **JWT Authentication**:
-   - Stateless session management with bearer tokens and role authorization middleware
-5. **Image Upload**:
-   - Multipart form processing with `multer` for uploading and hosting equipment photos
+   - Create, Read, Update, and Delete (CRUD) operations for agricultural machinery
+   - Multi-parameter catalog search, location filtering, and category selection
+   - Detailed machinery view with specifications, fuel type, horsepower, and driver availability
+   - Image upload handling via `multer` storing files in server `/uploads` directory
 
-*(Note: Booking, Payment, and Notification modules are planned for subsequent development phases.)*
+3. **Booking & Reservation Management**:
+   - Interactive rental date selection and driver inclusion option
+   - Real-time rental duration and total cost estimation
+   - Date range conflict validation (`hasBookingConflict`) preventing double-booking
+   - Farmer Dashboard for tracking rental request status and cancellation
+   - Owner Dashboard for reviewing incoming requests with Accept/Reject actions
+
+### ⏳ Planned / Future Modules
+- Payment Gateway Integration (Stripe / Razorpay escrow webhooks)
+- Review & Rating System (Post-rental farmer ratings & commentary)
+- Notifications System (In-app alert drawer & automated SMTP email dispatch)
+- Production Cloud Deployment (Capstone Review-II)
 
 ---
 
-# 🛠 Technology Stack
+## 🛠 Technology Stack
 
 ### Frontend
-- **Framework**: React 19 + Vite
-- **Styling**: Tailwind CSS
-- **Routing**: React Router DOM v7
-- **HTTP Client**: Axios
+- **Framework**: React 18 + Vite
+- **Routing**: React Router DOM v6.22.3 (`AppRoutes.jsx`, `ProtectedRoute`)
+- **State Management**: React Context (`AuthContext.jsx` for JWT & demo personas)
+- **Styling**: Tailwind CSS & Lucide Icons
+- **HTTP Client**: Native Fetch API (`fetchWithAuth` in `client/src/services/api.js`)
 
 ### Backend
 - **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MySQL 8.0 (`mysql2` connection pool)
-- **Auth**: JSON Web Tokens (`jsonwebtoken`), `bcrypt`
-- **File Storage**: Multer (Static uploads directory)
+- **Framework**: Express.js REST API
+- **Database**: MySQL 8.0 (`mysql2/promise` connection pool in `server/config/db.js`)
+- **Authentication & Security**: JSON Web Tokens (`jsonwebtoken`), `bcrypt` / `bcryptjs`, RBAC authorization middleware (`protect`, `authorizeRoles`)
+- **File Upload**: Multer (Local disk storage in `/server/uploads`)
+
+### Version Control & Documentation
+- **Version Control**: Git & GitHub
+- **System Documentation**: Markdown & Mermaid ER/Architecture specifications (`docs/diagrams/`)
 
 ---
 
-# 📁 Project Folder Structure
+## 🏗 System Architecture
+
+For detailed architectural specifications, ER diagrams, and module interactions, refer to the official repository documentation:
+- 🏛️ [System Architecture Specification](docs/diagrams/architecture.md)
+- 🧩 [Layered Module & Class Diagram](docs/diagrams/module-diagram.md)
+- 🗄️ [Entity-Relationship (ER) Diagram](docs/diagrams/er-diagram.md)
+
+```mermaid
+graph TD
+    subgraph Client Tier ["Frontend (Client - React 18 + Vite)"]
+        UI["React SPA Components"]
+        AuthCtx["Auth Context (JWT State & Personas)"]
+        FetchClient["Native Fetch Client (fetchWithAuth)"]
+    end
+
+    subgraph API Tier ["Backend (Server - Node.js + Express)"]
+        App["Express Router / App"]
+        JWTMiddleware["JWT Authentication Middleware (protect)"]
+        UploadMiddleware["Multer Image Upload Middleware"]
+        AuthCtrl["Auth Controller"]
+        EqCtrl["Equipment Controller"]
+        BookingCtrl["Booking Controller"]
+    end
+
+    subgraph Data & Storage Tier ["Data & File Storage"]
+        MySQL[("MySQL Database Pool (mysql2)")]
+        UploadsDir["Local File System (/server/uploads)"]
+    end
+
+    UI --> AuthCtx
+    UI --> FetchClient
+    FetchClient -->|HTTP REST JSON & Bearer Header| App
+    App --> JWTMiddleware
+    JWTMiddleware --> AuthCtrl
+    JWTMiddleware --> EqCtrl
+    JWTMiddleware --> BookingCtrl
+    EqCtrl --> UploadMiddleware
+    UploadMiddleware -->|Write Images| UploadsDir
+    AuthCtrl -->|SQL Queries| MySQL
+    EqCtrl -->|SQL Queries| MySQL
+    BookingCtrl -->|SQL Queries| MySQL
+```
+
+---
+
+## 📁 Project Folder Structure
 
 ```
 AgriRent/
@@ -79,17 +149,17 @@ AgriRent/
 ├── LICENSE
 ├── Problem_Statement.md
 ├── README.md
-├── client/                     # Frontend App (React + Vite)
-│   ├── public/                 # Static assets
+├── client/                     # Frontend App (React 18 + Vite)
+│   ├── public/                 # Static public assets
 │   ├── src/
 │   │   ├── assets/             # Brand logos & icons
-│   │   ├── components/         # Reusable UI components (Navbar, Footer, EquipmentCard, Hero)
+│   │   ├── components/         # Reusable UI components (Navbar, Footer, EquipmentCard, SearchBar)
 │   │   ├── context/            # React Context (AuthContext.jsx)
 │   │   ├── layouts/            # Page layouts (MainLayout, DashboardLayout)
-│   │   ├── pages/              # Views (Home, Login, Register, Equipment, Admin, Owner, Farmer)
-│   │   ├── routes/             # Client routes (AppRoutes.jsx)
-│   │   ├── services/           # API services (api.js, authService.js, equipmentService.js)
-│   │   ├── styles/             # CSS design tokens & global stylesheets
+│   │   ├── pages/              # Views (Home, Login, Register, Equipment, FarmerDashboard, OwnerDashboard, Booking, Profile)
+│   │   ├── routes/             # Client routes & guards (AppRoutes.jsx, ProtectedRoute)
+│   │   ├── services/           # API services (api.js, authService.js, equipmentService.js, bookingService.js)
+│   │   ├── styles/             # Global stylesheets
 │   │   ├── App.jsx             # Root React component
 │   │   ├── App.css
 │   │   ├── index.css
@@ -100,28 +170,26 @@ AgriRent/
 ├── docs/                       # Project Documentation & Diagrams
 │   ├── api/
 │   ├── architecture/
-│   │   └── architecture.md    # Architecture specification
 │   ├── database/
-│   │   └── database.md        # Database ER diagram & schema doc
 │   ├── diagrams/
-│   │   ├── architecture.md
-│   │   ├── database.md
-│   │   └── workflow.md
-│   ├── schema.dbml            # DBML definition for completed models
+│   │   ├── architecture.md    # Architecture specification
+│   │   ├── module-diagram.md  # Module and class diagram
+│   │   ├── er-diagram.md      # Verified ER diagram
+│   │   └── 04_er_diagram.md
+│   ├── schema.dbml            # DBML schema definition
 │   └── screenshots/
 └── server/                     # Backend App (Express + MySQL)
     ├── config/
     │   ├── db.js              # MySQL connection pool configuration
     │   └── schema.sql         # DDL script for database setup
-    ├── controllers/           # Controllers (authController, equipmentController, userController)
+    ├── controllers/           # Controllers (authController, equipmentController, bookingController, userController)
     ├── middleware/            # Middleware (authMiddleware, uploadMiddleware, errorMiddleware)
-    ├── models/                # MySQL Model classes (User, Category, Equipment)
-    ├── routes/                # Express API routes (authRoutes, equipmentRoutes, userRoutes)
-    ├── seed/                  # Seed scripts & demo data
-    ├── services/              # Business logic helpers
+    ├── models/                # MySQL Model classes (User, Category, Equipment, Booking, Payment, Review, Notification)
+    ├── routes/                # Express API routes (authRoutes, equipmentRoutes, bookingRoutes, userRoutes)
+    ├── seed/                  # Seed scripts & sample equipment data
+    ├── services/              # Business logic helpers (bookingService.js)
     ├── uploads/               # Stored equipment image uploads
-    ├── utils/                 # Utilities (generateToken, validator)
-    ├── validations/           # Input validation schemas
+    ├── utils/                 # Utilities (validator.js)
     ├── .env
     ├── .env.example
     ├── app.js                 # Express server configuration
@@ -131,169 +199,24 @@ AgriRent/
 
 ---
 
-# 🏗 System Architecture Diagram
+## 📸 Screenshots
 
-```mermaid
-graph TD
-    subgraph Client Tier ["Frontend (Client - React + Vite)"]
-        UI["React SPA Components"]
-        AuthCtx["Auth Context (JWT State)"]
-        AxiosClient["Axios HTTP Service"]
-    end
-
-    subgraph API Tier ["Backend (Server - Node.js + Express)"]
-        App["Express Router / App"]
-        JWTMiddleware["JWT Authentication Middleware"]
-        UploadMiddleware["Multer Image Upload Middleware"]
-        AuthCtrl["Auth Controller"]
-        EqCtrl["Equipment Controller"]
-        UserCtrl["User Controller"]
-    end
-
-    subgraph Data & Storage Tier ["Data & File Storage"]
-        MySQL[("MySQL Database Pool (mysql2)")]
-        UploadsDir["Local File System (/server/uploads)"]
-    end
-
-    UI --> AuthCtx
-    UI --> AxiosClient
-    AxiosClient -->|HTTP / REST JSON| App
-    App --> JWTMiddleware
-    JWTMiddleware --> AuthCtrl
-    JWTMiddleware --> EqCtrl
-    JWTMiddleware --> UserCtrl
-    EqCtrl --> UploadMiddleware
-    UploadMiddleware -->|Write Images| UploadsDir
-    AuthCtrl -->|SQL Queries| MySQL
-    EqCtrl -->|SQL Queries| MySQL
-    UserCtrl -->|SQL Queries| MySQL
-```
+Screenshots will be added to this section before final submission.
 
 ---
 
-# 📊 ER Diagram
-
-> *Reflects current completed entities: Users, Categories, and Equipment.*
-
-```mermaid
-erDiagram
-    USERS ||--o{ EQUIPMENT : "owns"
-    CATEGORIES ||--o{ EQUIPMENT : "categorizes"
-
-    USERS {
-        int id PK
-        string name
-        string email UK
-        string password
-        string phone
-        enum role "farmer | owner | admin"
-        string location
-        string avatar
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    CATEGORIES {
-        int id PK
-        string name UK
-        text description
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    EQUIPMENT {
-        int id PK
-        int owner_id FK
-        int category_id FK
-        string name
-        string category
-        text description
-        string brand
-        string model
-        decimal daily_rent
-        decimal deposit
-        boolean availability
-        decimal daily_rate
-        string location
-        string image
-        int horsepower
-        string fuel_type
-        boolean is_driver_available
-        decimal driver_rate_per_day
-        boolean is_available
-        json images
-        decimal average_rating
-        int num_reviews
-        timestamp created_at
-        timestamp updated_at
-    }
-```
-
----
-
-# 🗄 Database Schema Diagram
-
-### 1. `users` Table
-| Field | Type | Constraints | Description |
-|---|---|---|---|
-| `id` | INT | PK, AUTO_INCREMENT | Unique user identifier |
-| `name` | VARCHAR(100) | NOT NULL | User's full name |
-| `email` | VARCHAR(100) | UNIQUE, NOT NULL, INDEX | Email address |
-| `password` | VARCHAR(255) | NOT NULL | Bcrypt hashed password |
-| `phone` | VARCHAR(20) | NOT NULL | Contact phone number |
-| `role` | ENUM('farmer','owner','admin') | NOT NULL, DEFAULT 'farmer', INDEX | Platform user role |
-| `location` | VARCHAR(255) | DEFAULT '' | User location |
-| `avatar` | VARCHAR(255) | DEFAULT '' | Profile picture URL |
-| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation timestamp |
-| `updated_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE | Last update timestamp |
-
-### 2. `categories` Table
-| Field | Type | Constraints | Description |
-|---|---|---|---|
-| `id` | INT | PK, AUTO_INCREMENT | Category ID |
-| `name` | VARCHAR(50) | UNIQUE, NOT NULL | Category name |
-| `description` | TEXT | NULLABLE | Category description |
-| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation timestamp |
-| `updated_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE | Last update timestamp |
-
-### 3. `equipment` Table
-| Field | Type | Constraints | Description |
-|---|---|---|---|
-| `id` | INT | PK, AUTO_INCREMENT | Equipment ID |
-| `owner_id` | INT | FK (users.id), NOT NULL | Owner ID |
-| `category_id` | INT | FK (categories.id), NULLABLE | Category ID |
-| `name` | VARCHAR(150) | NOT NULL | Equipment title |
-| `category` | VARCHAR(50) | NOT NULL, DEFAULT 'General', INDEX | Equipment category name |
-| `description` | TEXT | NOT NULL | Description |
-| `brand` | VARCHAR(100) | DEFAULT '' | Brand |
-| `model` | VARCHAR(100) | DEFAULT '' | Model number |
-| `daily_rent` | DECIMAL(10,2) | DEFAULT 0.00 | Daily rental cost |
-| `deposit` | DECIMAL(10,2) | DEFAULT 0.00 | Security deposit |
-| `availability` | TINYINT(1) | DEFAULT 1 | Availability flag |
-| `daily_rate` | DECIMAL(10,2) | NOT NULL, DEFAULT 0.00 | Daily rate |
-| `location` | VARCHAR(255) | NOT NULL, INDEX | Equipment location |
-| `image` | VARCHAR(255) | DEFAULT '' | Main image file path |
-| `horsepower` | INT | DEFAULT 0 | Horsepower (HP) |
-| `fuel_type` | VARCHAR(50) | DEFAULT 'Diesel' | Fuel type |
-| `is_driver_available` | TINYINT(1) | DEFAULT 0 | Optional driver inclusion |
-| `driver_rate_per_day` | DECIMAL(10,2) | DEFAULT 0.00 | Extra driver daily rate |
-| `is_available` | TINYINT(1) | DEFAULT 1 | System active status |
-| `images` | JSON | NULLABLE | Extra image paths |
-| `average_rating` | DECIMAL(3,2) | DEFAULT 0.00 | Rating average |
-| `num_reviews` | INT | DEFAULT 0 | Review count |
-| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation timestamp |
-| `updated_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE | Last update timestamp |
-
----
-
-# 🚀 Installation & Setup
+## 🚀 Installation & Setup
 
 ### Prerequisites
 - Node.js (v18+)
 - MySQL Server 8.0+
 
+### Database Setup
+1. Start your local MySQL server.
+2. The backend connects using settings in `server/.env`. On server startup (`npm run dev`), `server/config/db.js` automatically creates the `agrirent` database and executes `server/config/schema.sql` if tables do not exist.
+
 ### Backend Setup
-1. Navigate to `server` directory:
+1. Navigate to the `server` directory:
    ```bash
    cd server
    ```
@@ -301,23 +224,14 @@ erDiagram
    ```bash
    npm install
    ```
-3. Configure Environment Variables (`.env`):
-   ```env
-   PORT=5000
-   MYSQL_HOST=localhost
-   MYSQL_PORT=3306
-   MYSQL_USER=root
-   MYSQL_PASSWORD=your_password
-   MYSQL_DATABASE=agrirent
-   JWT_SECRET=your_jwt_secret_key
-   ```
-4. Start Server:
+3. Configure environment variables in `server/.env` (see template below).
+4. Start development server:
    ```bash
    npm run dev
    ```
 
 ### Frontend Setup
-1. Navigate to `client` directory:
+1. Navigate to the `client` directory:
    ```bash
    cd client
    ```
@@ -325,40 +239,101 @@ erDiagram
    ```bash
    npm install
    ```
-3. Start Development Server:
+3. Configure environment variables in `client/.env` (see template below).
+4. Start development server:
    ```bash
    npm run dev
    ```
 
 ---
 
-# 📡 API Endpoints (Current Completed Modules)
+## 🔐 Environment Variables
 
-### Authentication
-- `POST /api/auth/register` - Register a new user (farmer or owner)
+### Backend Environment Variables (`server/.env`)
+```env
+PORT=5000
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=your_mysql_password
+MYSQL_DATABASE=agrirent
+JWT_SECRET=your_jwt_secret_key
+```
+
+### Frontend Environment Variables (`client/.env`)
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+---
+
+## 📡 API Documentation
+
+### Authentication API
+- `POST /api/auth/register` - Register a new user (`farmer` or `owner`)
 - `POST /api/auth/login` - Authenticate user & receive JWT token
-- `GET /api/auth/me` - Fetch authenticated user profile
+- `GET /api/auth/profile` - Fetch authenticated user profile (Protected: Bearer Token)
 
-### Equipment Management
-- `GET /api/equipment` - Fetch all equipment (supports filtering & search)
-- `GET /api/equipment/:id` - Fetch single equipment details
-- `POST /api/equipment` - Add new equipment listing (Owner only, with image upload)
-- `PUT /api/equipment/:id` - Update equipment listing (Owner only)
-- `DELETE /api/equipment/:id` - Delete equipment listing (Owner only)
+### Equipment Management API
+- `GET /api/equipment` - Fetch equipment catalog (supports `search`, `category`, `location`, `isDriverAvailable` filters)
+- `GET /api/equipment/:id` - Fetch detailed specifications of a machine
+- `GET /api/equipment/my` - Fetch owner's listed equipment (Protected: Owner/Admin)
+- `POST /api/equipment` - Create a new machinery listing with image upload (Protected: Owner/Admin)
+- `PUT /api/equipment/:id` - Update an equipment listing (Protected: Owner/Admin)
+- `DELETE /api/equipment/:id` - Delete an equipment listing (Protected: Owner/Admin)
 
----
-
-# 📅 Roadmap & Status
-
-- ✅ Project Structure & Configuration
-- ✅ MySQL Database Setup
-- ✅ JWT Authentication & User Management
-- ✅ Equipment Management (CRUD & Filters)
-- ✅ Image Upload Handling (Multer)
-- ✅ Booking Module (Next Step)
-- ⏳ Payments Module
-- ⏳ Review & Rating System
-- ⏳ Notifications System
+### Booking Management API
+- `POST /api/bookings` - Submit a new rental booking request (Protected: Farmer/Admin)
+- `GET /api/bookings/my` - Fetch logged-in farmer's rental bookings (Protected)
+- `GET /api/bookings/owner` - Fetch incoming booking requests for owner's fleet (Protected: Owner/Admin)
+- `GET /api/bookings/all` - Fetch all platform bookings (Protected: Admin)
+- `GET /api/bookings/:id` - Fetch single booking record details (Protected)
+- `PUT /api/bookings/:id/approve` - Approve a rental booking request (Protected: Owner/Admin)
+- `PUT /api/bookings/:id/reject` - Decline a rental booking request (Protected: Owner/Admin)
+- `PUT /api/bookings/:id/cancel` - Cancel a pending booking request (Protected: Farmer/Owner/Admin)
+- `PUT /api/bookings/:id/status` - Update booking status generically (Protected)
 
 ---
 
+## 🧪 Testing
+
+Current Review-I verification includes:
+- Manual frontend end-to-end flow testing
+- PowerShell / API endpoint verification
+- Authentication & JWT token validation
+- Equipment CRUD and image upload testing
+- Booking workflow & date overlap conflict verification
+- MySQL RDBMS connection & schema verification
+- Production frontend build compilation verification (`npm run build`)
+
+*Automated test suite: Planned for a later capstone phase.*
+
+---
+
+## 🚀 Deployment
+
+Current status:
+- Local development environment fully verified for Capstone Review-I.
+- Production/cloud deployment is planned for Capstone Review-II.
+
+---
+
+## 📅 Future Enhancements
+
+- 💳 Payment Gateway Integration (Stripe / Razorpay escrow webhooks)
+- ⭐ Review & Rating System (Farmer feedback & average ratings)
+- 🔔 Notifications System (In-app alerts & SMTP email reminders)
+- ☁️ Cloud Storage Integration (Cloudinary / AWS S3 for media assets)
+- 🚀 Production Cloud Deployment & CI/CD Pipeline (Capstone Review-II)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Author / Contact
+
+Developed by the AgriRent Capstone Project Team.

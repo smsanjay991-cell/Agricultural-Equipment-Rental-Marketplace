@@ -47,7 +47,7 @@ title AGRIRENT - ENTERPRISE UML 2.5 DEPLOYMENT DIAGRAM
 node "User Client Hardware (Farmer / Owner)" as ClientNode <<device>> #EFF6FF {
   node "Web Browser Engine" <<execution environment>> #F8FAFC {
     artifact "React SPA Application Bundle\n(HTML5, JS ES6+, Tailwind CSS)" as ReactArtifact <<artifact>>
-    artifact "Axios HTTP Client Instance" as AxiosArtifact <<artifact>>
+    artifact "Native Fetch API Instance" as FetchArtifact <<artifact>>
   }
 }
 
@@ -101,7 +101,7 @@ Represents the physical hardware end-user devices (smartphones, tablets, desktop
 | **Device Type** | Desktop PC, Laptop, Tablet, Smartphone (iOS / Android) |
 | **Operating System** | Windows, macOS, Linux, Android, iOS |
 | **Execution Environment** | Modern Web Browser (Google Chrome v115+, Microsoft Edge, Mozilla Firefox, Apple Safari) |
-| **Deployed Artifacts** | `React SPA Application Bundle` (Compiled HTML5, JS, CSS, Axios HTTP Client) |
+| **Deployed Artifacts** | `React SPA Application Bundle` (Compiled HTML5, JS, CSS, Native Fetch API Client) |
 | **Client State Storage** | Web Browser `LocalStorage` storing signed JSON Web Tokens (`jwt_token`) |
 
 ---

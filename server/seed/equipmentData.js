@@ -1,10 +1,11 @@
+const path = require('path');
 const dotenv = require('dotenv');
+dotenv.config({ path: path.join(__dirname, '../.env') });
+
 const User = require('../models/User');
 const Equipment = require('../models/Equipment');
 const Category = require('../models/Category');
 const connectDB = require('../config/db');
-
-dotenv.config();
 
 const sampleEquipment = [
   {

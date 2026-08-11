@@ -38,14 +38,14 @@ flowchart TD
         subgraph FRONTEND ["React.js Client Application (Vite + Tailwind)"]
             ReactUI["💻 React SPA UI Components"]
             StateStore["🧠 React Context / State Store"]
-            AxiosClient["📡 Axios HTTP Client Wrapper"]
+            FetchClient["📡 Native Fetch API Client (fetchWithAuth)"]
             JWTStorage["🔒 Browser LocalStorage (JWT Token Store)"]
         end
 
         USERS -->|User Interactions| ReactUI
         ReactUI --> StateStore
-        StateStore --> AxiosClient
-        AxiosClient <-->|Retrieve/Store Token| JWTStorage
+        StateStore --> FetchClient
+        FetchClient <-->|Retrieve/Store Token| JWTStorage
     end
 
     CLIENT_ZONE ==>|HTTPS / REST API Requests\nHeader: Authorization: Bearer <JWT>| SECURITY_PERIMETER
@@ -133,9 +133,9 @@ flowchart TD
 |                         LAYER 1: PRESENTATION / CLIENT ZONE                       |
 |                                                                                   |
 |  +--------------------+     +--------------------------------------------------+  |
-|  | User Personas      |     | React.js SPA (Vite, Tailwind CSS, Axios)         |  |
+|  | User Personas      |     | React.js SPA (Vite, Tailwind CSS, Fetch API)     |  |
 |  | - Farmer / Renter  | --> | - State Store & Context                          |  |
-|  | - Equipment Owner  |     | - Axios Interceptors                             |  |
+|  | - Equipment Owner  |     | - fetchWithAuth Authentication Wrapper           |  |
 |  | - System Admin     |     | - LocalStorage JWT Token Handling                |  |
 |  +--------------------+     +--------------------------------------------------+  |
 +-----------------------------------------------------------------------------------+
@@ -185,11 +185,11 @@ flowchart TD
 ## 4. Layer-by-Layer Architectural Breakdown
 
 ### 4.1 Client Layer (Presentation)
-* **Technology Stack:** React 18, Vite, Tailwind CSS, Axios, Lucide Icons.
+* **Technology Stack:** React 18, Vite, Tailwind CSS, Native Fetch API, Lucide Icons.
 * **Responsibilities:**
   - Rendering responsive UI for Farmers, Equipment Owners, and System Admins.
   - Client-side routing via React Router DOM.
-  - Storing JWT authentication tokens securely in browser `LocalStorage` and injecting them into headers via Axios request interceptors.
+  - Storing JWT authentication tokens securely in browser `LocalStorage` and injecting them into headers via `fetchWithAuth` wrapper.
   - Managing transient component state (search filters, form inputs, dynamic modals).
 
 ### 4.2 Security Perimeter & Gateway Layer

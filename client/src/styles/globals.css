@@ -2,8 +2,8 @@
 @config "../../tailwind.config.js";
 
 @theme {
-  --color-agri-dark: #071c10;
-  --color-agri-forest: #0f3822;
+  --color-agri-dark: #04160d;
+  --color-agri-forest: #0b2b1a;
   --color-agri-emerald: #059669;
   --color-agri-leaf: #10b981;
   --color-agri-lime: #84cc16;
@@ -12,6 +12,13 @@
   --color-agri-sand: #fdfbf7;
   --color-agri-light: #f3f4f6;
   --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  background-color: #04160d;
+  color: #f1f5f9;
+  font-family: var(--font-sans);
+  min-height: 100vh;
 }
 
 @layer utilities {

@@ -1,82 +1,217 @@
-# Agricultural Equipment Rental Marketplace
-## System Architecture Diagram & Technical Specification
-
-> **Capstone Project Architecture Documentation**  
-> **Target Path:** `docs/diagrams/architecture.png`  
-> **Source Files:** [`architecture.svg`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.svg) | [`architecture.mermaid`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.mermaid) | [`architecture.html`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.html)
-
----
-
-### System Architecture Diagram
-
-![System Architecture Diagram](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.png)
+# AGRIRENT: SYSTEM ARCHITECTURE SPECIFICATION
+**Project Title:** Agricultural Equipment Rental Marketplace  
+**Capstone Stage:** Capstone Review-I (Day 11)  
+**Target File Path:** `docs/diagrams/architecture.md`  
+**Technology Stack:** React.js, Vite, Node.js, Express.js, MySQL 8, JWT, Multer, TailwindCSS
 
 ---
 
-### Architectural Overview
+## 1. HIGH-LEVEL SYSTEM ARCHITECTURE DIAGRAM
 
-The **Agricultural Equipment Rental Marketplace** system follows a 5-Layer Modular Architecture designed for high scalability, separation of concerns, and robust role-based access control.
+```mermaid
+graph TD
+    subgraph Client_Tier ["CLIENT TIER (Frontend - React.js + Vite)"]
+        UI["User Interface (TailwindCSS + Lucide Icons)"]
+        Router["AppRoutes (React Router v6 + ProtectedRoute)"]
+        State["AuthContext (JWT State & Demo Personas)"]
+        API_Services["Service Layer (api.js, authService, equipmentService, bookingService)"]
+    end
 
-#### Technology Stack Summary
-- **Frontend:** React.js (Single Page Application, React Router, Axios REST Client, JWT Local Storage)
-- **Backend:** Node.js + Express.js (Modular RESTful API Controllers & Middleware)
-- **Database:** MySQL Relational Database
-- **Authentication:** JWT (JSON Web Tokens with Bearer Auth Headers)
-- **Password Hashing:** bcrypt
-- **Image Upload Handling:** Multer Middleware (Disk Storage)
-- **API Style:** REST API (JSON Payloads)
-- **Version Control:** Git + GitHub
+    subgraph Transport_Tier ["TRANSPORT TIER (REST APIs over HTTP)"]
+        JSON_Req["JSON Request Body (Auth, Bookings)"]
+        FormData_Req["Multipart Form-Data (Equipment Uploads)"]
+        Auth_Header["Authorization: Bearer <JWT_Token>"]
+    end
+
+    subgraph Server_Tier ["SERVER TIER (Backend - Node.js + Express.js)"]
+        App["Express App Engine (app.js / server.js)"]
+        Middleware["Middlewares (CORS, Auth Guard, Role Check, Multer Uploads)"]
+        Controllers["Controllers (authController, equipmentController, bookingController, userController)"]
+        Domain_Services["Domain Services (Booking Cost Calculator, Overlap Validator)"]
+        Storage["Static File Storage (/uploads directory)"]
+    end
+
+    subgraph Database_Tier ["DATABASE TIER (MySQL 8 RDBMS)"]
+        DB_Pool["mysql2 Connection Pool (config/db.js)"]
+        DB_Tables[("MySQL Database (agrirent)
+        - users (Completed)
+        - equipment (Completed)
+        - bookings (Completed)
+        - categories (Completed)
+        - payments (Planned / Future)
+        - reviews (Planned / Future)
+        - notifications (Planned / Future)")]
+    end
+
+    UI --> Router
+    Router --> State
+    State --> API_Services
+
+    API_Services -->|HTTP POST/GET/PUT/DELETE| JSON_Req
+    API_Services -->|HTTP POST/PUT Form File| FormData_Req
+    API_Services -->|JWT Bearer Header| Auth_Header
+
+    JSON_Req --> App
+    FormData_Req --> App
+    Auth_Header --> App
+
+    App --> Middleware
+    Middleware --> Controllers
+    Controllers --> Domain_Services
+    Controllers --> Storage
+    Controllers --> DB_Pool
+    DB_Pool --> DB_Tables
+```
 
 ---
 
-### Layer Specifications
+## 2. SYSTEM TIER SPECIFICATIONS
 
-#### 1. Client Layer
-- **User Roles:**
-  - 👨‍🌾 **Farmer:** Browses available machinery, filters by category/location, creates rental bookings, and tracks booking status.
-  - 🚜 **Equipment Owner:** Posts machinery listings, manages equipment availability, updates rates, and accepts/rejects rental requests.
-  - 🛡️ **Admin:** System administration, platform user management, equipment category oversight, and marketplace moderation.
-- **Frontend Client:** React.js SPA providing responsive user interfaces, dynamic state management, client-side routing, and token handling.
+### Tier 1: Frontend Client Layer (React.js + Vite)
+- **Framework & Build Engine**: React 18 single-page application built with Vite.
+- **Client-Side Routing**: `React Router v6` (`AppRoutes.jsx`) managing application routes.
+- **Authentication State**: `AuthContext.jsx` centralizes user auth state, demo role personas (Farmer, Owner, Admin), and JWT token management in `localStorage`.
+- **Route Protection**: `ProtectedRoute` component guards restricted dashboard and form routes (`/farmer-dashboard`, `/owner-dashboard`, `/admin-dashboard`, `/equipment/new`, `/equipment/:id/edit`, `/profile`), redirecting unauthenticated visitors to `/login`.
+- **API Services**: Modular service layer (`api.js`, `authService.js`, `equipmentService.js`, `bookingService.js`, `userService.js`) utilizing `fetchWithAuth` to inject `Authorization: Bearer <token>` headers.
 
-#### 2. Backend Layer (Express REST API)
-- **Authentication Controller (`Completed`):** Handles user registration, authentication, JWT token generation, and password validation via `bcrypt`.
-- **Equipment Controller (`Completed`):** Manages equipment CRUD operations, category filtering, search queries, and photo attachment handlers.
-- **Booking Controller (`Completed`):** Manages rental reservation workflows, availability date validation, and status transitions (`pending`, `confirmed`, `completed`, `cancelled`).
-- **Payment Controller (`Future`):** Planned module to process online transactions, handle payment gateway webhooks, and issue digital invoices.
-- **Notification Controller (`Future`):** Planned module to trigger email alerts and in-app notifications for rental events.
+### Tier 2: Backend API Layer (Node.js + Express.js)
+- **REST API Engine**: Express application (`app.js` / `server.js`) providing modular REST API endpoints.
+- **Authentication & Security Middleware**:
+  - `authMiddleware.js`: `protect` validates incoming JWT tokens; `authorizeRoles('farmer', 'owner', 'admin')` enforces Role-Based Access Control (RBAC).
+  - Password Encryption: `bcryptjs` hashing for user passwords.
+- **Image Upload Middleware**:
+  - `uploadMiddleware.js`: `multer` disk storage handling machinery photo uploads to the `/uploads/` static directory.
+- **API Controllers**:
+  - `authController.js`: Manages registration, login authentication, user profile.
+  - `equipmentController.js`: Manages catalog listing, multi-parameter search/filters, machine specs view, listing creation, updates, and deletion.
+  - `bookingController.js`: Manages reservation requests, date overlap checks (`hasBookingConflict`), pricing calculations (`calculateBookingCost`), owner approvals/rejections, and farmer cancellations.
+  - `userController.js`: Handles user management operations.
 
-#### 3. Business Logic & Middleware Layer
-- **JWT Authentication:** Middleware verifying incoming `Authorization: Bearer <token>` headers and extracting authenticated user credentials.
-- **Authorization Middleware:** Enforces Role-Based Access Control (RBAC) ensuring farmers, owners, and admins access authorized endpoints.
-- **Validation Middleware:** Sanitizes and validates request body parameters, date formats, and numeric inputs.
-- **Booking Logic Engine:** Validates date range overlaps to prevent double-booking of machinery and calculates total rental pricing based on daily rates.
-- **Payment Logic Engine (`Future`):** State machine managing payout calculations, platform fee deductions, and refund policies.
-
-#### 4. Database Layer (MySQL Database)
-Relational MySQL database containing tables:
-- `users`: User identity, authentication credentials, role (`farmer`, `owner`, `admin`), contact info (`Completed`).
-- `categories`: Equipment categories (Tractors, Harvesters, Implements, Irrigation) (`Completed`).
-- `equipment`: Machinery listings, specifications, rates, location, availability status (`Completed`).
-- `bookings`: Rental agreements, date ranges, total cost, booking status (`Completed`).
-- `payments`: Financial transactions, transaction ID, payment status, payment method (`Future`).
-- `notifications`: User notification messages, notification type, read status (`Future`).
-- `reviews`: Equipment and owner ratings, user feedback comments (`Future`).
-
-#### 5. File Storage & External Integrations
-- **File Storage (`uploads/`):** Server-side disk directory structure handled by `Multer`:
-  - `uploads/equipment/`: High-resolution photos of listed agricultural machinery.
-  - `uploads/profiles/`: User avatar and identification profile images.
-- **Future External Services:**
-  - 💳 **Payment Gateway:** Integration with Stripe / Razorpay for secure online payment processing.
-  - ✉️ **Email Service:** Integration with SendGrid / Nodemailer SMTP for automated transactional notifications.
+### Tier 3: Database & Data Persistence (MySQL 8 RDBMS)
+- **Database Connection**: `mysql2/promise` connection pool (`config/db.js`) connecting to MySQL `agrirent` database.
+- **User Roles Supported**:
+  - 🌾 **Farmer**: Browses machinery catalog, filters equipment, creates rental requests, tracks booking status.
+  - 🚜 **Owner**: Lists machinery fleet, sets rental rates, accepts/rejects rental requests, edits equipment specs.
+  - 🛡️ **Admin**: System overview, platform user monitoring, category management.
 
 ---
 
-### Editable Source Files Included
+## 3. COMPONENT IMPLEMENTATION & MODULE STATUS
 
-| File Format | Path | Purpose |
-| :--- | :--- | :--- |
-| **High-Res Image** | [`architecture.png`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.png) | Final rendered PNG diagram artifact (White BG, Blue Theme) |
-| **Vector Source** | [`architecture.svg`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.svg) | Editable SVG Vector file for Figma / Illustrator / Draw.io |
-| **Mermaid Source** | [`architecture.mermaid`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.mermaid) | Editable Mermaid Markdown diagram code |
-| **HTML Source** | [`architecture.html`](file:///c:/Users/sanja/OneDrive/Desktop/AgriRent/docs/diagrams/architecture.html) | Editable HTML5 & CSS3 layout template |
+| Module | Implementation Status | Key Components & Files | Database Tables Involved |
+| :--- | :---: | :--- | :--- |
+| **Authentication Module** | **Completed (Review-I Verified)** | `Login.jsx`, `Register.jsx`, `AuthContext.jsx`, `authRoutes.js`, `authController.js` | `users` |
+| **Equipment Module** | **Completed (Review-I Verified)** | `Equipment.jsx`, `EquipmentDetails.jsx`, `EquipmentForm.jsx`, `uploadMiddleware.js`, `equipmentRoutes.js`, `equipmentController.js` | `equipment`, `categories`, `users` |
+| **Booking Module** | **Completed (Review-I Verified)** | `Booking.jsx`, `FarmerDashboard.jsx`, `OwnerDashboard.jsx`, `bookingRoutes.js`, `bookingController.js` | `bookings`, `equipment`, `users` |
+| **Payment Module** | ⏳ **Planned / Future Module** | Payment processing & gateway integration (Stripe / Razorpay webhooks) | `payments` (Schema defined, module planned for future phase) |
+| **Review & Rating Module** | ⏳ **Planned / Future Module** | Post-rental farmer reviews and rating submissions | `reviews` (Schema defined, module planned for future phase) |
+| **Notification Module** | ⏳ **Planned / Future Module** | Real-time event notifications & email alerts | `notifications` (Schema defined, module planned for future phase) |
+
+---
+
+## 4. END-TO-END WORKFLOW SEQUENCES
+
+### Workflow 1: Authentication Flow
+```
+User (Client) → Login/Register Form → authService.js → POST /api/auth/login → authController.js 
+  → MySQL users table lookup / bcrypt compare → JWT Token generated 
+  → Returned to Frontend → Stored in localStorage & AuthContext → Protected Routes accessible
+```
+
+### Workflow 2: Equipment Listing & Management Flow (Owner)
+```
+Owner (Client) → EquipmentForm.jsx → equipmentService.js → POST /api/equipment (Multipart Form-Data)
+  → uploadMiddleware (Multer saves file to /uploads) → equipmentController.js 
+  → INSERT INTO equipment table → 201 Created → Redirect to Equipment Details / Dashboard
+```
+
+### Workflow 3: Booking & Reservation Flow (Farmer & Owner)
+```
+Farmer → Booking.jsx → POST /api/bookings → bookingController.js
+  → validateDateRange() → hasBookingConflict() → calculateBookingCost()
+  → INSERT INTO bookings (status: 'pending') → Redirect to Farmer Dashboard
+Owner → OwnerDashboard.jsx → GET /api/bookings/owner → View pending request
+  → PUT /api/bookings/:id/approve → UPDATE bookings SET booking_status='approved' 
+  → UI updates to Approved status
+```
+
+---
+
+## 5. DATABASE ENTITY-RELATIONSHIP MODEL
+
+```mermaid
+erDiagram
+    USERS ||--o{ EQUIPMENT : "owns (1:N)"
+    USERS ||--o{ BOOKINGS : "books as farmer (1:N)"
+    USERS ||--o{ BOOKINGS : "receives as owner (1:N)"
+    CATEGORIES ||--o{ EQUIPMENT : "classifies (1:N)"
+    EQUIPMENT ||--o{ BOOKINGS : "reserved in (1:N)"
+    BOOKINGS ||--o{ PAYMENTS : "generates (1:1 - Future)"
+    EQUIPMENT ||--o{ REVIEWS : "receives (1:N - Future)"
+    USERS ||--o{ NOTIFICATIONS : "notified (1:N - Future)"
+
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string password
+        string phone
+        enum role "farmer, owner, admin"
+        string location
+    }
+
+    EQUIPMENT {
+        int id PK
+        int owner_id FK
+        int category_id FK
+        string name
+        string category
+        text description
+        decimal daily_rent
+        decimal daily_rate
+        string location
+        string image
+        int horsepower
+        boolean is_driver_available
+        decimal driver_rate_per_day
+    }
+
+    BOOKINGS {
+        int id PK
+        int equipment_id FK
+        int farmer_id FK
+        int owner_id FK
+        date start_date
+        date end_date
+        int total_days
+        decimal daily_rent
+        boolean include_driver
+        decimal driver_cost
+        decimal total_amount
+        enum booking_status "pending, approved, rejected, cancelled, completed"
+        enum payment_status "pending, paid, refunded"
+    }
+
+    PAYMENTS {
+        int id PK "PLANNED / FUTURE"
+        int booking_id FK
+        int farmer_id FK
+        decimal amount
+        enum payment_status
+    }
+
+    REVIEWS {
+        int id PK "PLANNED / FUTURE"
+        int equipment_id FK
+        int farmer_id FK
+        int rating
+        text comment
+    }
+
+    NOTIFICATIONS {
+        int id PK "PLANNED / FUTURE"
+        int user_id FK
+        string title
+        text message
+    }
+```

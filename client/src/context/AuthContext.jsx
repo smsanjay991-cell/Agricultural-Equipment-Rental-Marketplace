@@ -34,9 +34,12 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return userObj;
     } catch (err) {
-      setError(err.message || 'Login failed');
+      const msg = err.message === 'Failed to fetch' 
+        ? 'Cannot connect to backend server. Please verify backend server is running.' 
+        : err.message || 'Login failed';
+      setError(msg);
       setLoading(false);
-      throw err;
+      throw new Error(msg);
     }
   };
 
@@ -54,9 +57,12 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return userObj;
     } catch (err) {
-      setError(err.message || 'Registration failed');
+      const msg = err.message === 'Failed to fetch' 
+        ? 'Cannot connect to backend server. Please verify backend server is running.' 
+        : err.message || 'Registration failed';
+      setError(msg);
       setLoading(false);
-      throw err;
+      throw new Error(msg);
     }
   };
 

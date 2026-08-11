@@ -15,7 +15,7 @@ graph TD
     subgraph Client Tier
         UI["React SPA (React.js + Vanilla CSS)"]
         Router["React Router v6"]
-        Axios["Axios Client + JWT Interceptors"]
+        FetchClient["Native Fetch Client + fetchWithAuth"]
     end
 
     subgraph API Gateway / Security Layer
@@ -59,8 +59,8 @@ graph TD
     end
 
     UI --> Router
-    Router --> Axios
-    Axios -->|HTTP Requests / Bearer JWT| CORS
+    Router --> FetchClient
+    FetchClient -->|HTTP Requests / Bearer JWT| CORS
     CORS --> AuthMW
     AuthMW --> RoleMW
     RoleMW --> MulterMW
@@ -359,7 +359,7 @@ AgriRent/
 │   │   ├── components/         # Reusable UI Components (Navbar, Footer, Equipment Card)
 │   │   ├── pages/              # Views (Home, Login, Register, Catalog, Dashboard)
 │   │   ├── routes/             # App Navigation & Protected Route Wrappers
-│   │   ├── services/           # Axios HTTP Client & API Service calls
+│   │   ├── services/           # Native Fetch API Client & API Service calls
 │   │   ├── context/            # Global Auth Context State Management
 │   │   ├── layouts/            # Page Container Layouts
 │   │   ├── App.jsx             # Main React Router component
