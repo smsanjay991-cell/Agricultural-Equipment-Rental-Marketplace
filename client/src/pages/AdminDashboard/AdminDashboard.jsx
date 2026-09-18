@@ -4,7 +4,8 @@ import { equipmentService } from '../../services/equipmentService';
 import { bookingService } from '../../services/bookingService';
 import { userService } from '../../services/userService';
 import Loader from '../../components/Loader/Loader';
-import { Shield, Users, Tractor, Calendar, CheckCircle2, Clock, XCircle, RefreshCw, AlertCircle, UserCheck, DollarSign, Activity } from 'lucide-react';
+import CategoryManagement from '../../components/Admin/CategoryManagement';
+import { Shield, Users, Tractor, Calendar, CheckCircle2, Clock, XCircle, RefreshCw, AlertCircle, UserCheck, DollarSign, Activity, Folder } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -176,7 +177,16 @@ const AdminDashboard = () => {
         >
           Machinery Fleet Inventory ({equipment.length})
         </button>
+        <button 
+          onClick={() => setActiveTab('categories')}
+          className={`pb-3 transition border-b-2 cursor-pointer ${activeTab === 'categories' ? 'text-emerald-400 border-emerald-400' : 'text-slate-400 border-transparent hover:text-slate-200'}`}
+        >
+          Category Governance
+        </button>
       </div>
+
+      {/* Tab: Category Governance */}
+      {activeTab === 'categories' && <CategoryManagement />}
 
       {/* Tab 1: Registered Users Audit Table */}
       {activeTab === 'overview' && (

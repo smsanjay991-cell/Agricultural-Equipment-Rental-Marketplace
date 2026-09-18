@@ -1,7 +1,35 @@
-import React from 'react';
-import { Search, Filter, MapPin, DollarSign } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Search, Filter, MapPin } from 'lucide-react';
+import { categoryService } from '../../services/categoryService';
+
+const DEFAULT_CATEGORIES = [
+  { name: 'Tractor' },
+  { name: 'Harvester' },
+  { name: 'Tiller' },
+  { name: 'Seeder' },
+  { name: 'Sprayer' }
+];
 
 const SearchBar = ({ filters, onFilterChange, onReset }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchDbCategories = async () => {
+      try {
+        const list = await categoryService.getAll();
+        if (Array.isArray(list) && list.length > 0) {
+          setCategories(list);
+        } else {
+          setCategories(DEFAULT_CATEGORIES);
+        }
+      } catch (err) {
+        console.warn('Fallback to default search categories:', err.message);
+        setCategories(DEFAULT_CATEGORIES);
+      }
+    };
+    fetchDbCategories();
+  }, []);
+
   return (
     <div className="glass-panel p-4 rounded-2xl border border-slate-800 space-y-4 mb-8">
       <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -38,11 +66,11 @@ const SearchBar = ({ filters, onFilterChange, onReset }) => {
             className="w-full px-3 py-2 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"
           >
             <option value="All">All Categories</option>
-            <option value="Tractor">Tractors</option>
-            <option value="Harvester">Combine Harvesters</option>
-            <option value="Tiller">Tillers & Rotavators</option>
-            <option value="Seeder">Seeders & Planters</option>
-            <option value="Sprayer">Sprayers</option>
+            {categories.map((cat, idx) => (
+              <option key={cat.id || cat._id || idx} value={cat.name}>
+                {cat.name}
+              </option>
+            ))}
           </select>
         </div>
 

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { equipmentService } from '../../services/equipmentService';
+import { categoryService } from '../../services/categoryService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
 import { 
   Tractor, Upload, ArrowLeft, CheckCircle, AlertCircle, Save, Image as ImageIcon 
 } from 'lucide-react';
 
-const CATEGORY_OPTIONS = [
+const DEFAULT_CATEGORY_OPTIONS = [
   'Tractor',
   'Harvester',
   'Tiller',
@@ -27,6 +28,8 @@ const EquipmentForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = Boolean(id);
+
+  const [categoriesList, setCategoriesList] = useState(DEFAULT_CATEGORY_OPTIONS);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -53,10 +56,25 @@ const EquipmentForm = () => {
   const [success, setSuccess] = useState(null);
 
   useEffect(() => {
+    fetchCategoryOptions();
     if (isEdit) {
       loadExistingData();
     }
   }, [id]);
+
+  const fetchCategoryOptions = async () => {
+    try {
+      const data = await categoryService.getAll();
+      if (Array.isArray(data) && data.length > 0) {
+        const categoryNames = data.map(c => c.name).filter(Boolean);
+        // Combine with defaults ensuring uniqueness
+        const uniqueCats = Array.from(new Set([...categoryNames, ...DEFAULT_CATEGORY_OPTIONS]));
+        setCategoriesList(uniqueCats);
+      }
+    } catch (err) {
+      console.warn('Fallback to default equipment form categories:', err.message);
+    }
+  };
 
   const loadExistingData = async () => {
     setLoading(true);
@@ -281,7 +299,7 @@ const EquipmentForm = () => {
                 onChange={handleChange}
                 className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition"
               >
-                {CATEGORY_OPTIONS.map(cat => (
+                {categoriesList.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
