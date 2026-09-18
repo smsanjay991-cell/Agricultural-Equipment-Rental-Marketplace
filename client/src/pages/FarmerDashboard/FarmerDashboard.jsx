@@ -1,30 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { bookingService } from '../../services/bookingService';
+import { reviewService } from '../../services/reviewService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
-import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag } from 'lucide-react';
+import { 
+  Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag, Star, Loader2, X 
+} from 'lucide-react';
 
 const FarmerDashboard = () => {
   const [bookings, setBookings] = useState([]);
+  const [myReviews, setMyReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
   const [actionSuccess, setActionSuccess] = useState('');
 
+  // Review Modal State
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState('');
+
   useEffect(() => {
-    fetchMyBookings();
+    fetchMyData();
   }, []);
 
-  const fetchMyBookings = async () => {
+  const fetchMyData = async () => {
     setLoading(true);
     setError('');
     setActionError('');
     try {
-      const data = await bookingService.getMyBookings();
-      setBookings(Array.isArray(data) ? data : []);
+      const [bookingsData, reviewsData] = await Promise.all([
+        bookingService.getMyBookings(),
+        reviewService.getMyReviews().catch(() => [])
+      ]);
+      setBookings(Array.isArray(bookingsData) ? bookingsData : []);
+      setMyReviews(Array.isArray(reviewsData) ? reviewsData : []);
     } catch (err) {
-      console.error('Error fetching my bookings:', err);
+      console.error('Error fetching farmer dashboard data:', err);
       setError(err.message || 'Failed to load your booking records.');
     } finally {
       setLoading(false);
@@ -39,11 +55,63 @@ const FarmerDashboard = () => {
     try {
       await bookingService.cancel(id);
       setActionSuccess('Booking cancelled successfully.');
-      fetchMyBookings();
+      fetchMyData();
       setTimeout(() => setActionSuccess(''), 3000);
     } catch (err) {
       console.error('Cancellation error:', err);
       setActionError(err.message || 'Failed to cancel booking.');
+    }
+  };
+
+  const handleOpenReviewModal = (booking) => {
+    setSelectedBooking(booking);
+    setRating(5);
+    setComment('');
+    setReviewError('');
+    setIsReviewModalOpen(true);
+  };
+
+  const handleCloseReviewModal = () => {
+    if (reviewSubmitting) return;
+    setIsReviewModalOpen(false);
+    setSelectedBooking(null);
+    setRating(5);
+    setComment('');
+    setReviewError('');
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    setReviewError('');
+    setActionSuccess('');
+
+    if (!selectedBooking) return;
+    if (!comment || !comment.trim()) {
+      setReviewError('Please enter a comment describing your rental experience.');
+      return;
+    }
+
+    const bId = selectedBooking._id || selectedBooking.id;
+    const eqId = selectedBooking.equipment_id || selectedBooking.equipmentId || (selectedBooking.equipment ? (selectedBooking.equipment._id || selectedBooking.equipment.id) : null);
+
+    setReviewSubmitting(true);
+    try {
+      await reviewService.create({
+        bookingId: bId,
+        equipmentId: eqId,
+        rating,
+        comment: comment.trim()
+      });
+
+      setActionSuccess('Review submitted successfully! Thank you for your feedback.');
+      handleCloseReviewModal();
+      fetchMyData();
+      setTimeout(() => setActionSuccess(''), 4000);
+    } catch (err) {
+      console.error('Review submission error:', err);
+      setReviewError(err.message || 'Failed to submit review.');
+    } finally {
+      setReviewSubmitting(false);
     }
   };
 
@@ -90,7 +158,7 @@ const FarmerDashboard = () => {
 
         <div className="flex items-center gap-3">
           <button 
-            onClick={fetchMyBookings}
+            onClick={fetchMyData}
             className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold"
             title="Refresh Bookings"
           >
@@ -126,21 +194,21 @@ const FarmerDashboard = () => {
 
       {/* Alerts */}
       {actionSuccess && (
-        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-400 text-xs font-bold flex items-center gap-2">
+        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-400 text-xs font-bold flex items-center gap-2 shadow-lg">
           <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" /> {actionSuccess}
         </div>
       )}
 
       {actionError && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center gap-2">
+        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center gap-2 shadow-lg">
           <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {actionError}
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between">
+        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between shadow-lg">
           <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {error}</span>
-          <button onClick={fetchMyBookings} className="underline text-emerald-400 font-bold">Retry</button>
+          <button onClick={fetchMyData} className="underline text-emerald-400 font-bold">Retry</button>
         </div>
       )}
 
@@ -160,14 +228,17 @@ const FarmerDashboard = () => {
             const bookingId = booking._id || booking.id;
             const normStatus = (booking.bookingStatus || booking.status || 'pending').toLowerCase();
             const isPending = normStatus === 'pending';
+            const isCompleted = normStatus === 'completed';
             
             const eqName = booking.equipment?.name || booking.equipmentName || 'Agricultural Machinery';
-            const eqCat = booking.equipment?.category || 'Equipment';
             const eqLoc = booking.equipment?.location || 'Local District';
             const rawImg = booking.equipment?.images?.[0] || booking.equipment_images?.[0] || '';
             const imgSrc = getImageUrl(rawImg);
 
             const totalFee = booking.totalPrice !== undefined ? booking.totalPrice : (booking.totalAmount !== undefined ? booking.totalAmount : (booking.total_amount || 0));
+
+            // Check if review already submitted for this booking
+            const existingRev = myReviews.find(r => String(r.booking) === String(bookingId) || String(r.booking_id) === String(bookingId));
 
             return (
               <div 
@@ -233,6 +304,21 @@ const FarmerDashboard = () => {
                       Cancel Booking
                     </button>
                   )}
+
+                  {isCompleted && (
+                    existingRev ? (
+                      <span className="flex items-center gap-1 text-emerald-400 font-bold text-xs bg-emerald-950/60 border border-emerald-800/40 px-3 py-1.5 rounded-lg">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> Review Submitted
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleOpenReviewModal(booking)}
+                        className="flex items-center gap-1.5 text-xs font-bold text-amber-400 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 px-3.5 py-1.5 rounded-lg transition cursor-pointer"
+                      >
+                        <Star className="w-3.5 h-3.5 fill-amber-400" /> Leave Review
+                      </button>
+                    )
+                  )}
                 </div>
 
               </div>
@@ -241,9 +327,119 @@ const FarmerDashboard = () => {
         </div>
       )}
 
+      {/* Review Submission Modal */}
+      {isReviewModalOpen && selectedBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className="glass-panel p-6 rounded-3xl border border-slate-700 max-w-lg w-full space-y-5 shadow-2xl relative">
+            
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <div className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Completed Rental Feedback</div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  Submit Equipment Review
+                </h3>
+              </div>
+              <button 
+                onClick={handleCloseReviewModal}
+                disabled={reviewSubmitting}
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {reviewError && (
+              <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{reviewError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmitReview} className="space-y-4">
+              
+              {/* Equipment & Booking Context */}
+              <div className="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60 space-y-1">
+                <span className="text-[11px] text-slate-400 block font-medium">Machine Rented</span>
+                <span className="text-sm font-bold text-white block">
+                  {selectedBooking.equipment?.name || selectedBooking.equipmentName || 'Equipment'}
+                </span>
+                <span className="text-[10px] text-slate-400 block font-mono">
+                  Booking ID #{selectedBooking._id || selectedBooking.id}
+                </span>
+              </div>
+
+              {/* Star Rating Picker */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Rating <span className="text-red-400">*</span>
+                </label>
+                <div className="flex items-center gap-2 bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                  {[1, 2, 3, 4, 5].map((starVal) => (
+                    <button
+                      key={starVal}
+                      type="button"
+                      onClick={() => setRating(starVal)}
+                      className="p-1 text-slate-600 hover:text-amber-400 transition cursor-pointer focus:outline-none"
+                      title={`${starVal} Star${starVal > 1 ? 's' : ''}`}
+                    >
+                      <Star 
+                        className={`w-7 h-7 transition ${starVal <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600'}`} 
+                      />
+                    </button>
+                  ))}
+                  <span className="ml-auto text-xs font-bold text-amber-400">
+                    {rating} / 5 Stars
+                  </span>
+                </div>
+              </div>
+
+              {/* Review Comment */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Your Review & Feedback <span className="text-red-400">*</span>
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Share details about machine performance, condition, fuel efficiency, or operator quality..."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={handleCloseReviewModal}
+                  disabled={reviewSubmitting}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={reviewSubmitting}
+                  className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  {reviewSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting...
+                    </>
+                  ) : (
+                    'Submit Review'
+                  )}
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
 export default FarmerDashboard;
-

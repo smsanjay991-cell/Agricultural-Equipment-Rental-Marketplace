@@ -54,6 +54,28 @@ class ReviewModel {
     return rows.map(formatReview);
   }
 
+  static async findById(id) {
+    const [rows] = await pool.query(`
+      SELECT r.*, u.name AS farmer_name, u.avatar AS farmer_avatar
+      FROM reviews r
+      LEFT JOIN users u ON r.farmer_id = u.id
+      WHERE r.id = ? LIMIT 1
+    `, [id]);
+    if (rows.length === 0) return null;
+    return formatReview(rows[0]);
+  }
+
+  static async findByBooking(bookingId) {
+    const [rows] = await pool.query(`
+      SELECT r.*, u.name AS farmer_name, u.avatar AS farmer_avatar
+      FROM reviews r
+      LEFT JOIN users u ON r.farmer_id = u.id
+      WHERE r.booking_id = ? LIMIT 1
+    `, [bookingId]);
+    if (rows.length === 0) return null;
+    return formatReview(rows[0]);
+  }
+
   static async create(data) {
     const { equipment, farmer, booking, rating, comment } = data;
     const equipmentId = typeof equipment === 'object' ? equipment._id || equipment.id : equipment;

@@ -245,6 +245,7 @@ const EquipmentDetails = () => {
           {/* Main Pricing Box */}
           <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-6 sticky top-24">
             
+            {/* Rating Summary */}
             <div className="space-y-2 border-b border-slate-800 pb-4">
               <div className="flex items-center justify-between text-xs text-slate-400">
                 <span className="flex items-center gap-1">
@@ -253,7 +254,7 @@ const EquipmentDetails = () => {
                 </span>
                 <span className="flex items-center gap-1 text-amber-400 font-bold">
                   <Star className="w-3.5 h-3.5 fill-amber-400" />
-                  {equipment.averageRating || equipment.average_rating || '4.8'} ({equipment.numReviews || equipment.num_reviews || '10'} reviews)
+                  {equipment.average_rating !== undefined ? Number(equipment.average_rating).toFixed(1) : (equipment.averageRating !== undefined ? Number(equipment.averageRating).toFixed(1) : '0.0')} ({equipment.num_reviews !== undefined ? equipment.num_reviews : (equipment.numReviews !== undefined ? equipment.numReviews : (equipment.reviews?.length || 0))} reviews)
                 </span>
               </div>
 
