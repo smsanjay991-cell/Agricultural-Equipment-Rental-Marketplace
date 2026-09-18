@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { bookingService } from '../../services/bookingService';
 import { reviewService } from '../../services/reviewService';
+import { paymentService } from '../../services/paymentService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
 import { 
-  Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag, Star, Loader2, X 
+  Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag, Star, Loader2, X, CreditCard, Wallet, CheckCircle2 
 } from 'lucide-react';
 
 const FarmerDashboard = () => {
   const [bookings, setBookings] = useState([]);
   const [myReviews, setMyReviews] = useState([]);
+  const [myPayments, setMyPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
@@ -24,6 +26,14 @@ const FarmerDashboard = () => {
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewError, setReviewError] = useState('');
 
+  // Payment Modal State
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedPaymentBooking, setSelectedPaymentBooking] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('UPI/QR');
+  const [transactionIdInput, setTransactionIdInput] = useState('');
+  const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
+
   useEffect(() => {
     fetchMyData();
   }, []);
@@ -33,12 +43,14 @@ const FarmerDashboard = () => {
     setError('');
     setActionError('');
     try {
-      const [bookingsData, reviewsData] = await Promise.all([
+      const [bookingsData, reviewsData, paymentsData] = await Promise.all([
         bookingService.getMyBookings(),
-        reviewService.getMyReviews().catch(() => [])
+        reviewService.getMyReviews().catch(() => []),
+        paymentService.getMyPayments().catch(() => [])
       ]);
       setBookings(Array.isArray(bookingsData) ? bookingsData : []);
       setMyReviews(Array.isArray(reviewsData) ? reviewsData : []);
+      setMyPayments(Array.isArray(paymentsData) ? paymentsData : []);
     } catch (err) {
       console.error('Error fetching farmer dashboard data:', err);
       setError(err.message || 'Failed to load your booking records.');
@@ -63,6 +75,7 @@ const FarmerDashboard = () => {
     }
   };
 
+  // Review Handlers
   const handleOpenReviewModal = (booking) => {
     setSelectedBooking(booking);
     setRating(5);
@@ -115,6 +128,56 @@ const FarmerDashboard = () => {
     }
   };
 
+  // Payment Handlers
+  const handleOpenPaymentModal = (booking) => {
+    const bId = booking._id || booking.id;
+    setSelectedPaymentBooking(booking);
+    setPaymentMethod('UPI/QR');
+    setTransactionIdInput(`TXN_${bId}_${Date.now().toString().slice(-4)}`);
+    setPaymentError('');
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    if (paymentSubmitting) return;
+    setIsPaymentModalOpen(false);
+    setSelectedPaymentBooking(null);
+    setPaymentMethod('UPI/QR');
+    setTransactionIdInput('');
+    setPaymentError('');
+  };
+
+  const handleSubmitPayment = async (e) => {
+    e.preventDefault();
+    setPaymentError('');
+    setActionSuccess('');
+
+    if (!selectedPaymentBooking) return;
+
+    const bId = selectedPaymentBooking._id || selectedPaymentBooking.id;
+    const totalFee = selectedPaymentBooking.totalPrice !== undefined ? selectedPaymentBooking.totalPrice : (selectedPaymentBooking.totalAmount !== undefined ? selectedPaymentBooking.totalAmount : (selectedPaymentBooking.total_amount || 0));
+
+    setPaymentSubmitting(true);
+    try {
+      await paymentService.create({
+        bookingId: bId,
+        amount: Number(totalFee),
+        paymentMethod: paymentMethod,
+        transactionId: transactionIdInput.trim() || `TXN_${Date.now()}`
+      });
+
+      setActionSuccess(`Payment of ₹${Number(totalFee).toLocaleString()} processed & recorded successfully!`);
+      handleClosePaymentModal();
+      fetchMyData();
+      setTimeout(() => setActionSuccess(''), 4000);
+    } catch (err) {
+      console.error('Payment processing error:', err);
+      setPaymentError(err.message || 'Failed to process payment.');
+    } finally {
+      setPaymentSubmitting(false);
+    }
+  };
+
   const getStatusBadge = (bStatus, status) => {
     const norm = (bStatus || status || 'pending').toLowerCase();
     switch (norm) {
@@ -134,7 +197,7 @@ const FarmerDashboard = () => {
     }
   };
 
-  if (loading) return <Loader message="Fetching your equipment rentals..." />;
+  if (loading) return <Loader message="Fetching your equipment rentals & payment records..." />;
 
   const activeCount = bookings.filter(b => {
     const s = (b.bookingStatus || b.status || '').toLowerCase();
@@ -159,8 +222,8 @@ const FarmerDashboard = () => {
         <div className="flex items-center gap-3">
           <button 
             onClick={fetchMyData}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold"
-            title="Refresh Bookings"
+            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
+            title="Refresh Data"
           >
             <RefreshCw className="w-4 h-4" /> Refresh
           </button>
@@ -227,8 +290,11 @@ const FarmerDashboard = () => {
           {bookings.map((booking) => {
             const bookingId = booking._id || booking.id;
             const normStatus = (booking.bookingStatus || booking.status || 'pending').toLowerCase();
+            const normPaymentStatus = (booking.payment_status || booking.paymentStatus || 'pending').toLowerCase();
             const isPending = normStatus === 'pending';
+            const isApproved = normStatus === 'approved';
             const isCompleted = normStatus === 'completed';
+            const isPaid = normPaymentStatus === 'paid' || normPaymentStatus === 'completed';
             
             const eqName = booking.equipment?.name || booking.equipmentName || 'Agricultural Machinery';
             const eqLoc = booking.equipment?.location || 'Local District';
@@ -239,6 +305,9 @@ const FarmerDashboard = () => {
 
             // Check if review already submitted for this booking
             const existingRev = myReviews.find(r => String(r.booking) === String(bookingId) || String(r.booking_id) === String(bookingId));
+            
+            // Check matching payment record
+            const existingPay = myPayments.find(p => String(p.bookingId) === String(bookingId) || String(p.booking_id) === String(bookingId));
 
             return (
               <div 
@@ -262,6 +331,11 @@ const FarmerDashboard = () => {
                       <h3 className="text-base font-bold text-white">{eqName}</h3>
                       <span className="text-[10px] text-slate-400 font-mono">#{bookingId}</span>
                       {getStatusBadge(booking.bookingStatus, booking.status)}
+                      {isPaid && (
+                        <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Paid
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
@@ -274,6 +348,12 @@ const FarmerDashboard = () => {
                         {eqLoc}
                       </span>
                     </div>
+
+                    {existingPay?.transactionId && (
+                      <div className="text-[11px] text-slate-400 font-mono">
+                        Payment Ref: <span className="text-slate-300 font-semibold">{existingPay.transactionId}</span> ({existingPay.paymentMethod || 'Manual'})
+                      </div>
+                    )}
 
                     {(booking.includeDriver || booking.include_driver) && (
                       <span className="inline-block text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
@@ -305,6 +385,17 @@ const FarmerDashboard = () => {
                     </button>
                   )}
 
+                  {/* Payment Button for Approved Unpaid Bookings */}
+                  {(isApproved || isCompleted) && !isPaid && (
+                    <button
+                      onClick={() => handleOpenPaymentModal(booking)}
+                      className="flex items-center gap-1.5 text-xs font-bold text-teal-200 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 px-3.5 py-1.5 rounded-xl transition cursor-pointer shadow-lg shadow-teal-600/20"
+                    >
+                      <CreditCard className="w-3.5 h-3.5" /> Pay Now (₹{Number(totalFee).toLocaleString()})
+                    </button>
+                  )}
+
+                  {/* Review Button for Completed Bookings */}
                   {isCompleted && (
                     existingRev ? (
                       <span className="flex items-center gap-1 text-emerald-400 font-bold text-xs bg-emerald-950/60 border border-emerald-800/40 px-3 py-1.5 rounded-lg">
@@ -324,6 +415,116 @@ const FarmerDashboard = () => {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Payment Processing Modal */}
+      {isPaymentModalOpen && selectedPaymentBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className="glass-panel p-6 rounded-3xl border border-slate-700 max-w-lg w-full space-y-5 shadow-2xl relative">
+            
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <div className="text-[10px] uppercase font-bold text-teal-400 tracking-wider">Demo Payment Gateway</div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-teal-400" />
+                  Make Rental Payment
+                </h3>
+              </div>
+              <button 
+                onClick={handleClosePaymentModal}
+                disabled={paymentSubmitting}
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {paymentError && (
+              <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{paymentError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmitPayment} className="space-y-4">
+              
+              {/* Rental Summary Card */}
+              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <span>Machine:</span>
+                  <strong className="text-white">{selectedPaymentBooking.equipment?.name || selectedPaymentBooking.equipmentName || 'Equipment'}</strong>
+                </div>
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <span>Booking ID:</span>
+                  <strong className="font-mono text-slate-300">#{selectedPaymentBooking._id || selectedPaymentBooking.id}</strong>
+                </div>
+                <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-slate-700/60">
+                  <span className="text-slate-300">Total Payable Amount:</span>
+                  <span className="text-emerald-400 text-lg">
+                    ₹{Number(selectedPaymentBooking.totalPrice !== undefined ? selectedPaymentBooking.totalPrice : (selectedPaymentBooking.totalAmount !== undefined ? selectedPaymentBooking.totalAmount : (selectedPaymentBooking.total_amount || 0))).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* Payment Method Option */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Select Payment Method
+                </label>
+                <select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500 transition cursor-pointer"
+                >
+                  <option value="UPI/QR">UPI / QR Code Scan</option>
+                  <option value="Debit/Credit Card">Debit / Credit Card</option>
+                  <option value="Net Banking">Internet Banking</option>
+                  <option value="Cash/Manual">Cash / Manual Settlement</option>
+                </select>
+              </div>
+
+              {/* Transaction / Reference ID */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Transaction / Reference ID
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. TXN_893129"
+                  value={transactionIdInput}
+                  onChange={(e) => setTransactionIdInput(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 font-mono placeholder-slate-500 focus:outline-none focus:border-teal-500 transition"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={handleClosePaymentModal}
+                  disabled={paymentSubmitting}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={paymentSubmitting}
+                  className="px-6 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  {paymentSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Processing...
+                    </>
+                  ) : (
+                    'Confirm & Record Payment'
+                  )}
+                </button>
+              </div>
+            </form>
+
+          </div>
         </div>
       )}
 
