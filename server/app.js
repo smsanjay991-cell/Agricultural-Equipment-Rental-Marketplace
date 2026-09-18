@@ -11,6 +11,8 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
+const notificationRoutes = require('./routes/notificationRoutes');
+
 const app = express();
 
 // Core Middleware
@@ -34,6 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Custom Error Middlewares
 app.use(notFound);

@@ -1,5 +1,6 @@
 const Payment = require('../models/Payment');
 const Booking = require('../models/Booking');
+const NotificationModel = require('../models/Notification');
 
 // @desc    Initiate/record payment for an approved rental booking
 // @route   POST /api/payments
@@ -89,6 +90,27 @@ const createPayment = async (req, res) => {
       paymentMethod: targetMethod,
       transactionId: targetTxnId
     });
+
+    // Notify farmer & equipment owner of payment completion
+    try {
+      if (bFarmerId) {
+        await NotificationModel.create(
+          bFarmerId,
+          'Payment Confirmed',
+          `Your payment of ₹${numAmount} for rental booking #${targetBookingId} was successful.`
+        );
+      }
+      const ownerIdStr = bookingItem.owner_id || bookingItem.ownerId || (bookingItem.equipment && bookingItem.equipment.owner ? (bookingItem.equipment.owner._id || bookingItem.equipment.owner.id) : null);
+      if (ownerIdStr) {
+        await NotificationModel.create(
+          ownerIdStr,
+          'Payment Received',
+          `Payment of ₹${numAmount} was received for rental booking #${targetBookingId}.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on createPayment:', notifErr.message);
+    }
 
     return res.status(201).json({
       success: true,
@@ -227,6 +249,22 @@ const updatePaymentStatus = async (req, res) => {
     }
 
     const updated = await Payment.updateStatus(req.params.id, formattedStatus);
+
+    // Notify farmer of payment status change by admin
+    try {
+      const farmerId = existing.farmerId || existing.farmer_id;
+      const bookingId = existing.bookingId || existing.booking_id;
+      if (farmerId) {
+        await NotificationModel.create(
+          farmerId,
+          'Payment Status Updated',
+          `Your payment status for booking #${bookingId} was updated to '${formattedStatus}' by Admin.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on updatePaymentStatus:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: `Payment status updated to ${formattedStatus}`,

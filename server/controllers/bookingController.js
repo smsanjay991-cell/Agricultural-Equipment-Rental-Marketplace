@@ -1,5 +1,6 @@
 const Booking = require('../models/Booking');
 const Equipment = require('../models/Equipment');
+const NotificationModel = require('../models/Notification');
 const { calculateBookingCost, hasBookingConflict } = require('../services/bookingService');
 const { validateDateRange } = require('../utils/validator');
 
@@ -112,6 +113,19 @@ const createBooking = async (req, res) => {
       status: 'Pending',
       paymentStatus: 'pending'
     });
+
+    // Notify equipment owner of new booking request
+    try {
+      const eqName = equipment.name || 'equipment';
+      const farmerName = req.user.name || 'A farmer';
+      await NotificationModel.create(
+        ownerIdStr,
+        'New Booking Request',
+        `${farmerName} requested to rent ${eqName} (${sDate} to ${eDate}).`
+      );
+    } catch (notifErr) {
+      console.error('Notification creation warning on createBooking:', notifErr.message);
+    }
 
     return res.status(201).json({
       success: true,
@@ -277,6 +291,21 @@ const approveBooking = async (req, res) => {
 
     const updatedBooking = await Booking.updateStatus(req.params.id, 'approved');
 
+    // Notify farmer of booking approval
+    try {
+      const farmerIdStr = booking.farmer_id || booking.farmerId || (booking.farmer ? (booking.farmer._id || booking.farmer.id) : null);
+      const eqTitle = booking.equipment ? (booking.equipment.name || booking.equipmentName || 'equipment') : 'equipment';
+      if (farmerIdStr) {
+        await NotificationModel.create(
+          farmerIdStr,
+          'Booking Request Approved',
+          `Your rental request for ${eqTitle} has been approved by the owner.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on approveBooking:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Booking request approved successfully',
@@ -315,6 +344,21 @@ const rejectBooking = async (req, res) => {
     }
 
     const updatedBooking = await Booking.updateStatus(req.params.id, 'rejected');
+
+    // Notify farmer of booking rejection
+    try {
+      const farmerIdStr = booking.farmer_id || booking.farmerId || (booking.farmer ? (booking.farmer._id || booking.farmer.id) : null);
+      const eqTitle = booking.equipment ? (booking.equipment.name || booking.equipmentName || 'equipment') : 'equipment';
+      if (farmerIdStr) {
+        await NotificationModel.create(
+          farmerIdStr,
+          'Booking Request Rejected',
+          `Your rental request for ${eqTitle} was rejected by the owner.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on rejectBooking:', notifErr.message);
+    }
 
     return res.status(200).json({
       success: true,
@@ -371,6 +415,25 @@ const cancelBooking = async (req, res) => {
 
     const updatedBooking = await Booking.cancelBooking(req.params.id, userIdStr);
 
+    // Notify relevant party of cancellation
+    try {
+      if (isFarmer && ownerIdStr) {
+        await NotificationModel.create(
+          ownerIdStr,
+          'Booking Request Cancelled',
+          `Farmer cancelled rental booking #${req.params.id}.`
+        );
+      } else if (farmerIdStr) {
+        await NotificationModel.create(
+          farmerIdStr,
+          'Booking Request Cancelled',
+          `Rental booking #${req.params.id} was cancelled.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on cancelBooking:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Booking cancelled successfully',
@@ -424,6 +487,28 @@ const updateBookingStatus = async (req, res) => {
     }
 
     const updatedBooking = await Booking.updateStatus(req.params.id, status, pStatus);
+
+    // Trigger notification based on status
+    try {
+      const targetStatus = (status || '').toLowerCase();
+      const eqTitle = booking.equipment ? (booking.equipment.name || booking.equipmentName || 'equipment') : 'equipment';
+      if (targetStatus === 'approved' && farmerIdStr) {
+        await NotificationModel.create(farmerIdStr, 'Booking Request Approved', `Your rental request for ${eqTitle} has been approved.`);
+      } else if (targetStatus === 'rejected' && farmerIdStr) {
+        await NotificationModel.create(farmerIdStr, 'Booking Request Rejected', `Your rental request for ${eqTitle} was rejected.`);
+      } else if (targetStatus === 'completed' && farmerIdStr) {
+        await NotificationModel.create(farmerIdStr, 'Rental Completed', `Your rental period for ${eqTitle} has been completed.`);
+      } else if (targetStatus === 'cancelled') {
+        if (isFarmer && ownerIdStr) {
+          await NotificationModel.create(ownerIdStr, 'Booking Cancelled', `Farmer cancelled booking #${req.params.id}.`);
+        } else if (farmerIdStr) {
+          await NotificationModel.create(farmerIdStr, 'Booking Cancelled', `Booking #${req.params.id} was cancelled.`);
+        }
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on updateBookingStatus:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Booking status updated successfully',

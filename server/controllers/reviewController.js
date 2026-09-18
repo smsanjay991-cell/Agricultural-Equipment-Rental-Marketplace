@@ -1,6 +1,7 @@
 const Review = require('../models/Review');
 const Equipment = require('../models/Equipment');
 const Booking = require('../models/Booking');
+const NotificationModel = require('../models/Notification');
 
 // @desc    Submit a review for completed equipment rental
 // @route   POST /api/reviews
@@ -112,6 +113,22 @@ const createReview = async (req, res) => {
       rating: numRating,
       comment: comment.trim()
     });
+
+    // Notify equipment owner of new review
+    try {
+      const ownerIdStr = eqItem.owner_id || eqItem.ownerId || (eqItem.owner ? (eqItem.owner._id || eqItem.owner.id) : null);
+      if (ownerIdStr) {
+        const eqTitle = eqItem.name || 'equipment';
+        const farmerName = req.user.name || 'A farmer';
+        await NotificationModel.create(
+          ownerIdStr,
+          'New Equipment Review',
+          `${farmerName} submitted a ${numRating}-star review for ${eqTitle}.`
+        );
+      }
+    } catch (notifErr) {
+      console.error('Notification creation warning on createReview:', notifErr.message);
+    }
 
     return res.status(201).json({
       success: true,
