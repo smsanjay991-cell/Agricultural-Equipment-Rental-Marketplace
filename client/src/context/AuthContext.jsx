@@ -5,8 +5,13 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem('agrirent_user');
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem('agrirent_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      localStorage.removeItem('agrirent_user');
+      return null;
+    }
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -103,6 +108,7 @@ export const AuthProvider = ({ children }) => {
     };
     localStorage.setItem('agrirent_token', demoUser.token);
     setUser(demoUser);
+    return demoUser;
   };
 
   return (

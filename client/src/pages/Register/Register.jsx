@@ -21,7 +21,9 @@ const Register = () => {
     setError('');
     try {
       const user = await register({ name, email, password, phone, role, location });
-      if (user.role === 'owner') navigate('/owner-dashboard');
+      const userRole = (user?.role || '').toLowerCase();
+      if (userRole === 'owner') navigate('/owner-dashboard');
+      else if (userRole === 'admin') navigate('/admin-dashboard');
       else navigate('/farmer-dashboard');
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
