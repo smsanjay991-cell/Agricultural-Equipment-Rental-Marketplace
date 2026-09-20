@@ -80,6 +80,30 @@ class UserModel {
     return this.findById(id);
   }
 
+  static async updateUser(id, { name, email, phone, role, location, avatar }) {
+    const currentUser = await this.findById(id);
+    if (!currentUser) return null;
+
+    const updatedName = name !== undefined ? name : currentUser.name;
+    const updatedEmail = email !== undefined ? email.toLowerCase() : currentUser.email;
+    const updatedPhone = phone !== undefined ? phone : currentUser.phone;
+    const updatedRole = role !== undefined ? role : currentUser.role;
+    const updatedLocation = location !== undefined ? location : currentUser.location;
+    const updatedAvatar = avatar !== undefined ? avatar : currentUser.avatar;
+
+    await pool.query(
+      'UPDATE users SET name = ?, email = ?, phone = ?, role = ?, location = ?, avatar = ? WHERE id = ?',
+      [updatedName, updatedEmail, updatedPhone, updatedRole, updatedLocation, updatedAvatar, id]
+    );
+
+    return this.findById(id);
+  }
+
+  static async delete(id) {
+    const [result] = await pool.query('DELETE FROM users WHERE id = ?', [id]);
+    return result.affectedRows > 0;
+  }
+
   static async getAll() {
     const [rows] = await pool.query(
       'SELECT id, name, email, phone, role, location, avatar, created_at, updated_at FROM users ORDER BY created_at DESC'
