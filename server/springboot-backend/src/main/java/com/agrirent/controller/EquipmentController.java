@@ -46,18 +46,21 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
+@PostMapping(consumes = "multipart/form-data")
+@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+public ResponseEntity<ApiResponse<EquipmentResponse>> create(
+        @RequestParam Map<String, String> body,
+        @AuthenticationPrincipal UserDetails ud) {
 
-    @PostMapping
-    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    public ResponseEntity<ApiResponse<EquipmentResponse>> create(
-            @RequestBody Map<String, Object> body,
-            @AuthenticationPrincipal UserDetails ud) {
-        User user = resolveUser(ud);
-        EquipmentResponse resp = equipmentService.create(body, user);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.ok("Equipment created successfully", resp));
-    }
+    User user = resolveUser(ud);
 
+    Map<String, Object> data = new HashMap<>(body);
+
+    EquipmentResponse resp = equipmentService.create(data, user);
+
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.ok("Equipment created successfully", resp));
+}
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<EquipmentResponse>> update(

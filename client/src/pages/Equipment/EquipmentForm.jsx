@@ -4,8 +4,8 @@ import { equipmentService } from '../../services/equipmentService';
 import { categoryService } from '../../services/categoryService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
-import { 
-  Tractor, Upload, ArrowLeft, CheckCircle, AlertCircle, Save, Image as ImageIcon 
+import {
+  Tractor, Upload, ArrowLeft, CheckCircle, AlertCircle, Save, Image as ImageIcon
 } from 'lucide-react';
 
 const DEFAULT_CATEGORY_OPTIONS = [
@@ -140,7 +140,7 @@ const EquipmentForm = () => {
     if (!formData.name.trim()) return 'Equipment name is required.';
     if (!formData.description.trim()) return 'Description is required.';
     if (!formData.location.trim()) return 'Location is required.';
-    
+
     const rent = Number(formData.daily_rent);
     if (isNaN(rent) || rent <= 0) return 'Daily rent must be a positive number.';
 
@@ -230,11 +230,11 @@ const EquipmentForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      
+
       {/* Top Header & Navigation */}
       <div className="flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-emerald-400 transition mb-1"
           >
@@ -268,7 +268,7 @@ const EquipmentForm = () => {
 
       {/* Main Form */}
       <form onSubmit={handleSubmit} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
-        
+
         {/* Basic Information */}
         <div className="space-y-4">
           <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">1. Basic Machine Details</h3>
@@ -277,8 +277,8 @@ const EquipmentForm = () => {
             <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               Equipment Name <span className="text-red-400">*</span>
             </label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               name="name"
               required
               placeholder="e.g. John Deere 5050D 50HP Tractor"
@@ -293,7 +293,7 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Category <span className="text-red-400">*</span>
               </label>
-              <select 
+              <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
@@ -309,8 +309,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Brand / Manufacturer
               </label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="brand"
                 placeholder="e.g. Mahindra, Sonalika"
                 value={formData.brand}
@@ -323,8 +323,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Model Variant
               </label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="model"
                 placeholder="e.g. Rotavator 6ft, DC-68G"
                 value={formData.model}
@@ -338,7 +338,7 @@ const EquipmentForm = () => {
             <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               Machine Description <span className="text-red-400">*</span>
             </label>
-            <textarea 
+            <textarea
               name="description"
               required
               rows={4}
@@ -359,8 +359,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Daily Rent (₹) <span className="text-red-400">*</span>
               </label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 name="daily_rent"
                 required
                 min="1"
@@ -375,8 +375,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Security Deposit (₹)
               </label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 name="deposit"
                 min="0"
                 placeholder="e.g. 2000"
@@ -390,8 +390,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Location / District <span className="text-red-400">*</span>
               </label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="location"
                 required
                 placeholder="e.g. Trichy, Tamil Nadu"
@@ -412,8 +412,8 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Horsepower (HP)
               </label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 name="horsepower"
                 min="0"
                 placeholder="e.g. 50"
@@ -427,7 +427,7 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 Fuel Type
               </label>
-              <select 
+              <select
                 name="fuel_type"
                 value={formData.fuel_type}
                 onChange={handleChange}
@@ -442,7 +442,7 @@ const EquipmentForm = () => {
 
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/60 space-y-3">
             <div className="flex items-center gap-3">
-              <input 
+              <input
                 type="checkbox"
                 id="is_driver_available"
                 name="is_driver_available"
@@ -460,8 +460,8 @@ const EquipmentForm = () => {
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
                   Driver Operator Daily Rate (₹)
                 </label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   name="driver_rate_per_day"
                   min="0"
                   placeholder="e.g. 400"
@@ -479,19 +479,19 @@ const EquipmentForm = () => {
           <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">4. Machinery Photo</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-            
+
             {/* File Upload Trigger */}
             <div className="space-y-2">
               <label className="block text-xs font-semibold text-slate-300">
                 Upload Image File (Max 5MB: JPG, PNG, WEBP)
               </label>
-              
+
               <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-emerald-500/80 bg-slate-800/50 hover:bg-slate-800 p-6 rounded-2xl cursor-pointer transition text-center space-y-2">
                 <Upload className="w-8 h-8 text-emerald-400" />
                 <span className="text-xs font-semibold text-slate-300">Click to Select Image File</span>
                 <span className="text-[10px] text-slate-500">Supports JPG, JPEG, PNG, WEBP</span>
-                <input 
-                  type="file" 
+                <input
+                  type="file"
                   accept="image/*"
                   onChange={handleImageChange}
                   className="hidden"
@@ -504,9 +504,9 @@ const EquipmentForm = () => {
               <label className="block text-xs font-semibold text-slate-300">Image Preview</label>
               <div className="h-40 bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden flex items-center justify-center relative">
                 {imagePreview ? (
-                  <img 
-                    src={imagePreview} 
-                    alt="Preview" 
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.target.onerror = null;
@@ -527,7 +527,7 @@ const EquipmentForm = () => {
 
         {/* Form Controls */}
         <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-4">
-          <button 
+          <button
             type="button"
             onClick={() => navigate(-1)}
             className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl transition"
@@ -535,7 +535,7 @@ const EquipmentForm = () => {
             Cancel
           </button>
 
-          <button 
+          <button
             type="submit"
             disabled={submitting}
             className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
