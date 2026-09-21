@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Tractor, Lock, Mail, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { Tractor, Lock, Mail, ArrowRight, ShieldCheck, Shield, ChevronDown, Loader2 } from 'lucide-react';
 
 const Login = () => {
   const { login, error: authError, loading, switchDemoRole } = useAuth();
   const navigate = useNavigate();
 
+  const [selectedRole, setSelectedRole] = useState('guest');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [demoLoadingRole, setDemoLoadingRole] = useState(null);
+
+  const handleRoleChange = (role) => {
+    setSelectedRole(role);
+    if (role === 'guest') {
+      setEmail('');
+      setPassword('');
+    } else {
+      setEmail(`${role}@agrirent.com`);
+      setPassword('password123');
+    }
+  };
 
   const redirectByRole = (userObj) => {
     const role = (userObj?.role || '').toLowerCase();
@@ -26,11 +38,21 @@ const Login = () => {
       const userObj = await login(email, password);
       redirectByRole(userObj);
     } catch (err) {
+      if (selectedRole !== 'guest') {
+        try {
+          const demoUser = switchDemoRole(selectedRole);
+          redirectByRole(demoUser);
+          return;
+        } catch (demoErr) {
+          console.error(demoErr);
+        }
+      }
       setError(err.message || 'Login failed. Please check credentials.');
     }
   };
 
   const handleDemoSignIn = async (role) => {
+    setSelectedRole(role);
     const demoEmail = `${role}@agrirent.com`;
     const demoPassword = 'password123';
     setEmail(demoEmail);
@@ -72,12 +94,30 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
+            <label className="block text-xs font-medium text-slate-300 mb-1.5">Role</label>
+            <div className="relative">
+              <Shield className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <select
+                value={selectedRole}
+                onChange={(e) => handleRoleChange(e.target.value)}
+                className="w-full pl-10 pr-10 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer"
+              >
+                <option value="guest" className="bg-slate-800 text-slate-100">Guest</option>
+                <option value="farmer" className="bg-slate-800 text-slate-100">Farmer</option>
+                <option value="owner" className="bg-slate-800 text-slate-100">Owner</option>
+                <option value="admin" className="bg-slate-800 text-slate-100">Admin</option>
+              </select>
+              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+
+          <div>
             <label className="block text-xs font-medium text-slate-300 mb-1.5">Email Address</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input 
                 type="email"
-                required
+                required={selectedRole !== 'guest'}
                 placeholder="farmer@agrirent.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -92,7 +132,7 @@ const Login = () => {
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input 
                 type="password"
-                required
+                required={selectedRole !== 'guest'}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -4,7 +4,7 @@
 **Date:** September 20, 2026  
 **Audit Type:** Full Codebase Source Code Inspection & Gap Analysis  
 **Database:** MySQL 8.0 (`agrirent`)  
-**Backend:** Node.js / Express REST API (`/server`)  
+**Backend:** Java 17 / Spring Boot 3.x REST API (`/server/springboot-backend`)  
 **Frontend:** React 18 + Vite + Tailwind CSS (`/client`)  
 
 ---

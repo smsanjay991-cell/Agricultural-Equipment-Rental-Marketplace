@@ -61,7 +61,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <span>AgriTech Innovation Hub, Ludhiana / Karnal / New Delhi</span>
+                <span>AgriTech Innovation Hub, Chennai / Trichy / Coimbatore, Tamil Nadu</span>
               </li>
             </ul>
           </div>

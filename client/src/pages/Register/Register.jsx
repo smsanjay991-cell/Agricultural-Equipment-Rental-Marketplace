@@ -78,7 +78,7 @@ const Register = () => {
               <input 
                 type="text"
                 required
-                placeholder="Harpreet Singh"
+                placeholder="Vinoth Kumar"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
@@ -126,7 +126,7 @@ const Register = () => {
                 <input 
                   type="text"
                   required
-                  placeholder="Ludhiana, Punjab"
+                  placeholder="Trichy, Tamil Nadu"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"

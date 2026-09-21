@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import React, { useState } from "react";
 import { Search, MapPin, Calendar, Tractor, ChevronDown } from "lucide-react";
 import Button from "./Button";
@@ -55,7 +61,7 @@ function SearchBar({ onSearch, className = "" }) {
             </label>
             <input
               type="text"
-              placeholder="e.g. Ludhiana, Punjab"
+              placeholder="e.g. Trichy, Tamil Nadu"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none w-full font-medium"

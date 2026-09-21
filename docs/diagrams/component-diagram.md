@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Component diagram illustrates the structural organization of the **AgriRent** software system. It shows how the modular frontend user interfaces, backend API services/controllers, security middleware, data models, and the relational MySQL database interact.
+The Component diagram illustrates the structural organization of the **AgriRent** software system. It shows how the modular frontend user interfaces, backend Spring Boot controllers, security filters, services, JPA repositories, and the relational MySQL database interact.
 
 ---
 
@@ -23,53 +23,59 @@ graph TD
         AdminUI --> AuthCtx
     end
 
-    subgraph ServerComponent [Node.js + Express Backend Engine]
-        API_Route[Express REST Routers<br/>/api/auth, /api/equipment, /api/bookings, /api/users]
-        Auth_MW[Auth Middleware<br/>protect & authorizeRoles]
+    subgraph ServerComponent [Spring Boot Backend Engine]
+        API_Route[Spring REST Controllers<br/>/api/auth, /api/equipment, /api/bookings, /api/users, etc.]
+        Auth_MW[Spring Security Filter<br/>JwtAuthenticationFilter & PreAuthorize]
         
-        subgraph Controllers [Controllers Tier]
-            AuthCtrl[authController]
-            EquipCtrl[equipmentController]
-            BookCtrl[bookingController]
-            UserCtrl[userController]
+        subgraph Services [Services Tier]
+            AuthSvc[AuthService]
+            EquipSvc[EquipmentService]
+            BookSvc[BookingService]
+            UserSvc[UserService]
+            PaySvc[PaymentService]
+            RevSvc[ReviewService]
+            NotifSvc[NotificationService]
+            CatSvc[CategoryService]
         end
 
-        subgraph Models [Models Tier]
-            UserMdl[User Model]
-            EquipMdl[Equipment Model]
-            BookMdl[Booking Model]
-            PayMdl[Payment Model]
-            RevMdl[Review Model]
-            NotifMdl[Notification Model]
-            CatMdl[Category Model]
+        subgraph Repositories [JPA Repositories Tier]
+            UserRepo[UserRepository]
+            EquipRepo[EquipmentRepository]
+            BookRepo[BookingRepository]
+            PayRepo[PaymentRepository]
+            RevRepo[ReviewRepository]
+            NotifRepo[NotificationRepository]
+            CatRepo[CategoryRepository]
         end
     end
 
     subgraph DatabaseComponent [Database Storage Tier]
-        MySQL[(MySQL 8 Database<br/>agrirent Connection Pool)]
+        MySQL[(MySQL 8 Database<br/>HikariCP Connection Pool)]
     end
 
     %% Interactions
     AuthCtx -->|HTTPS / JSON Calls| API_Route
     API_Route --> Auth_MW
-    Auth_MW --> Controllers
+    Auth_MW --> Services
     
-    AuthCtrl --> UserMdl
-    EquipCtrl --> EquipMdl
-    EquipCtrl --> CatMdl
-    BookCtrl --> BookMdl
-    BookCtrl --> NotifMdl
-    BookCtrl --> PayMdl
-    BookCtrl --> EquipMdl
-    UserCtrl --> UserMdl
+    AuthSvc --> UserRepo
+    EquipSvc --> EquipRepo
+    EquipSvc --> CatRepo
+    BookSvc --> BookRepo
+    BookSvc --> NotifRepo
+    BookSvc --> PayRepo
+    BookSvc --> EquipRepo
+    UserSvc --> UserRepo
+    PaySvc --> PayRepo
+    RevSvc --> RevRepo
 
-    UserMdl -->|mysql2 pool query| MySQL
-    EquipMdl -->|mysql2 pool query| MySQL
-    BookMdl -->|mysql2 pool query| MySQL
-    PayMdl -->|mysql2 pool query| MySQL
-    RevMdl -->|mysql2 pool query| MySQL
-    NotifMdl -->|mysql2 pool query| MySQL
-    CatMdl -->|mysql2 pool query| MySQL
+    UserRepo -->|JPA / Hibernate query| MySQL
+    EquipRepo -->|JPA / Hibernate query| MySQL
+    BookRepo -->|JPA / Hibernate query| MySQL
+    PayRepo -->|JPA / Hibernate query| MySQL
+    RevRepo -->|JPA / Hibernate query| MySQL
+    NotifRepo -->|JPA / Hibernate query| MySQL
+    CatRepo -->|JPA / Hibernate query| MySQL
 ```
 
 ---
@@ -83,11 +89,11 @@ graph TD
 - **Admin UI (`AdminDashboard.jsx`):** Provides system oversight for managing platform categories, monitoring users, and viewing all platform bookings.
 - **Auth Context (`AuthContext.jsx`):** Encapsulates JWT storage in local memory and attaches authorization headers to outgoing API calls.
 
-### 2. Backend Server Components (`server/`)
-- **Express REST Routers (`server/routes/`):** Route incoming request paths to their corresponding controller methods.
-- **Auth Middleware (`authMiddleware.js`):** Intercepts requests to verify JWT signature and check user roles.
-- **Controllers (`server/controllers/`):** Execute business logic, compute prices, and validate input parameters.
-- **Models (`server/models/`):** Abstract MySQL queries into JavaScript methods (`find`, `create`, `update`, `delete`).
+### 2. Backend Server Components (`server/springboot-backend/`)
+- **Spring REST Controllers (`com.agrirent.controller`):** Map incoming REST request endpoints to service calls.
+- **Spring Security Filter (`com.agrirent.security`):** Intercepts requests to verify JWT signature and check user roles via `JwtAuthenticationFilter`.
+- **Services (`com.agrirent.service`):** Execute business logic, compute prices, handle driver costs, and validate input parameters.
+- **JPA Repositories (`com.agrirent.repository`):** Standard Spring Data JPA interfaces for database operations (`save`, `findById`, `findAll`, `deleteById`).
 
 ### 3. Database Components (`agrirent` MySQL DB)
-- **`mysql2` Connection Pool:** Manages persistent pool connections to MySQL 8 on port 3306 for optimal performance.
+- **HikariCP Connection Pool:** Manages high-performance persistent connections to MySQL 8 on port 3306.

@@ -394,7 +394,7 @@ const EquipmentForm = () => {
                 type="text" 
                 name="location"
                 required
-                placeholder="e.g. Ludhiana, Punjab"
+                placeholder="e.g. Trichy, Tamil Nadu"
                 value={formData.location}
                 onChange={handleChange}
                 className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"

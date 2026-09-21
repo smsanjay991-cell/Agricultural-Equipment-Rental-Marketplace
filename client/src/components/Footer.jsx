@@ -106,7 +106,7 @@ function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>AgriTech Tower, Punjab & Haryana Hub</span>
+                <span>AgriTech Tower, Chennai & Tamil Nadu Hub</span>
               </li>
             </ul>
           </div>

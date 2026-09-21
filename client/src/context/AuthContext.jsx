@@ -39,9 +39,14 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return userObj;
     } catch (err) {
-      const msg = err.message === 'Failed to fetch' 
-        ? 'Cannot connect to backend server. Please verify backend server is running.' 
-        : err.message || 'Login failed';
+      let msg;
+      if (err.status) {
+        msg = err.message || (err.data && err.data.message) || `Request failed with status ${err.status}`;
+      } else if (err.isNetworkError || err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        msg = 'Cannot connect to backend server. Please verify backend server is running.';
+      } else {
+        msg = err.message || 'Login failed';
+      }
       setError(msg);
       setLoading(false);
       throw new Error(msg);
@@ -62,9 +67,14 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return userObj;
     } catch (err) {
-      const msg = err.message === 'Failed to fetch' 
-        ? 'Cannot connect to backend server. Please verify backend server is running.' 
-        : err.message || 'Registration failed';
+      let msg;
+      if (err.status) {
+        msg = err.message || (err.data && err.data.message) || `Request failed with status ${err.status}`;
+      } else if (err.isNetworkError || err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        msg = 'Cannot connect to backend server. Please verify backend server is running.';
+      } else {
+        msg = err.message || 'Registration failed';
+      }
       setError(msg);
       setLoading(false);
       throw new Error(msg);
@@ -99,11 +109,11 @@ export const AuthProvider = ({ children }) => {
     const demoUser = {
       _id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
       id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
-      name: role === 'farmer' ? 'Harpreet Singh (Farmer)' : role === 'owner' ? 'Rajesh Patel (Fleet Owner)' : 'System Administrator',
+      name: role === 'farmer' ? 'Vinoth Kumar' : role === 'owner' ? 'Siva Prakash' : 'Sanjay Kumar',
       email: `${role}@agrirent.com`,
       role: role,
       phone: '+91 98765 43210',
-      location: 'Punjab, India',
+      location: role === 'farmer' ? 'Trichy, Tamil Nadu' : role === 'owner' ? 'Thanjavur, Tamil Nadu' : 'Chennai, Tamil Nadu',
       token: 'demo_token_' + role
     };
     localStorage.setItem('agrirent_token', demoUser.token);

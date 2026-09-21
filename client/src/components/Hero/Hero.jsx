@@ -80,7 +80,7 @@ const Hero = () => {
               <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
               <input 
                 type="text"
-                placeholder="District or State (e.g. Punjab, Karnal)..."
+                placeholder="District or State (e.g. Trichy, Tamil Nadu)..."
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="bg-transparent text-sm text-slate-100 placeholder-slate-400 focus:outline-none w-full"

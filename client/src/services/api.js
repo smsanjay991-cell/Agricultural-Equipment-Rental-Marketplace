@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 export const SERVER_BASE_URL = API_BASE_URL.replace(/\/api\/?$/, '');
 
 export const getImageUrl = (imagePath) => {
@@ -28,10 +28,17 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(data.message || `Request failed with status ${response.status}`);
+      const errorMsg = data.message || `Request failed with status ${response.status}`;
+      const error = new Error(errorMsg);
+      error.status = response.status;
+      error.data = data;
+      throw error;
     }
     return data;
   } catch (error) {
+    if (!error.status) {
+      error.isNetworkError = true;
+    }
     console.warn(`API call ${endpoint} error:`, error.message);
     throw error;
   }

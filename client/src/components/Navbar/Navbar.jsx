@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Tractor, User, LogOut, Menu, X, Shield, ChevronDown, Bell, Check, CheckCheck, Loader2 } from 'lucide-react';
+import { Tractor, User, LogOut, Menu, X, Bell, Check, CheckCheck, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { notificationService } from '../../services/notificationService';
 
 const Navbar = () => {
-  const { user, logout, switchDemoRole } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate(); 
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 
   // Notification States
   const [notifications, setNotifications] = useState([]);
@@ -165,44 +164,8 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* User & Role Controls */}
+          {/* User Controls */}
           <div className="hidden md:flex items-center gap-4">
-
-            {/* Quick Role Switcher for Demo */}
-            <div className="relative">
-              <button
-                onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-                className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700/80 transition cursor-pointer"
-              >
-                <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                Role: <span className="text-emerald-400 uppercase">{user ? user.role : 'Guest'}</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </button>
-
-              {roleDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-slate-800 border border-slate-700 shadow-2xl py-2 z-50 text-xs">
-                  <div className="px-3 py-1 text-slate-400 font-medium">Switch Role Demo:</div>
-                  <button
-                    onClick={() => { switchDemoRole('farmer'); setRoleDropdownOpen(false); }}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-700 text-slate-200 flex items-center gap-2 cursor-pointer"
-                  >
-                    🌾 Farmer Persona
-                  </button>
-                  <button
-                    onClick={() => { switchDemoRole('owner'); setRoleDropdownOpen(false); }}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-700 text-slate-200 flex items-center gap-2 cursor-pointer"
-                  >
-                    🚜 Owner Persona
-                  </button>
-                  <button
-                    onClick={() => { switchDemoRole('admin'); setRoleDropdownOpen(false); }}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-700 text-slate-200 flex items-center gap-2 cursor-pointer"
-                  >
-                    🛡️ Admin Persona
-                  </button>
-                </div>
-              )}
-            </div>
 
             {user ? (
               <div className="flex items-center gap-3" ref={notifRef}>

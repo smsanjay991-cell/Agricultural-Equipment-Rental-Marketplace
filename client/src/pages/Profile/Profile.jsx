@@ -161,7 +161,7 @@ const Profile = () => {
             <div className="relative">
               <input 
                 type="text" 
-                placeholder="Ludhiana, Punjab"
+                placeholder="Trichy, Tamil Nadu"
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 className="w-full p-3 pl-10 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:border-emerald-500 transition"

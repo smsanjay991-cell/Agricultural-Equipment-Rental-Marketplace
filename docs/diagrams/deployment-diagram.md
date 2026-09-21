@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Deployment diagram illustrates the physical and runtime deployment setup of the **AgriRent** application. Designed as a practical student capstone deployment topology, it shows how software components are hosted across user client devices, the web server host, and the database server instance.
+The Deployment diagram illustrates the physical and runtime deployment setup of the **AgriRent** application. It shows how software components are hosted across user client devices, the Spring Boot application server host, and the database server instance.
 
 ---
 
@@ -16,10 +16,10 @@ graph TD
         end
     end
 
-    subgraph ServerNode [Application Server Host - Node.js Environment]
-        subgraph NodeRuntime [Node.js v18+ Runtime Engine]
-            ExpressServer[Express.js Web Application Server<br/>Port: 5000 / Environment Variables]
-            UploadStorage[Static Uploads Storage<br/>/uploads/ Directory]
+    subgraph ServerNode [Application Server Host - Java Runtime Environment]
+        subgraph JavaRuntime [Java 17+ OpenJDK Runtime]
+            SpringBootServer[Spring Boot 3.x Application Server<br/>Port: 8080 / application.properties]
+            UploadStorage[Static Uploads Storage<br/>uploads/equipment Directory]
         end
     end
 
@@ -30,9 +30,9 @@ graph TD
     end
 
     %% Network Connections
-    ReactApp -->|HTTP / HTTPS<br/>REST API Calls / JSON Payloads| ExpressServer
-    ExpressServer -->|Local File I/O| UploadStorage
-    ExpressServer -->|TCP / IP Connection<br/>mysql2 Protocol - Port 3306| AgriRentDB
+    ReactApp -->|HTTP / HTTPS<br/>REST API Calls / JSON Payloads| SpringBootServer
+    SpringBootServer -->|Local File I/O| UploadStorage
+    SpringBootServer -->|TCP / IP Connection<br/>HikariCP / JDBC - Port 3306| AgriRentDB
 ```
 
 ---
@@ -45,9 +45,9 @@ graph TD
 - **Artifact:** Renders the React client application single-page application (SPA).
 
 ### 2. Application Server (Backend Server Node)
-- **Host Environment:** Local workstation or web server running Node.js (v18+).
-- **Runtime Process:** Listens for HTTP requests on a designated port (e.g., `http://localhost:5000` or production host).
-- **Execution Component:** Express.js framework handling routing, JWT authentication, and image file storage in the local `/uploads/` directory.
+- **Host Environment:** Workstation or server running Java 17+ JRE/JDK.
+- **Runtime Process:** Executable JAR (`agrirent-backend-1.0.0.jar`) built via Apache Maven, listening on port `8080`.
+- **Execution Component:** Spring Boot web server handling Spring Security JWT authentication, JPA persistence, and image file storage in the local `uploads/equipment` directory.
 
 ### 3. Database Server (MySQL Node)
 - **Host Environment:** Local or dedicated MySQL Server 8.0 instance.

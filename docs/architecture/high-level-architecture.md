@@ -15,13 +15,13 @@ graph TD
     end
 
     subgraph Layer2 [Application / API Layer]
-        API[Express.js REST API Gateway<br/>Routes: /api/auth, /api/equipment, /api/bookings, /api/users]
-        AUTH[JWT Middleware<br/>protect & authorizeRoles]
+        API[Spring Boot REST Controllers<br/>Endpoints: /api/auth, /api/equipment, /api/bookings, /api/users, etc.]
+        AUTH[Spring Security & JwtAuthenticationFilter<br/>JWT Bearer Token Validation & Role Guards]
     end
 
     subgraph Layer3 [Business Logic Layer]
-        CTRL[Controllers & Domain Logic<br/>authController, equipmentController, bookingController, userController]
-        MDL[Model Services<br/>User, Category, Equipment, Booking, Payment, Review, Notification]
+        CTRL[Service Layer & Domain Logic<br/>AuthService, EquipmentService, BookingService, UserService]
+        MDL[Spring Data JPA Repositories & Entities<br/>User, Category, Equipment, Booking, Payment, Review, Notification]
     end
 
     subgraph Layer4 [Database Layer]
@@ -29,10 +29,10 @@ graph TD
     end
 
     UI -->|HTTP GET / POST / PUT / DELETE| API
-    API -->|Token Check & Role Guard| AUTH
-    AUTH -->|Validated Request| CTRL
+    API -->|Token Check & Security Filter| AUTH
+    AUTH -->|Authenticated Context| CTRL
     CTRL -->|Execute Domain Rules| MDL
-    MDL -->|SQL Queries via mysql2 Pool| DB
+    MDL -->|JPA / Hibernate ORM Queries| DB
 ```
 
 ---
@@ -40,29 +40,29 @@ graph TD
 ## Detailed Layer Descriptions
 
 ### 1. Presentation Layer (React Frontend)
-- **Technologies:** React.js, React Router DOM, CSS3, JavaScript (ES6+).
+- **Technologies:** React.js, React Router DOM, Vite, CSS3, Axios.
 - **Functionality:** 
   - Renders user interfaces such as the Equipment Catalog, Booking Form, Dashboard views, and Auth Forms.
   - Manages frontend client state using React Hooks (`useState`, `useEffect`) and Context API (`AuthContext`).
-  - Formats user actions (e.g., submitting a rental booking request) into JSON payloads and dispatches asynchronous HTTP requests to the backend REST endpoints.
+  - Formats user actions into JSON payloads and dispatches asynchronous HTTP requests to the backend Spring Boot REST endpoints.
 
-### 2. Application / API Layer (Express Routing & Middleware)
-- **Technologies:** Express.js, JSON Web Tokens (`jsonwebtoken`).
+### 2. Application / API Layer (Spring Web & Security)
+- **Technologies:** Java 17+, Spring Boot 3.x, Spring Security, JJWT (`jjwt-api`).
 - **Functionality:**
-  - Serves as the single entry point for all API calls coming from the React client.
-  - Express routers (`authRoutes`, `equipmentRoutes`, `bookingRoutes`, `userRoutes`) parse incoming URLs and HTTP methods.
-  - Intercepts requests using `protect` middleware to verify Bearer JWT tokens in the `Authorization` header.
-  - Evaluates user role permissions using `authorizeRoles('farmer', 'owner', 'admin')` before delegating requests to controller actions.
+  - Serves as the single entry point for all API calls coming from the React client on port 8080.
+  - Spring MVC RestControllers (`AuthController`, `EquipmentController`, `BookingController`, `UserController`, etc.) map incoming URLs and HTTP methods.
+  - Intercepts requests using `JwtAuthenticationFilter` to verify Bearer JWT tokens in the `Authorization` header.
+  - Evaluates user role permissions using `@PreAuthorize("hasAnyRole('farmer', 'owner', 'admin')")` or SecurityFilterChain rules before delegating to services.
 
-### 3. Business Logic Layer (Controllers & Models)
-- **Technologies:** Node.js JavaScript functions, custom Model abstractions.
+### 3. Business Logic Layer (Spring Services & Data JPA)
+- **Technologies:** Spring Boot Services, Spring Data JPA, Hibernate ORM, Bean Validation.
 - **Functionality:**
   - Contains core business rules, such as calculating total booking amounts (daily rate × days + optional driver fee), updating equipment availability, verifying ownership before allowing modifications, and calculating average ratings from user reviews.
-  - Controllers validate input data, invoke model methods, handle edge cases, and send structured JSON responses (e.g., `{ success: true, data: [...] }`).
-  - Models format SQL responses into JavaScript objects expected by the frontend.
+  - Controllers validate DTOs with `@Valid`, invoke service methods, handle edge cases via `GlobalExceptionHandler`, and return structured JSON responses (e.g., `{ success: true, data: [...] }`).
+  - JPA Entities map database tables to Java objects with Lombok getters/setters.
 
 ### 4. Database Layer (MySQL 8)
-- **Technologies:** MySQL 8.0, InnoDB storage engine, `mysql2` connection pool.
+- **Technologies:** MySQL 8.0, InnoDB storage engine, HikariCP connection pool (via Spring Data JPA).
 - **Functionality:**
   - Stores all persistent data in 7 relational tables (`users`, `categories`, `equipment`, `bookings`, `payments`, `reviews`, `notifications`).
   - Enforces entity integrity and relational constraints using Foreign Keys with `CASCADE` or `SET NULL` actions.
