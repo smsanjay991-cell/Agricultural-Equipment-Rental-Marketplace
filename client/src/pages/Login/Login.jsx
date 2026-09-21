@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Tractor, Lock, Mail, ArrowRight, ShieldCheck, Shield, ChevronDown, Loader2 } from 'lucide-react';
 
 const Login = () => {
-  const { login, error: authError, loading, switchDemoRole } = useAuth();
+  const { login, error: authError, loading } = useAuth();
   const navigate = useNavigate();
 
   const [selectedRole, setSelectedRole] = useState('guest');
@@ -38,15 +38,6 @@ const Login = () => {
       const userObj = await login(email, password);
       redirectByRole(userObj);
     } catch (err) {
-      if (selectedRole !== 'guest') {
-        try {
-          const demoUser = switchDemoRole(selectedRole);
-          redirectByRole(demoUser);
-          return;
-        } catch (demoErr) {
-          console.error(demoErr);
-        }
-      }
       setError(err.message || 'Login failed. Please check credentials.');
     }
   };
@@ -66,11 +57,8 @@ const Login = () => {
       setDemoLoadingRole(null);
       redirectByRole(userObj);
     } catch (err) {
-      console.warn('Backend login fallback to demo role:', err);
-      // Fallback to offline demo mode role switcher
-      const demoUser = switchDemoRole(role);
       setDemoLoadingRole(null);
-      redirectByRole(demoUser);
+      setError(err.message || 'Demo login failed. Please ensure the backend is running.');
     }
   };
 

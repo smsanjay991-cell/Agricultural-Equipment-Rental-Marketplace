@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { User, Mail, Phone, MapPin, ShieldCheck, CheckCircle, AlertCircle, Save, Loader2 } from 'lucide-react';
 
 const Profile = () => {
-  const { user, updateProfile, switchDemoRole } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [saving, setSaving] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -101,12 +101,6 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-slate-400 font-medium">Demo Roles:</span>
-            <button onClick={() => switchDemoRole('farmer')} className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition">Farmer</button>
-            <button onClick={() => switchDemoRole('owner')} className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition">Owner</button>
-            <button onClick={() => switchDemoRole('admin')} className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition">Admin</button>
-          </div>
         </div>
 
         {/* Profile Update Form */}

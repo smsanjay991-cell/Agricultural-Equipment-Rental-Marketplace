@@ -105,24 +105,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('agrirent_user');
   };
 
-  const switchDemoRole = (role) => {
-    const demoUser = {
-      _id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
-      id: role === 'owner' ? 2 : role === 'admin' ? 3 : 1,
-      name: role === 'farmer' ? 'Vinoth Kumar' : role === 'owner' ? 'Siva Prakash' : 'Sanjay Kumar',
-      email: `${role}@agrirent.com`,
-      role: role,
-      phone: '+91 98765 43210',
-      location: role === 'farmer' ? 'Trichy, Tamil Nadu' : role === 'owner' ? 'Thanjavur, Tamil Nadu' : 'Chennai, Tamil Nadu',
-      token: 'demo_token_' + role
-    };
-    localStorage.setItem('agrirent_token', demoUser.token);
-    setUser(demoUser);
-    return demoUser;
-  };
-
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, register, logout, updateProfile, switchDemoRole }}>
+    <AuthContext.Provider value={{ user, loading, error, login, register, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
@@ -138,8 +122,7 @@ export const useAuth = () => {
       login: async () => {},
       register: async () => {},
       logout: () => {},
-      updateProfile: async () => {},
-      switchDemoRole: () => {}
+      updateProfile: async () => {}
     };
   }
   return context;
