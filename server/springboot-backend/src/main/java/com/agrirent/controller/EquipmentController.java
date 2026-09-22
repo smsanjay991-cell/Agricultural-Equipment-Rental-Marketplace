@@ -46,10 +46,7 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
-@PostMapping(
-        value = "",
-        consumes = "multipart/form-data"
-)
+@PostMapping
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
         @RequestParam Map<String, String> body,
