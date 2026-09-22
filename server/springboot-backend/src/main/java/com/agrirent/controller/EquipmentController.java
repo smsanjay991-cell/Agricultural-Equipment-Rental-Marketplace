@@ -69,24 +69,23 @@ public class EquipmentController {
     // consumes = MULTIPART_FORM_DATA_VALUE allows the boundary parameter
     // to be present in the incoming Content-Type (Spring ignores it correctly).
     // =========================
-    @PostMapping(
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
-    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    public ResponseEntity<ApiResponse<EquipmentResponse>> create(
-            @RequestParam Map<String, String> fields,
-            @RequestParam(value = "image", required = false) MultipartFile imageFile,
-            @AuthenticationPrincipal UserDetails ud) {
+   @PutMapping("/{id}")
+@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+public ResponseEntity<ApiResponse<EquipmentResponse>> update(
+        @PathVariable Long id,
+        @RequestParam Map<String, String> body,
+        @AuthenticationPrincipal UserDetails ud) {
 
-        User user = resolveUser(ud);
-        Map<String, Object> data = buildDataMap(fields, imageFile);
+    User user = resolveUser(ud);
 
-        EquipmentResponse resp = equipmentService.create(data, user);
+    Map<String, Object> data = new HashMap<>(body);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(ApiResponse.ok("Equipment created successfully", resp));
-    }
+    EquipmentResponse resp = equipmentService.update(id, data, user);
+
+    return ResponseEntity.ok(
+            ApiResponse.ok("Equipment updated successfully", resp)
+    );
+}
 
     // =========================
     // UPDATE EQUIPMENT
