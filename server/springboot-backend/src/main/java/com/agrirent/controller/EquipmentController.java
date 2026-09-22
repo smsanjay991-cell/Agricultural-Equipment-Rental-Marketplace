@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +47,10 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
-
-    @PostMapping
+@PostMapping(
+    value = "",
+    consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
+)
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
         @RequestParam Map<String, String> body,
