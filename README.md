@@ -1,11 +1,5 @@
 # 🌾 AgriRent - Agricultural Equipment Rental Marketplace
 
-![React](https://img.shields.io/badge/React-18.0-blue?logo=react)
-![Vite](https://img.shields.io/badge/Vite-5.1-purple?logo=vite)
-![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
-![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Styling-38BDF8?logo=tailwindcss)
-![JWT](https://img.shields.io/badge/JWT-Authentication-black?logo=jsonwebtokens)
 
 AgriRent is a modern full-stack web application that connects **farmers** with **agricultural equipment owners**, enabling seamless rental of machinery such as tractors, harvesters, tillers, seeders, and sprayers.
 
