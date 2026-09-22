@@ -11,14 +11,20 @@ export const getImageUrl = (imagePath) => {
 
 export const fetchWithAuth = async (endpoint, options = {}) => {
   const token = localStorage.getItem('agrirent_token');
-  
+
   const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
-  
   const headers = {
-    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
+  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  ...options.headers,
+};
+
+if (isFormData) {
+  delete headers['Content-Type'];
+  delete headers['content-type'];
+} else if (!headers['Content-Type'] && !headers['content-type']) {
+  headers['Content-Type'] = 'application/json';
+}
+
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
