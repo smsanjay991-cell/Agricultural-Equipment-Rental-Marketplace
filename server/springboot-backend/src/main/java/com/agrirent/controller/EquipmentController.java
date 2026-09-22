@@ -47,28 +47,22 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
-    @@PostMapping
+
+    @PostMapping
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
-        MultipartHttpServletRequest request,
+        @RequestParam Map<String, String> body,
         @AuthenticationPrincipal UserDetails ud) {
 
     User user = resolveUser(ud);
 
-    Map<String, Object> data = new HashMap<>();
-
-    request.getParameterMap().forEach((key, values) -> {
-        if (values != null && values.length > 0) {
-            data.put(key, values[0]);
-        }
-    });
+    Map<String, Object> data = new HashMap<>(body);
 
     EquipmentResponse resp = equipmentService.create(data, user);
 
     return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.ok("Equipment created successfully", resp));
 }
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<Void>> delete(
