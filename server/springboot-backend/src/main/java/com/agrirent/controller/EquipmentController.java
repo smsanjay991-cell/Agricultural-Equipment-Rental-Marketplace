@@ -45,11 +45,7 @@ public class EquipmentController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
-    }
-@@PostMapping(
-    value = "",
-    consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-)
+    }@PostMapping
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
         @RequestParam Map<String, String> body,
@@ -64,16 +60,6 @@ public ResponseEntity<ApiResponse<EquipmentResponse>> create(
     return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.ok("Equipment created successfully", resp));
 }
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    public ResponseEntity<ApiResponse<EquipmentResponse>> update(
-            @PathVariable Long id,
-            @RequestBody Map<String, Object> body,
-            @AuthenticationPrincipal UserDetails ud) {
-        User user = resolveUser(ud);
-        EquipmentResponse resp = equipmentService.update(id, body, user);
-        return ResponseEntity.ok(ApiResponse.ok("Equipment updated successfully", resp));
-    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
