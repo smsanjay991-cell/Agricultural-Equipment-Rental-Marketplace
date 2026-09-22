@@ -1,5 +1,5 @@
 package com.agrirent.controller;
-
+import org.springframework.http.MediaType;
 import com.agrirent.dto.EquipmentResponse;
 import com.agrirent.entity.User;
 import com.agrirent.exception.ApiResponse;
@@ -46,7 +46,10 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
-@PostMapping
+@@PostMapping(
+    value = "",
+    consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+)
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
         @RequestParam Map<String, String> body,

@@ -1,4 +1,13 @@
+server:
+  port: 8080
+
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 25MB
+
   datasource:
     url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
@@ -16,23 +25,11 @@ spring:
 
   jackson:
     default-property-inclusion: NON_NULL
-  jpa:
-    hibernate:
-      ddl-auto: none
-
-    show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true
-
-  jackson:
-    default-property-inclusion: NON_NULL
 
 # JWT Configuration
 jwt:
   secret: agrirent_super_secret_2026
-  expiration: 2592000000  # 30 days in milliseconds
+  expiration: 2592000000
 
 # Logging
 logging:
