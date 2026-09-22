@@ -65,6 +65,21 @@ public ResponseEntity<ApiResponse<EquipmentResponse>> create(
     return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.ok("Equipment created successfully", resp));
 }
+
+@PutMapping(
+    value = "/{id}",
+    consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
+)
+@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+public ResponseEntity<ApiResponse<EquipmentResponse>> update(
+        @PathVariable Long id,
+        @RequestParam Map<String, String> body,
+        @AuthenticationPrincipal UserDetails ud) {
+    User user = resolveUser(ud);
+    Map<String, Object> data = new HashMap<>(body);
+    EquipmentResponse resp = equipmentService.update(id, data, user);
+    return ResponseEntity.ok(ApiResponse.ok("Equipment updated successfully", resp));
+}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<Void>> delete(
