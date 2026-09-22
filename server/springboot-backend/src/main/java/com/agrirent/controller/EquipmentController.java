@@ -1,5 +1,6 @@
 package com.agrirent.controller;
 import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.agrirent.dto.EquipmentResponse;
 import com.agrirent.entity.User;
 import com.agrirent.exception.ApiResponse;
@@ -45,15 +46,22 @@ public class EquipmentController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
-    }@PostMapping
+    }
+    @@PostMapping
 @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
 public ResponseEntity<ApiResponse<EquipmentResponse>> create(
-        @RequestParam Map<String, String> body,
+        MultipartHttpServletRequest request,
         @AuthenticationPrincipal UserDetails ud) {
 
     User user = resolveUser(ud);
 
-    Map<String, Object> data = new HashMap<>(body);
+    Map<String, Object> data = new HashMap<>();
+
+    request.getParameterMap().forEach((key, values) -> {
+        if (values != null && values.length > 0) {
+            data.put(key, values[0]);
+        }
+    });
 
     EquipmentResponse resp = equipmentService.create(data, user);
 
