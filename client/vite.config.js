@@ -17,4 +17,11 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    host: "0.0.0.0",
+    allowedHosts: [
+      "dazzling-patience-production-43e0.up.railway.app",
+      ".up.railway.app",
+    ],
+  },
 });

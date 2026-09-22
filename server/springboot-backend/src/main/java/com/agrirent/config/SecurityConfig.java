@@ -64,7 +64,11 @@ public class SecurityConfig {
                     origin.startsWith("http://192.168.") ||
                     origin.startsWith("http://10.") ||
                     origin.equals("http://localhost") ||
-                    origin.equals("http://127.0.0.1")
+                    origin.equals("http://127.0.0.1") ||
+                    // Railway production frontend
+                    origin.equals("https://dazzling-patience-production-43e0.up.railway.app") ||
+                    // Allow any Railway subdomain (covers future redeployments)
+                    (origin.startsWith("https://") && origin.endsWith(".up.railway.app"))
             )) {
                 config.setAllowedOrigins(List.of(origin));
             } else {
@@ -72,7 +76,8 @@ public class SecurityConfig {
                     "http://localhost:*",
                     "http://127.0.0.1:*",
                     "http://localhost:[*]",
-                    "http://127.0.0.1:[*]"
+                    "http://127.0.0.1:[*]",
+                    "https://*.up.railway.app"
                 ));
             }
 
