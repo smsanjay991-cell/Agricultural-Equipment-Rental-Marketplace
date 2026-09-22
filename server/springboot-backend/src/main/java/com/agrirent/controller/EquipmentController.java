@@ -1,19 +1,20 @@
 package com.agrirent.controller;
-import org.springframework.http.MediaType;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.agrirent.dto.EquipmentResponse;
 import com.agrirent.entity.User;
 import com.agrirent.exception.ApiResponse;
 import com.agrirent.repository.UserRepository;
 import com.agrirent.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,71 +27,153 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     private final UserRepository userRepository;
 
-    // Public
+    // =========================
+    // GET ALL EQUIPMENT
+    // =========================
     @GetMapping
-    public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getAll(@RequestParam Map<String, String> params) {
+    public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getAll(
+            @RequestParam Map<String, String> params) {
+
         List<EquipmentResponse> list = equipmentService.findAll(params);
-        return ResponseEntity.ok(ApiResponse.okList(list, list.size()));
+
+        return ResponseEntity.ok(
+                ApiResponse.okList(list, list.size())
+        );
     }
 
-    // Protected – Owner/Admin only (before /:id to prevent shadowing)
+    // =========================
+    // GET MY EQUIPMENT
+    // =========================
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getMyEquipment(@AuthenticationPrincipal UserDetails ud) {
+    public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getMyEquipment(
+            @AuthenticationPrincipal UserDetails ud) {
+
         User user = resolveUser(ud);
-        List<EquipmentResponse> list = equipmentService.findByOwner(user.getId());
-        return ResponseEntity.ok(ApiResponse.okList(list, list.size()));
+
+        List<EquipmentResponse> list =
+                equipmentService.findByOwner(user.getId());
+
+        return ResponseEntity.ok(
+                ApiResponse.okList(list, list.size())
+        );
     }
 
-    // Public
+    // =========================
+    // GET EQUIPMENT BY ID
+    // =========================
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<EquipmentResponse>> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
+    public ResponseEntity<ApiResponse<EquipmentResponse>> getById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(equipmentService.findById(id))
+        );
     }
-@PostMapping(
-    value = "",
-    consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
-)
-@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-public ResponseEntity<ApiResponse<EquipmentResponse>> create(
-        @RequestParam Map<String, String> body,
-        @AuthenticationPrincipal UserDetails ud) {
 
-    User user = resolveUser(ud);
+    // =========================
+    // CREATE EQUIPMENT
+    // =========================
+    @PostMapping(
+            value = "",
+            consumes = "multipart/form-data"
+    )
+    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+    public ResponseEntity<ApiResponse<EquipmentResponse>> create(
+            MultipartHttpServletRequest request,
+            @AuthenticationPrincipal UserDetails ud) {
 
-    Map<String, Object> data = new HashMap<>(body);
+        User user = resolveUser(ud);
 
-    EquipmentResponse resp = equipmentService.create(data, user);
+        Map<String, Object> data = extractMultipartData(request);
 
-    return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.ok("Equipment created successfully", resp));
-}
+        EquipmentResponse resp =
+                equipmentService.create(data, user);
 
-@PutMapping(
-    value = "/{id}",
-    consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
-)
-@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-public ResponseEntity<ApiResponse<EquipmentResponse>> update(
-        @PathVariable Long id,
-        @RequestParam Map<String, String> body,
-        @AuthenticationPrincipal UserDetails ud) {
-    User user = resolveUser(ud);
-    Map<String, Object> data = new HashMap<>(body);
-    EquipmentResponse resp = equipmentService.update(id, data, user);
-    return ResponseEntity.ok(ApiResponse.ok("Equipment updated successfully", resp));
-}
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse.ok(
+                                "Equipment created successfully",
+                                resp
+                        )
+                );
+    }
+
+    // =========================
+    // UPDATE EQUIPMENT
+    // =========================
+    @PutMapping(
+            value = "/{id}",
+            consumes = "multipart/form-data"
+    )
+    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+    public ResponseEntity<ApiResponse<EquipmentResponse>> update(
+            @PathVariable Long id,
+            MultipartHttpServletRequest request,
+            @AuthenticationPrincipal UserDetails ud) {
+
+        User user = resolveUser(ud);
+
+        Map<String, Object> data = extractMultipartData(request);
+
+        EquipmentResponse resp =
+                equipmentService.update(id, data, user);
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        "Equipment updated successfully",
+                        resp
+                )
+        );
+    }
+
+    // =========================
+    // DELETE EQUIPMENT
+    // =========================
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<Void>> delete(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails ud) {
+
         User user = resolveUser(ud);
+
         equipmentService.delete(id, user);
-        return ResponseEntity.ok(ApiResponse.ok("Equipment listing removed successfully", null));
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        "Equipment listing removed successfully",
+                        null
+                )
+        );
     }
 
+    // =========================
+    // MULTIPART DATA EXTRACTOR
+    // =========================
+    private Map<String, Object> extractMultipartData(
+            MultipartHttpServletRequest request) {
+
+        Map<String, Object> data = new HashMap<>();
+
+        request.getParameterMap().forEach((key, values) -> {
+
+            if (values != null && values.length > 0) {
+                data.put(key, values[0]);
+            }
+        });
+
+        return data;
+    }
+
+    // =========================
+    // RESOLVE CURRENT USER
+    // =========================
     private User resolveUser(UserDetails ud) {
-        return userRepository.findByEmailIgnoreCase(ud.getUsername()).orElseThrow();
+
+        return userRepository
+                .findByEmailIgnoreCase(ud.getUsername())
+                .orElseThrow();
     }
 }
