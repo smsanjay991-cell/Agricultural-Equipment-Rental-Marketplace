@@ -7,7 +7,6 @@ import com.agrirent.repository.UserRepository;
 import com.agrirent.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,9 +26,7 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     private final UserRepository userRepository;
 
-    // =========================
-    // GET ALL EQUIPMENT (public)
-    // =========================
+    // GET /api/equipment  (public)
     @GetMapping
     public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getAll(
             @RequestParam Map<String, String> params) {
@@ -38,9 +35,7 @@ public class EquipmentController {
         return ResponseEntity.ok(ApiResponse.okList(list, list.size()));
     }
 
-    // =========================
-    // GET MY EQUIPMENT (owner/admin)
-    // =========================
+    // GET /api/equipment/my  (owner/admin)
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<List<EquipmentResponse>>> getMyEquipment(
@@ -51,9 +46,7 @@ public class EquipmentController {
         return ResponseEntity.ok(ApiResponse.okList(list, list.size()));
     }
 
-    // =========================
-    // GET EQUIPMENT BY ID (public)
-    // =========================
+    // GET /api/equipment/{id}  (public)
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<EquipmentResponse>> getById(
             @PathVariable Long id) {
@@ -61,40 +54,28 @@ public class EquipmentController {
         return ResponseEntity.ok(ApiResponse.ok(equipmentService.findById(id)));
     }
 
-    // =========================
-    // CREATE EQUIPMENT
-    // Accepts multipart/form-data sent by the browser's FormData API.
-    // @RequestParam binds each text field; @RequestParam(required=false)
-    // MultipartFile binds the optional image file part.
-    // consumes = MULTIPART_FORM_DATA_VALUE allows the boundary parameter
-    // to be present in the incoming Content-Type (Spring ignores it correctly).
-    // =========================
-   @PutMapping("/{id}")
-@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-public ResponseEntity<ApiResponse<EquipmentResponse>> update(
-        @PathVariable Long id,
-        @RequestParam Map<String, String> body,
-        @AuthenticationPrincipal UserDetails ud) {
+    // POST /api/equipment  (owner/admin)
+    // NO consumes restriction — Spring's multipart resolver handles any
+    // multipart/form-data regardless of boundary or charset parameters.
+    @PostMapping
+    @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+    public ResponseEntity<ApiResponse<EquipmentResponse>> create(
+            @RequestParam Map<String, String> fields,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
+            @AuthenticationPrincipal UserDetails ud) {
 
-    User user = resolveUser(ud);
+        User user = resolveUser(ud);
+        Map<String, Object> data = buildDataMap(fields, imageFile);
+        EquipmentResponse resp = equipmentService.create(data, user);
 
-    Map<String, Object> data = new HashMap<>(body);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.ok("Equipment created successfully", resp));
+    }
 
-    EquipmentResponse resp = equipmentService.update(id, data, user);
-
-    return ResponseEntity.ok(
-            ApiResponse.ok("Equipment updated successfully", resp)
-    );
-}
-
-    // =========================
-    // UPDATE EQUIPMENT
-    // Same multipart pattern as create.
-    // =========================
-    @PutMapping(
-            value = "/{id}",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
+    // PUT /api/equipment/{id}  (owner/admin)
+    // Same: no consumes restriction.
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<EquipmentResponse>> update(
             @PathVariable Long id,
@@ -104,15 +85,12 @@ public ResponseEntity<ApiResponse<EquipmentResponse>> update(
 
         User user = resolveUser(ud);
         Map<String, Object> data = buildDataMap(fields, imageFile);
-
         EquipmentResponse resp = equipmentService.update(id, data, user);
 
         return ResponseEntity.ok(ApiResponse.ok("Equipment updated successfully", resp));
     }
 
-    // =========================
-    // DELETE EQUIPMENT
-    // =========================
+    // DELETE /api/equipment/{id}  (owner/admin)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     public ResponseEntity<ApiResponse<Void>> delete(
@@ -124,30 +102,18 @@ public ResponseEntity<ApiResponse<EquipmentResponse>> update(
         return ResponseEntity.ok(ApiResponse.ok("Equipment listing removed successfully", null));
     }
 
-    // =========================
-    // HELPERS
-    // =========================
+    // ── helpers ─────────────────────────────────────────────────────────────
 
-    /**
-     * Build the data map passed to EquipmentService.
-     * Text form fields come from @RequestParam Map<String, String>.
-     * The image field, when present as a file, is stored under key "imageFile"
-     * so EquipmentService can handle it; the imageUrl string (if any) is already
-     * in the fields map under "image".
-     */
     private Map<String, Object> buildDataMap(
             Map<String, String> fields,
             MultipartFile imageFile) {
 
         Map<String, Object> data = new HashMap<>(fields);
 
-        // If a real file was uploaded, store it for the service layer to handle.
-        // EquipmentService currently stores a URL string; the file is ignored at
-        // the service layer unless image-storage is implemented. This keeps the
-        // controller contract correct so it can be extended later.
         if (imageFile != null && !imageFile.isEmpty()) {
+            // Store the file object so the service layer can extend to save it.
             data.put("imageFile", imageFile);
-            // Keep the original filename as a fallback image string
+            // Use original filename as fallback image string if none provided.
             data.putIfAbsent("image", imageFile.getOriginalFilename());
         }
 
