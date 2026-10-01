@@ -24,41 +24,50 @@ public class Equipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
+
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
     // Denormalized category string for fast filtering (matches Node.js design)
+    @Builder.Default
     @Column(name = "category", nullable = false, length = 50)
     private String categoryName = "General";
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Builder.Default
     @Column(name = "brand", length = 100)
     private String brand = "";
 
+    @Builder.Default
     @Column(name = "model", length = 100)
     private String model = "";
 
+    @Builder.Default
     @Column(name = "daily_rent", precision = 10, scale = 2)
     private BigDecimal dailyRent = BigDecimal.ZERO;
 
+    @Builder.Default
     @Column(name = "deposit", precision = 10, scale = 2)
     private BigDecimal deposit = BigDecimal.ZERO;
 
+    @Builder.Default
     @Column(name = "availability")
     private Boolean availability = true;
 
+    @Builder.Default
     @Column(name = "daily_rate", nullable = false, precision = 10, scale = 2)
     private BigDecimal dailyRate = BigDecimal.ZERO;
+
 
     @Column(name = "location", nullable = false, length = 255)
     private String location;

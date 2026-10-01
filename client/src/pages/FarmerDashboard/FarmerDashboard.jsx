@@ -6,7 +6,7 @@ import { paymentService } from '../../services/paymentService';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
 import { 
-  Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag, Star, Loader2, X, CreditCard, Wallet, CheckCircle2 
+  Calendar, Clock, CheckCircle, XCircle, AlertCircle, MapPin, RefreshCw, ShoppingBag, Star, Loader2, X, CreditCard, CheckCircle2 
 } from 'lucide-react';
 
 const FarmerDashboard = () => {

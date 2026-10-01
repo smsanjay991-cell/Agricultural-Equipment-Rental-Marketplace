@@ -1,0 +1,45 @@
+version: 0.2
+
+# AWS CodeBuild Specification for AgriRent CI/CD Pipeline
+# Automates: Checkout -> Maven Build -> Packaging -> Artifact Deployment
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+      nodejs: 20
+    commands:
+      - echo "Installing build environment dependencies..."
+      - java -version
+      - mvn -version
+
+  pre_build:
+    commands:
+      - echo "Starting Pre-Build validation..."
+      - echo "Validating Frontend build..."
+      - cd client && npm ci --prefer-offline --no-audit || npm install
+      - npm run build
+      - cd ..
+
+  build:
+    commands:
+      - echo "Building AgriRent Spring Boot backend..."
+      - cd server/springboot-backend
+      - mvn clean package -DskipTests
+      - cd ../..
+
+  post_build:
+    commands:
+      - echo "Build completed successfully on $(date)"
+      - ls -lh server/springboot-backend/target/agrirent-backend-1.0.0.jar
+
+artifacts:
+  files:
+    - server/springboot-backend/target/agrirent-backend-1.0.0.jar
+    - Procfile
+  discard-paths: no
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
+    - 'client/node_modules/**/*'

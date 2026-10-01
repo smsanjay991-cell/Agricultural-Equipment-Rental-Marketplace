@@ -136,7 +136,7 @@ const Navbar = () => {
               Browse Equipment
             </Link>
 
-            {user?.role === 'farmer' && (
+            {user?.role?.toLowerCase() === 'farmer' && (
               <Link
                 to="/farmer-dashboard"
                 className={`transition-colors ${isActive('/farmer-dashboard') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'}`}
@@ -145,7 +145,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {user?.role === 'owner' && (
+            {user?.role?.toLowerCase() === 'owner' && (
               <Link
                 to="/owner-dashboard"
                 className={`transition-colors ${isActive('/owner-dashboard') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'}`}
@@ -154,7 +154,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {user?.role === 'admin' && (
+            {user?.role?.toLowerCase() === 'admin' && (
               <Link
                 to="/admin-dashboard"
                 className={`transition-colors ${isActive('/admin-dashboard') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'}`}
@@ -163,6 +163,7 @@ const Navbar = () => {
               </Link>
             )}
           </div>
+
 
           {/* User Controls */}
           <div className="hidden md:flex items-center gap-4">
@@ -331,9 +332,10 @@ const Navbar = () => {
         <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
           <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Home</Link>
           <Link to="/equipment" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Equipment Catalog</Link>
-          {user?.role === 'farmer' && <Link to="/farmer-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">My Rentals</Link>}
-          {user?.role === 'owner' && <Link to="/owner-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Owner Dashboard</Link>}
-          {user?.role === 'admin' && <Link to="/admin-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Admin Dashboard</Link>}
+          {user?.role?.toLowerCase() === 'farmer' && <Link to="/farmer-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">My Rentals</Link>}
+          {user?.role?.toLowerCase() === 'owner' && <Link to="/owner-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Owner Dashboard</Link>}
+          {user?.role?.toLowerCase() === 'admin' && <Link to="/admin-dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-slate-200 hover:bg-slate-800 rounded-lg">Admin Dashboard</Link>}
+
 
           <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
             {user ? (

@@ -31,10 +31,14 @@ public class EquipmentResponse {
     private BigDecimal dailyRent;
     private BigDecimal daily_rate;
     private BigDecimal dailyRate;
+    private BigDecimal pricePerDay;
+    private BigDecimal price_per_day;
     private BigDecimal deposit;
     private Boolean availability;
     private Boolean isAvailable;
     private Boolean is_available;
+    private Boolean available;
+
     private String location;
     private String image;
     private Integer horsepower;

@@ -32,6 +32,7 @@ public class EquipmentService {
     private final ReviewRepository reviewRepository;
     private final ObjectMapper objectMapper;
 
+    @Transactional(readOnly = true)
     public List<EquipmentResponse> findAll(Map<String, String> filters) {
         Specification<Equipment> spec = buildSpec(filters);
         return equipmentRepository.findAll(spec,
@@ -42,6 +43,7 @@ public class EquipmentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public EquipmentResponse findById(Long id) {
         Equipment eq = equipmentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Equipment listing not found"));
@@ -51,12 +53,14 @@ public class EquipmentService {
         return resp;
     }
 
+    @Transactional(readOnly = true)
     public List<EquipmentResponse> findByOwner(Long ownerId) {
         return equipmentRepository.findByOwnerIdOrderByCreatedAtDesc(ownerId)
                 .stream()
                 .map(e -> toResponse(e, false))
                 .collect(Collectors.toList());
     }
+
 
     @Transactional
     public EquipmentResponse create(Map<String, Object> data, User owner) {
@@ -112,7 +116,7 @@ public class EquipmentService {
         eq.setCategoryName(cat);
 
         BigDecimal rate = toBigDecimal(data.getOrDefault("daily_rent",
-                data.getOrDefault("dailyRent", data.getOrDefault("dailyRate", BigDecimal.ZERO))));
+                data.getOrDefault("dailyRent", data.getOrDefault("dailyRate", data.getOrDefault("pricePerDay", BigDecimal.ZERO)))));
         eq.setDailyRent(rate);
         eq.setDailyRate(rate);
 
@@ -131,11 +135,12 @@ public class EquipmentService {
             eq.setIsDriverAvailable(toBool(data.getOrDefault("isDriverAvailable", data.get("is_driver_available"))));
         }
 
-        if (data.containsKey("availability") || data.containsKey("isAvailable")) {
-            boolean avail = toBool(data.getOrDefault("availability", data.getOrDefault("isAvailable", true)));
+        if (data.containsKey("availability") || data.containsKey("isAvailable") || data.containsKey("available")) {
+            boolean avail = toBool(data.getOrDefault("availability", data.getOrDefault("isAvailable", data.getOrDefault("available", true))));
             eq.setAvailability(avail);
             eq.setIsAvailable(avail);
         }
+
 
         // images array → JSON string
         Object imagesRaw = data.get("images");
@@ -215,10 +220,13 @@ public class EquipmentService {
                 .dailyRent(eq.getDailyRent())
                 .daily_rate(eq.getDailyRate())
                 .dailyRate(eq.getDailyRate())
+                .pricePerDay(eq.getDailyRate())
+                .price_per_day(eq.getDailyRate())
                 .deposit(eq.getDeposit())
                 .availability(eq.getAvailability())
                 .isAvailable(eq.getIsAvailable())
                 .is_available(eq.getIsAvailable())
+                .available(eq.getIsAvailable())
                 .location(eq.getLocation())
                 .image(primaryImage)
                 .horsepower(eq.getHorsepower())

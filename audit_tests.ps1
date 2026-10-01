@@ -166,8 +166,10 @@ if ($equipId) {
 }
 
 Write-Output "`n=== 6. CORS TESTS ==="
+$lanIp = (Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue | Where-Object { $_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*" } | Select-Object -First 1).IPAddress
+if (-not $lanIp) { $lanIp = "127.0.0.1" }
 $corsOut = & curl.exe --silent --max-time 10 -i -X OPTIONS `
-    -H "Origin: http://10.115.96.34:5173" `
+    -H "Origin: http://${lanIp}:5173" `
     -H "Access-Control-Request-Method: POST" `
     -H "Access-Control-Request-Headers: Content-Type" `
     "$base/api/auth/register" 2>&1
@@ -182,8 +184,8 @@ Write-Output "ACAC Header: $($acac.Trim())"
 Write-Output "`n=== 7. VITE PROXY TESTS ==="
 $r = & curl.exe --silent --max-time 15 -w "`nHTTPSTATUS:%{http_code}" http://localhost:5173/api/health 2>&1
 Write-Output "Localhost proxy health: $r"
-$r = & curl.exe --silent --max-time 15 -w "`nHTTPSTATUS:%{http_code}" http://10.115.96.34:5173/api/health 2>&1
-Write-Output "LAN proxy health: $r"
+$r = & curl.exe --silent --max-time 15 -w "`nHTTPSTATUS:%{http_code}" "http://${lanIp}:5173/api/health" 2>&1
+Write-Output "LAN proxy ($lanIp) health: $r"
 
 Write-Output "`n=== 8. DATABASE PERSISTENCE TEST ==="
 # Login and verify DB persisted our audit user

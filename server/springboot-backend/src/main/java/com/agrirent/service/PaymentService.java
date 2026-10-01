@@ -35,9 +35,11 @@ public class PaymentService {
         if (!booking.getFarmer().getId().equals(farmer.getId()) && farmer.getRole() != User.Role.admin)
             throw new ForbiddenException("Not authorized to make payment for another user's booking");
 
-        String normStatus = booking.getBookingStatus() != null ? booking.getBookingStatus().toLowerCase() : "";
+        String rawStatus = booking.getBookingStatus() != null ? booking.getBookingStatus() : booking.getStatus();
+        String normStatus = rawStatus != null ? rawStatus.toLowerCase() : "";
         if (!normStatus.equals("approved") && !normStatus.equals("completed"))
             throw new BadRequestException("Payments are only permitted for approved rental bookings. Current booking status is '" + normStatus + "'");
+
 
         if ("paid".equalsIgnoreCase(booking.getPaymentStatus()))
             throw new BadRequestException("Payment has already been completed for this booking");

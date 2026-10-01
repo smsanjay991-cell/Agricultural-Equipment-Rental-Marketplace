@@ -44,8 +44,11 @@ public class ReviewService {
             throw new ForbiddenException("You can only review equipment from your own rental bookings");
         if (!booking.getEquipment().getId().equals(equipmentId))
             throw new BadRequestException("Booking does not match the specified equipment");
-        if (!"completed".equalsIgnoreCase(booking.getBookingStatus()))
+        boolean isCompleted = "completed".equalsIgnoreCase(booking.getBookingStatus())
+                || "completed".equalsIgnoreCase(booking.getStatus());
+        if (!isCompleted)
             throw new BadRequestException("Reviews can only be submitted after the rental booking is completed");
+
 
         reviewRepository.findByBookingId(bookingId).ifPresent(r -> {
             throw new BadRequestException("A review has already been submitted for this rental booking");
@@ -75,18 +78,22 @@ public class ReviewService {
         return equipmentService.toReviewResponse(review);
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewResponse> getByEquipment(Long equipmentId) {
         return reviewRepository.findByEquipmentIdOrderByCreatedAtDesc(equipmentId)
                 .stream().map(equipmentService::toReviewResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewResponse> getByFarmer(Long farmerId) {
         return reviewRepository.findByFarmerIdOrderByCreatedAtDesc(farmerId)
                 .stream().map(equipmentService::toReviewResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewResponse> getAll() {
         return reviewRepository.findAllByOrderByCreatedAtDesc()
                 .stream().map(equipmentService::toReviewResponse).collect(Collectors.toList());
     }
+
 }

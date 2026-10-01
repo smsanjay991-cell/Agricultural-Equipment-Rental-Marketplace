@@ -115,10 +115,12 @@ public class BookingService {
         return toResponse(booking);
     }
 
+    @Transactional(readOnly = true)
     public List<BookingResponse> getAllBookings() {
         return bookingRepository.findAllByOrderByCreatedAtDesc().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public BookingResponse getById(Long id, User currentUser) {
         Booking b = bookingRepository.findById(id).orElseThrow(() -> new NotFoundException("Booking record not found"));
         boolean isFarmer = b.getFarmer().getId().equals(currentUser.getId());
@@ -128,13 +130,16 @@ public class BookingService {
         return toResponse(b);
     }
 
+    @Transactional(readOnly = true)
     public List<BookingResponse> getByFarmer(Long farmerId) {
         return bookingRepository.findByFarmerIdOrderByCreatedAtDesc(farmerId).stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<BookingResponse> getByOwner(Long ownerId) {
         return bookingRepository.findByOwnerIdOrderByCreatedAtDesc(ownerId).stream().map(this::toResponse).collect(Collectors.toList());
     }
+
 
     @Transactional
     public BookingResponse approve(Long id, User currentUser) {

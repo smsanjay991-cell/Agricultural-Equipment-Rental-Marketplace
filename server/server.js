@@ -1,8 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-console.log("MYSQL PASSWORD =", process.env.MYSQL_PASSWORD);
-
 const app = require('./app');
 const connectDB = require('./config/db');
 
@@ -15,5 +13,3 @@ app.listen(PORT, () => {
   console.log("✅ SERVER IS LISTENING...");
 });
 
-// 👇 Indha line mattum pudhusa add pannunga
-console.log("END OF SERVER.JS");

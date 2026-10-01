@@ -20,9 +20,16 @@ yarn-error.log*
 dist/
 build/
 out/
+target/
+*.class
+*.jar
+*.war
+server/springboot-backend/target/
 
 # Runtime uploaded equipment images
+uploads/*
 server/uploads/*
+server/springboot-backend/uploads/*
 !server/uploads/.gitkeep
 backend/uploads/*
 !backend/uploads/.gitkeep

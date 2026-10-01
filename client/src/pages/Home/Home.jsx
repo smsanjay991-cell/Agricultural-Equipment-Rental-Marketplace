@@ -5,7 +5,7 @@ import EquipmentCard from '../../components/EquipmentCard/EquipmentCard';
 import CategoryCard from '../../components/CategoryCard/CategoryCard';
 import Loader from '../../components/Loader/Loader';
 import { equipmentService } from '../../services/equipmentService';
-import { Tractor, ArrowRight, ShieldCheck, Wrench, Sprout, Wind, Droplets } from 'lucide-react';
+import { Tractor, ArrowRight, Wrench, Sprout, Wind, Droplets } from 'lucide-react';
 
 const Home = () => {
   const [featuredEquipment, setFeaturedEquipment] = useState([]);

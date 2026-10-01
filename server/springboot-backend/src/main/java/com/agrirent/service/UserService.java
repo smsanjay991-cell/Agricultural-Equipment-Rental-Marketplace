@@ -65,17 +65,26 @@ public class UserService {
     public AuthResponse updateProfile(Long userId, String name, String email, String phone, String location, String avatar, String password) {
         User user = requireUser(userId);
 
-        if (name != null) user.setName(name);
-        if (email != null) user.setEmail(email.toLowerCase());
-        if (phone != null) user.setPhone(phone);
-        if (location != null) user.setLocation(location);
-        if (avatar != null) user.setAvatar(avatar);
+        if (name != null && !name.isBlank()) user.setName(name.trim());
+        if (email != null && !email.isBlank()) {
+            String trimEmail = email.trim().toLowerCase();
+            if (!trimEmail.equalsIgnoreCase(user.getEmail())) {
+                if (userRepository.existsByEmailIgnoreCase(trimEmail)) {
+                    throw new BadRequestException("Email address is already registered to another account");
+                }
+                user.setEmail(trimEmail);
+            }
+        }
+        if (phone != null) user.setPhone(phone.trim());
+        if (location != null) user.setLocation(location.trim());
+        if (avatar != null) user.setAvatar(avatar.trim());
         if (password != null && !password.isBlank()) {
             user.setPassword(passwordEncoder.encode(password));
         }
 
         return toResponse(userRepository.save(user));
     }
+
 
     @Transactional
     public void delete(Long id, Long currentAdminId) {

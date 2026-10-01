@@ -19,11 +19,15 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       localStorage.setItem('agrirent_user', JSON.stringify(user));
+      if (user.token) {
+        localStorage.setItem('agrirent_token', user.token);
+      }
     } else {
       localStorage.removeItem('agrirent_user');
       localStorage.removeItem('agrirent_token');
     }
   }, [user]);
+
 
   const login = async (email, password) => {
     setLoading(true);
@@ -49,7 +53,7 @@ export const AuthProvider = ({ children }) => {
       }
       setError(msg);
       setLoading(false);
-      throw new Error(msg);
+      throw new Error(msg, { cause: err });
     }
   };
 
@@ -77,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       }
       setError(msg);
       setLoading(false);
-      throw new Error(msg);
+      throw new Error(msg, { cause: err });
     }
   };
 

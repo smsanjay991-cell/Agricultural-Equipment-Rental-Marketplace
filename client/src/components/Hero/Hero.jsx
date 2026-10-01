@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Tractor, CheckCircle2, ShieldCheck, Clock, Users } from 'lucide-react';
+import { Search, MapPin, Tractor, ShieldCheck, Clock, Users } from 'lucide-react';
 
 const Hero = () => {
   const navigate = useNavigate();

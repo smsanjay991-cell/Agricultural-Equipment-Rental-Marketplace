@@ -19,24 +19,28 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "farmer_id", nullable = false)
     private User farmer;
+
 
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
     // Capitalized: Pending, Completed, Failed, Refunded
+    @Builder.Default
     @Column(name = "payment_status", nullable = false,
         columnDefinition = "ENUM('Pending','Completed','Failed','Refunded') DEFAULT 'Pending'")
     private String paymentStatus = "Pending";
 
+    @Builder.Default
     @Column(name = "payment_method", nullable = false, length = 50)
     private String paymentMethod = "Cash/Manual";
+
 
     @Column(name = "transaction_id", unique = true, length = 100)
     private String transactionId;

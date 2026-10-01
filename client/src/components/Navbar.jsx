@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Sprout, Menu, X, User, LogIn, UserPlus, Sparkles } from "lucide-react";
+import { Sprout, Menu, X, LogIn, UserPlus, Sparkles } from "lucide-react";
 import Button from "./Button";
 
 /**

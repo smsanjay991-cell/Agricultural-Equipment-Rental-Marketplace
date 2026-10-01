@@ -5,8 +5,8 @@ import { useAuth } from '../../context/AuthContext';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
 import { 
-  Tractor, MapPin, Star, Gauge, Fuel, ShieldCheck, 
-  ArrowLeft, Edit3, Trash2, Calendar, User, Phone, Mail, CheckCircle, XCircle, AlertCircle
+  MapPin, Star, Gauge, Fuel, 
+  ArrowLeft, Edit3, Trash2, Calendar, CheckCircle, XCircle, AlertCircle
 } from 'lucide-react';
 
 const EquipmentDetails = () => {

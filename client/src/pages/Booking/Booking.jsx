@@ -5,7 +5,7 @@ import { bookingService } from '../../services/bookingService';
 import { useAuth } from '../../context/AuthContext';
 import { getImageUrl } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
-import { Calendar, User, MapPin, Gauge, Fuel, CheckCircle, ShieldCheck, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Calendar, User, MapPin, Gauge, CheckCircle, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 
 const Booking = () => {
   const [searchParams] = useSearchParams();

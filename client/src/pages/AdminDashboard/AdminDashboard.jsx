@@ -6,9 +6,9 @@ import { userService } from '../../services/userService';
 import Loader from '../../components/Loader/Loader';
 import CategoryManagement from '../../components/Admin/CategoryManagement';
 import { 
-  Shield, Users, Tractor, Calendar, CheckCircle2, Clock, XCircle, 
-  RefreshCw, AlertCircle, UserCheck, DollarSign, Activity, Folder, 
-  Edit, Trash2, Search, Filter, Loader2, X, Check 
+  Shield, Users, Tractor, Calendar, CheckCircle2, 
+  RefreshCw, AlertCircle, UserCheck, DollarSign, 
+  Edit, Trash2, Search, Filter, Loader2, X 
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -249,7 +249,7 @@ const AdminDashboard = () => {
           </div>
           <div className="text-2xl font-extrabold text-teal-400">{bookings.length} Total</div>
           <div className="text-[11px] text-slate-400 pt-1">
-            {approvedCount} Approved • {pendingCount} Pending
+            {approvedCount} Approved • {pendingCount} Pending • {completedCount} Completed
           </div>
         </div>
 

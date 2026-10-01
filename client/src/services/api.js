@@ -18,12 +18,20 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
   ...options.headers,
 };
 
-if (isFormData) {
-  delete headers['Content-Type'];
-  delete headers['content-type'];
-} else if (!headers['Content-Type'] && !headers['content-type']) {
-  headers['Content-Type'] = 'application/json';
-}
+  if (isFormData) {
+    // Crucial: Delete any Content-Type header so the browser/fetch automatically
+    // constructs the boundary and multipart payload natively.
+    Object.keys(headers).forEach((key) => {
+      if (key.toLowerCase() === 'content-type') {
+        delete headers[key];
+      }
+    });
+  } else {
+    const hasContentType = Object.keys(headers).some((key) => key.toLowerCase() === 'content-type');
+    if (!hasContentType) {
+      headers['Content-Type'] = 'application/json';
+    }
+  }
 
 
   try {

@@ -23,7 +23,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
         SELECT COUNT(b) > 0 FROM Booking b
         WHERE b.equipment.id = :equipmentId
           AND b.id <> :excludeId
-          AND b.bookingStatus IN ('pending','approved')
+          AND (LOWER(b.bookingStatus) IN ('pending','approved') OR LOWER(b.status) IN ('pending','approved'))
           AND b.startDate <= :endDate
           AND b.endDate >= :startDate
         """)

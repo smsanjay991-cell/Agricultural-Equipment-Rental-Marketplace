@@ -29,10 +29,8 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtFilter;
     private final UserDetailsServiceImpl userDetailsService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
@@ -63,12 +61,13 @@ public class SecurityConfig {
                     origin.startsWith("http://127.0.0.1:") ||
                     origin.startsWith("http://192.168.") ||
                     origin.startsWith("http://10.") ||
+                    origin.startsWith("http://172.") ||
                     origin.equals("http://localhost") ||
                     origin.equals("http://127.0.0.1") ||
-                    // Railway production frontend
+                    // Railway production frontend and deployment domains
                     origin.equals("https://dazzling-patience-production-43e0.up.railway.app") ||
-                    // Allow any Railway subdomain (covers future redeployments)
-                    (origin.startsWith("https://") && origin.endsWith(".up.railway.app"))
+                    origin.equals("https://melodious-youth-production-4eeb.up.railway.app") ||
+                    (origin.startsWith("https://") && (origin.endsWith(".up.railway.app") || origin.endsWith(".railway.app")))
             )) {
                 config.setAllowedOrigins(List.of(origin));
             } else {
@@ -77,7 +76,8 @@ public class SecurityConfig {
                     "http://127.0.0.1:*",
                     "http://localhost:[*]",
                     "http://127.0.0.1:[*]",
-                    "https://*.up.railway.app"
+                    "https://*.up.railway.app",
+                    "https://*.railway.app"
                 ));
             }
 
@@ -104,6 +104,7 @@ public class SecurityConfig {
                 // Public routes
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/equipment/my").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/equipment/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/reviews/equipment/**").permitAll()

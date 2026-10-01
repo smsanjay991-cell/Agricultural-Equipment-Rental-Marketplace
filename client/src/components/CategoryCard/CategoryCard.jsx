@@ -1,6 +1,5 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Tractor, Wrench, Shield, ArrowRight } from 'lucide-react';
+import { Tractor, ArrowRight } from 'lucide-react';
 
 const CategoryCard = ({ title, categoryKey, count, icon: Icon, description }) => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const CategoryCard = ({ title, categoryKey, count, icon: Icon, description }) =>
   };
 
   return (
-    <div 
+    <div
       onClick={handleClick}
       className="glass-card p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/40 cursor-pointer space-y-4 group flex flex-col justify-between"
     >
@@ -40,5 +39,4 @@ const CategoryCard = ({ title, categoryKey, count, icon: Icon, description }) =>
     </div>
   );
 };
-
 export default CategoryCard;

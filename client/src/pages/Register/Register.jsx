@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Tractor, User, Mail, Lock, Phone, MapPin, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Tractor, User, Mail, Lock, Phone, MapPin, ArrowRight } from 'lucide-react';
 
 const Register = () => {
   const { register, loading } = useAuth();

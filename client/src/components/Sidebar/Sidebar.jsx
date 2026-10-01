@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Tractor, Calendar, PlusCircle, Users, Settings, User } from 'lucide-react';
+import { LayoutDashboard, Tractor, Calendar, Users, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
