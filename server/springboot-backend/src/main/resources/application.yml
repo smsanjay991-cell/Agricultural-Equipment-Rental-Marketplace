@@ -33,8 +33,15 @@ upload:
 
 # JWT Configuration
 jwt:
-  secret: agrirent_super_secret_2026
+  secret: ${JWT_SECRET:agrirent_super_secret_production_key_2026_xyz123}
   expiration: 2592000000  # 30 days in milliseconds
+
+# Initial Admin Configuration (optional environment-driven initialization)
+admin:
+  email: ${ADMIN_EMAIL:admin@agrirent.com}
+  password: ${ADMIN_PASSWORD:Password123}
+  name: ${ADMIN_NAME:System Administrator}
+  phone: ${ADMIN_PHONE:+91 99999 99999}
 
 # Logging
 logging:

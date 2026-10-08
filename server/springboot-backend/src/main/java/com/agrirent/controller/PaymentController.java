@@ -25,7 +25,7 @@ public class PaymentController {
     private final UserRepository userRepository;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FARMER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<Map<String, Object>>> create(
             @RequestBody Map<String, Object> body,
             @AuthenticationPrincipal UserDetails ud) {

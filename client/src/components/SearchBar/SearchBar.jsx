@@ -31,14 +31,14 @@ const SearchBar = ({ filters, onFilterChange, onReset }) => {
   }, []);
 
   return (
-    <div className="glass-panel p-4 rounded-2xl border border-slate-800 space-y-4 mb-8">
-      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div className="flex items-center gap-2 text-sm font-semibold text-slate-200">
-          <Filter className="w-4 h-4 text-emerald-400" /> Filter & Search Machinery
+    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-4 mb-8">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-2 text-sm font-semibold text-slate-800">
+          <Filter className="w-4 h-4 text-green-700" /> Filter & Search Machinery
         </div>
         <button 
           onClick={onReset}
-          className="text-xs text-emerald-400 hover:underline cursor-pointer font-medium"
+          className="text-xs text-green-700 hover:underline cursor-pointer font-medium"
         >
           Reset All Filters
         </button>
@@ -54,7 +54,7 @@ const SearchBar = ({ filters, onFilterChange, onReset }) => {
             placeholder="Search equipment..."
             value={filters.search || ''}
             onChange={(e) => onFilterChange('search', e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-green-600 focus:outline-none transition"
           />
         </div>
 
@@ -63,7 +63,7 @@ const SearchBar = ({ filters, onFilterChange, onReset }) => {
           <select
             value={filters.category || 'All'}
             onChange={(e) => onFilterChange('category', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:bg-white focus:border-green-600 focus:outline-none cursor-pointer transition"
           >
             <option value="All">All Categories</option>
             {categories.map((cat, idx) => (
@@ -82,20 +82,20 @@ const SearchBar = ({ filters, onFilterChange, onReset }) => {
             placeholder="Filter by location/district..."
             value={filters.location || ''}
             onChange={(e) => onFilterChange('location', e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-green-600 focus:outline-none transition"
           />
         </div>
 
         {/* Driver Option Toggle */}
-        <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/80 border border-slate-700 rounded-xl">
+        <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg">
           <input 
             type="checkbox"
             id="driverOnly"
             checked={filters.isDriverAvailable || false}
             onChange={(e) => onFilterChange('isDriverAvailable', e.target.checked)}
-            className="w-4 h-4 text-emerald-500 bg-slate-700 border-slate-600 rounded focus:ring-emerald-500 cursor-pointer"
+            className="w-4 h-4 text-green-700 bg-white border-slate-300 rounded focus:ring-green-600 cursor-pointer"
           />
-          <label htmlFor="driverOnly" className="text-xs text-slate-300 font-medium cursor-pointer select-none">
+          <label htmlFor="driverOnly" className="text-xs text-slate-700 font-medium cursor-pointer select-none">
             Include Driver Available
           </label>
         </div>

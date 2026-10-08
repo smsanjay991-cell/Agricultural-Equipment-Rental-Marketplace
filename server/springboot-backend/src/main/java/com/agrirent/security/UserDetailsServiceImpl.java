@@ -20,11 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase())))
-                .build();
+        return buildUserDetails(user);
     }
 
     /**
@@ -34,10 +30,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + id));
 
+        return buildUserDetails(user);
+    }
+
+    private UserDetails buildUserDetails(User user) {
+        String roleStr = user.getRole() != null ? user.getRole().name().toUpperCase() : "USER";
+        if ("FARMER".equals(roleStr)) {
+            roleStr = "USER";
+        }
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase())))
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + roleStr)))
                 .build();
     }
 }

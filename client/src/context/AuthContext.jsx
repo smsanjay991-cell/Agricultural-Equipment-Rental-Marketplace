@@ -29,13 +29,23 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
 
-  const login = async (email, password) => {
+  const login = async (email, password, role) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await authService.login(email, password);
+      const response = await authService.login(email, password, role);
       const token = response.token || (response.data && response.data.token);
       const userObj = response.data || response;
+
+      // Strict role verification: ensure the returned user's role matches the requested role
+      if (role && userObj?.role) {
+        const normalizedReqRole = role.toLowerCase() === 'farmer' ? 'user' : role.toLowerCase();
+        const normalizedUserRole = userObj.role.toLowerCase() === 'farmer' ? 'user' : userObj.role.toLowerCase();
+        if (normalizedReqRole !== normalizedUserRole) {
+          throw new Error('Invalid role or credentials.');
+        }
+      }
+
       if (token) {
         localStorage.setItem('agrirent_token', token);
       }
@@ -44,12 +54,21 @@ export const AuthProvider = ({ children }) => {
       return userObj;
     } catch (err) {
       let msg;
-      if (err.status) {
-        msg = err.message || (err.data && err.data.message) || `Request failed with status ${err.status}`;
-      } else if (err.isNetworkError || err.message === 'Failed to fetch' || err.name === 'TypeError') {
-        msg = 'Cannot connect to backend server. Please verify backend server is running.';
+      if (err.isNetworkError || err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        msg = 'Unable to connect to the server. Please try again.';
+      } else if (
+        err.status === 400 || 
+        err.status === 401 || 
+        err.status === 403 ||
+        err.message?.toLowerCase().includes('role') ||
+        err.message?.toLowerCase().includes('credential') ||
+        err.message?.toLowerCase().includes('password') ||
+        err.message?.toLowerCase().includes('email') ||
+        err.message?.toLowerCase().includes('invalid')
+      ) {
+        msg = 'Invalid role or credentials. Please check your details and try again.';
       } else {
-        msg = err.message || 'Login failed';
+        msg = err.message || 'Unable to sign in. Please try again.';
       }
       setError(msg);
       setLoading(false);

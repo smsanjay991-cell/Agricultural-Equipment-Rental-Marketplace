@@ -182,18 +182,18 @@ const FarmerDashboard = () => {
     const norm = (bStatus || status || 'pending').toLowerCase();
     switch (norm) {
       case 'approved':
-        return <span className="flex items-center gap-1 text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 text-xs font-semibold px-2.5 py-1 rounded-full"><CheckCircle className="w-3.5 h-3.5" /> Approved</span>;
+        return <span className="flex items-center gap-1 text-green-800 bg-green-100 border border-green-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><CheckCircle className="w-3.5 h-3.5 text-green-700" /> Approved</span>;
       case 'pending':
-        return <span className="flex items-center gap-1 text-amber-400 bg-amber-950/80 border border-amber-500/30 text-xs font-semibold px-2.5 py-1 rounded-full"><Clock className="w-3.5 h-3.5" /> Pending Approval</span>;
+        return <span className="flex items-center gap-1 text-amber-800 bg-amber-100 border border-amber-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><Clock className="w-3.5 h-3.5 text-amber-600" /> Pending</span>;
       case 'rejected':
       case 'declined':
-        return <span className="flex items-center gap-1 text-red-400 bg-red-950/80 border border-red-500/30 text-xs font-semibold px-2.5 py-1 rounded-full"><XCircle className="w-3.5 h-3.5" /> Declined</span>;
+        return <span className="flex items-center gap-1 text-red-800 bg-red-100 border border-red-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><XCircle className="w-3.5 h-3.5 text-red-600" /> Declined</span>;
       case 'completed':
-        return <span className="flex items-center gap-1 text-teal-400 bg-teal-950/80 border border-teal-500/30 text-xs font-semibold px-2.5 py-1 rounded-full"><CheckCircle className="w-3.5 h-3.5" /> Completed</span>;
+        return <span className="flex items-center gap-1 text-teal-800 bg-teal-100 border border-teal-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><CheckCircle className="w-3.5 h-3.5 text-teal-700" /> Completed</span>;
       case 'cancelled':
-        return <span className="flex items-center gap-1 text-slate-400 bg-slate-800 border border-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full"><XCircle className="w-3.5 h-3.5" /> Cancelled</span>;
+        return <span className="flex items-center gap-1 text-slate-700 bg-slate-100 border border-slate-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><XCircle className="w-3.5 h-3.5 text-slate-500" /> Cancelled</span>;
       default:
-        return <span className="flex items-center gap-1 text-slate-400 bg-slate-800 text-xs font-semibold px-2.5 py-1 rounded-full">{status || bStatus}</span>;
+        return <span className="flex items-center gap-1 text-slate-700 bg-slate-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">{status || bStatus}</span>;
     }
   };
 
@@ -210,19 +210,19 @@ const FarmerDashboard = () => {
   }).length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Farmer Portal</div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">My Machinery Rentals</h1>
+          <div className="text-xs font-bold text-green-700 uppercase tracking-wider">Farmer Portal</div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">My Machinery Rentals</h1>
         </div>
 
         <div className="flex items-center gap-3">
           <button 
             onClick={fetchMyData}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
             title="Refresh Data"
           >
             <RefreshCw className="w-4 h-4" /> Refresh
@@ -230,7 +230,7 @@ const FarmerDashboard = () => {
           
           <Link
             to="/equipment"
-            className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2"
+            className="bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition flex items-center gap-2"
           >
             <ShoppingBag className="w-4 h-4" /> Browse Catalog
           </Link>
@@ -239,49 +239,49 @@ const FarmerDashboard = () => {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Total Rental Requests</div>
-          <div className="text-2xl font-extrabold text-white">{bookings.length}</div>
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Total Rental Requests</div>
+          <div className="text-2xl font-extrabold text-slate-900">{bookings.length}</div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Active & Approved</div>
-          <div className="text-2xl font-extrabold text-emerald-400">{activeCount}</div>
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Active & Approved</div>
+          <div className="text-2xl font-extrabold text-green-700">{activeCount}</div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Pending Approval</div>
-          <div className="text-2xl font-extrabold text-amber-400">{pendingCount}</div>
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Pending Approval</div>
+          <div className="text-2xl font-extrabold text-amber-600">{pendingCount}</div>
         </div>
       </div>
 
       {/* Alerts */}
       {actionSuccess && (
-        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-400 text-xs font-bold flex items-center gap-2 shadow-lg">
-          <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" /> {actionSuccess}
+        <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
+          <CheckCircle className="w-4 h-4 text-green-700 shrink-0" /> {actionSuccess}
         </div>
       )}
 
       {actionError && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center gap-2 shadow-lg">
-          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {actionError}
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-medium flex items-center gap-2 shadow-xs">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0" /> {actionError}
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between shadow-lg">
-          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {error}</span>
-          <button onClick={fetchMyData} className="underline text-emerald-400 font-bold">Retry</button>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-medium flex items-center justify-between shadow-xs">
+          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-600 shrink-0" /> {error}</span>
+          <button onClick={fetchMyData} className="underline text-green-700 font-semibold cursor-pointer">Retry</button>
         </div>
       )}
 
       {/* Bookings List */}
       {bookings.length === 0 ? (
-        <div className="glass-panel p-12 rounded-3xl border border-slate-800 text-center space-y-4">
-          <Calendar className="w-12 h-12 text-slate-600 mx-auto" />
-          <h3 className="text-lg font-bold text-slate-200">No Rental Requests Found</h3>
-          <p className="text-xs text-slate-400">Explore our equipment catalog to book tractors or harvesters for your farm.</p>
-          <Link to="/equipment" className="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg">
+        <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
+          <Calendar className="w-12 h-12 text-slate-400 mx-auto" />
+          <h3 className="text-lg font-bold text-slate-900">No Rental Requests Found</h3>
+          <p className="text-xs text-slate-500">Explore our equipment catalog to book tractors or harvesters for your farm.</p>
+          <Link to="/equipment" className="inline-block bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-5 py-2 rounded-lg shadow-sm">
             Rent Machinery Now
           </Link>
         </div>
@@ -312,7 +312,7 @@ const FarmerDashboard = () => {
             return (
               <div 
                 key={bookingId}
-                className="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-slate-700 transition"
+                className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-slate-300 transition"
               >
                 
                 {/* Equipment Info */}
@@ -320,58 +320,58 @@ const FarmerDashboard = () => {
                   <img 
                     src={imgSrc} 
                     alt={eqName}
-                    className="w-24 h-20 rounded-xl object-cover border border-slate-700 shrink-0 bg-slate-800"
+                    className="w-24 h-20 rounded-lg object-cover border border-slate-200 shrink-0 bg-slate-100"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
                     }}
                   />
                   <div className="space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="text-base font-bold text-white">{eqName}</h3>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <h3 className="text-base font-bold text-slate-900">{eqName}</h3>
                       <span className="text-[10px] text-slate-400 font-mono">#{bookingId}</span>
                       {getStatusBadge(booking.bookingStatus, booking.status)}
                       {isPaid && (
-                        <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Paid
+                        <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-green-800 bg-green-100 border border-green-200 px-2 py-0.5 rounded">
+                          <CheckCircle2 className="w-3 h-3 text-green-700" /> Paid
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
                       <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         {new Date(booking.startDate || booking.start_date).toLocaleDateString()} to {new Date(booking.endDate || booking.end_date).toLocaleDateString()} ({booking.totalDays || booking.total_days || 1} Days)
                       </span>
                       <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
                         {eqLoc}
                       </span>
                     </div>
 
                     {existingPay?.transactionId && (
-                      <div className="text-[11px] text-slate-400 font-mono">
-                        Payment Ref: <span className="text-slate-300 font-semibold">{existingPay.transactionId}</span> ({existingPay.paymentMethod || 'Manual'})
+                      <div className="text-[11px] text-slate-500 font-mono">
+                        Payment Ref: <span className="text-slate-800 font-semibold">{existingPay.transactionId}</span> ({existingPay.paymentMethod || 'Manual'})
                       </div>
                     )}
 
                     {(booking.includeDriver || booking.include_driver) && (
-                      <span className="inline-block text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
-                        + Driver Operator Included
+                      <span className="inline-block text-[10px] uppercase font-semibold text-green-800 bg-green-50 border border-green-200 px-2 py-0.5 rounded">
+                        + Driver Included
                       </span>
                     )}
 
                     {(booking.notes || booking.remarks) && (
-                      <p className="text-[11px] text-slate-400 italic pt-0.5">"{booking.notes || booking.remarks}"</p>
+                      <p className="text-[11px] text-slate-600 italic pt-0.5">"{booking.notes || booking.remarks}"</p>
                     )}
                   </div>
                 </div>
 
                 {/* Price & Actions */}
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between border-t md:border-t-0 border-slate-800 pt-4 md:pt-0 gap-3 shrink-0">
+                <div className="flex flex-row md:flex-col items-center md:items-end justify-between border-t md:border-t-0 border-slate-100 pt-3 md:pt-0 gap-3 shrink-0">
                   <div className="text-left md:text-right">
-                    <span className="text-xs text-slate-400 block">Total Rental Fee</span>
-                    <span className="text-xl font-extrabold text-emerald-400">
+                    <span className="text-[10px] uppercase font-semibold text-slate-500 block">Total Fee</span>
+                    <span className="text-lg font-bold text-green-700">
                       ₹{Number(totalFee).toLocaleString()}
                     </span>
                   </div>
@@ -379,7 +379,7 @@ const FarmerDashboard = () => {
                   {isPending && (
                     <button
                       onClick={() => handleCancelBooking(bookingId)}
-                      className="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/50 hover:bg-red-900/60 border border-red-800/50 px-3.5 py-1.5 rounded-lg transition cursor-pointer"
+                      className="text-xs font-medium text-red-700 hover:bg-red-50 bg-white border border-red-200 px-3 py-1.5 rounded-lg transition cursor-pointer"
                     >
                       Cancel Booking
                     </button>
@@ -389,7 +389,7 @@ const FarmerDashboard = () => {
                   {(isApproved || isCompleted) && !isPaid && (
                     <button
                       onClick={() => handleOpenPaymentModal(booking)}
-                      className="flex items-center gap-1.5 text-xs font-bold text-teal-200 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 px-3.5 py-1.5 rounded-xl transition cursor-pointer shadow-lg shadow-teal-600/20"
+                      className="flex items-center gap-1.5 text-xs font-semibold text-white bg-green-700 hover:bg-green-800 px-3.5 py-1.5 rounded-lg transition cursor-pointer shadow-xs"
                     >
                       <CreditCard className="w-3.5 h-3.5" /> Pay Now (₹{Number(totalFee).toLocaleString()})
                     </button>
@@ -398,15 +398,15 @@ const FarmerDashboard = () => {
                   {/* Review Button for Completed Bookings */}
                   {isCompleted && (
                     existingRev ? (
-                      <span className="flex items-center gap-1 text-emerald-400 font-bold text-xs bg-emerald-950/60 border border-emerald-800/40 px-3 py-1.5 rounded-lg">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> Review Submitted
+                      <span className="flex items-center gap-1 text-green-800 font-semibold text-xs bg-green-50 border border-green-200 px-2.5 py-1 rounded-md">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" /> Review Submitted
                       </span>
                     ) : (
                       <button
                         onClick={() => handleOpenReviewModal(booking)}
-                        className="flex items-center gap-1.5 text-xs font-bold text-amber-400 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 px-3.5 py-1.5 rounded-lg transition cursor-pointer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg transition cursor-pointer"
                       >
-                        <Star className="w-3.5 h-3.5 fill-amber-400" /> Leave Review
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" /> Leave Review
                       </button>
                     )
                   )}
@@ -420,29 +420,29 @@ const FarmerDashboard = () => {
 
       {/* Payment Processing Modal */}
       {isPaymentModalOpen && selectedPaymentBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-700 max-w-lg w-full space-y-5 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 max-w-lg w-full space-y-4 shadow-xl relative">
             
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <div className="text-[10px] uppercase font-bold text-teal-400 tracking-wider">Demo Payment Gateway</div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-teal-400" />
+                <div className="text-[10px] uppercase font-bold text-green-700 tracking-wider">Payment Gateway</div>
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-green-700" />
                   Make Rental Payment
                 </h3>
               </div>
               <button 
                 onClick={handleClosePaymentModal}
                 disabled={paymentSubmitting}
-                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {paymentError && (
-              <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                 <span>{paymentError}</span>
               </div>
             )}
@@ -450,18 +450,18 @@ const FarmerDashboard = () => {
             <form onSubmit={handleSubmitPayment} className="space-y-4">
               
               {/* Rental Summary Card */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
-                <div className="flex items-center justify-between text-xs text-slate-300">
+              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-600">
                   <span>Machine:</span>
-                  <strong className="text-white">{selectedPaymentBooking.equipment?.name || selectedPaymentBooking.equipmentName || 'Equipment'}</strong>
+                  <strong className="text-slate-900">{selectedPaymentBooking.equipment?.name || selectedPaymentBooking.equipmentName || 'Equipment'}</strong>
                 </div>
-                <div className="flex items-center justify-between text-xs text-slate-300">
+                <div className="flex items-center justify-between text-xs text-slate-600">
                   <span>Booking ID:</span>
-                  <strong className="font-mono text-slate-300">#{selectedPaymentBooking._id || selectedPaymentBooking.id}</strong>
+                  <strong className="font-mono text-slate-700">#{selectedPaymentBooking._id || selectedPaymentBooking.id}</strong>
                 </div>
-                <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-slate-700/60">
-                  <span className="text-slate-300">Total Payable Amount:</span>
-                  <span className="text-emerald-400 text-lg">
+                <div className="flex items-center justify-between text-sm font-bold pt-2 border-t border-slate-200">
+                  <span className="text-slate-700">Total Payable:</span>
+                  <span className="text-green-700 text-base font-extrabold">
                     ₹{Number(selectedPaymentBooking.totalPrice !== undefined ? selectedPaymentBooking.totalPrice : (selectedPaymentBooking.totalAmount !== undefined ? selectedPaymentBooking.totalAmount : (selectedPaymentBooking.total_amount || 0))).toLocaleString()}
                   </span>
                 </div>
@@ -469,13 +469,13 @@ const FarmerDashboard = () => {
 
               {/* Payment Method Option */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
                   Select Payment Method
                 </label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500 transition cursor-pointer"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-green-600 transition cursor-pointer"
                 >
                   <option value="UPI/QR">UPI / QR Code Scan</option>
                   <option value="Debit/Credit Card">Debit / Credit Card</option>
@@ -486,7 +486,7 @@ const FarmerDashboard = () => {
 
               {/* Transaction / Reference ID */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
                   Transaction / Reference ID
                 </label>
                 <input
@@ -495,23 +495,23 @@ const FarmerDashboard = () => {
                   placeholder="e.g. TXN_893129"
                   value={transactionIdInput}
                   onChange={(e) => setTransactionIdInput(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 font-mono placeholder-slate-500 focus:outline-none focus:border-teal-500 transition"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 font-mono placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 transition"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={handleClosePaymentModal}
                   disabled={paymentSubmitting}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={paymentSubmitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {paymentSubmitting ? (
                     <>
@@ -530,29 +530,29 @@ const FarmerDashboard = () => {
 
       {/* Review Submission Modal */}
       {isReviewModalOpen && selectedBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-700 max-w-lg w-full space-y-5 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 max-w-lg w-full space-y-4 shadow-xl relative">
             
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <div className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Completed Rental Feedback</div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <div className="text-[10px] uppercase font-bold text-green-700 tracking-wider">Completed Rental Feedback</div>
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
                   Submit Equipment Review
                 </h3>
               </div>
               <button 
                 onClick={handleCloseReviewModal}
                 disabled={reviewSubmitting}
-                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {reviewError && (
-              <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                 <span>{reviewError}</span>
               </div>
             )}
@@ -560,9 +560,9 @@ const FarmerDashboard = () => {
             <form onSubmit={handleSubmitReview} className="space-y-4">
               
               {/* Equipment & Booking Context */}
-              <div className="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60 space-y-1">
-                <span className="text-[11px] text-slate-400 block font-medium">Machine Rented</span>
-                <span className="text-sm font-bold text-white block">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+                <span className="text-[11px] text-slate-500 block font-medium">Machine Rented</span>
+                <span className="text-sm font-bold text-slate-900 block">
                   {selectedBooking.equipment?.name || selectedBooking.equipmentName || 'Equipment'}
                 </span>
                 <span className="text-[10px] text-slate-400 block font-mono">
@@ -572,24 +572,24 @@ const FarmerDashboard = () => {
 
               {/* Star Rating Picker */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-300">
-                  Rating <span className="text-red-400">*</span>
+                <label className="block text-xs font-medium text-slate-700">
+                  Rating <span className="text-red-500">*</span>
                 </label>
-                <div className="flex items-center gap-2 bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
                   {[1, 2, 3, 4, 5].map((starVal) => (
                     <button
                       key={starVal}
                       type="button"
                       onClick={() => setRating(starVal)}
-                      className="p-1 text-slate-600 hover:text-amber-400 transition cursor-pointer focus:outline-none"
+                      className="p-1 text-slate-300 hover:text-amber-400 transition cursor-pointer focus:outline-none"
                       title={`${starVal} Star${starVal > 1 ? 's' : ''}`}
                     >
                       <Star 
-                        className={`w-7 h-7 transition ${starVal <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600'}`} 
+                        className={`w-6 h-6 transition ${starVal <= rating ? 'fill-amber-400 text-amber-500' : 'text-slate-300'}`} 
                       />
                     </button>
                   ))}
-                  <span className="ml-auto text-xs font-bold text-amber-400">
+                  <span className="ml-auto text-xs font-bold text-amber-600">
                     {rating} / 5 Stars
                   </span>
                 </div>
@@ -597,8 +597,8 @@ const FarmerDashboard = () => {
 
               {/* Review Comment */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Your Review & Feedback <span className="text-red-400">*</span>
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                  Your Review & Feedback <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   rows={4}
@@ -606,23 +606,23 @@ const FarmerDashboard = () => {
                   placeholder="Share details about machine performance, condition, fuel efficiency, or operator quality..."
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 transition"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={handleCloseReviewModal}
                   disabled={reviewSubmitting}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={reviewSubmitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {reviewSubmitting ? (
                     <>

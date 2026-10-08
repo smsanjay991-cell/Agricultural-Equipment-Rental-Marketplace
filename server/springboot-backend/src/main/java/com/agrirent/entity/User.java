@@ -35,8 +35,8 @@ public class User {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false, columnDefinition = "ENUM('farmer','owner','admin') DEFAULT 'farmer'")
-    private Role role = Role.farmer;
+    @Column(name = "role", nullable = false, columnDefinition = "ENUM('user','owner','admin','farmer') DEFAULT 'user'")
+    private Role role = Role.user;
 
     @Builder.Default
     @Column(name = "location", length = 255)
@@ -55,6 +55,6 @@ public class User {
     private LocalDateTime updatedAt;
 
     public enum Role {
-        farmer, owner, admin
+        user, owner, admin, farmer
     }
 }

@@ -130,12 +130,12 @@ const CategoryManagement = () => {
     <div className="space-y-6">
       
       {/* Header Actions */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <Folder className="w-5 h-5 text-emerald-400" /> Equipment Category Governance
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Folder className="w-5 h-5 text-green-700" /> Equipment Category Governance
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Manage machinery taxonomy and categories used across equipment catalog listings & filters.
           </p>
         </div>
@@ -143,7 +143,7 @@ const CategoryManagement = () => {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <button
             onClick={fetchCategories}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
             title="Refresh Categories"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Refresh
@@ -151,7 +151,7 @@ const CategoryManagement = () => {
 
           <button
             onClick={handleOpenAddModal}
-            className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
+            className="bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-xs transition flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
           >
             <Plus className="w-4 h-4" /> Add New Category
           </button>
@@ -160,16 +160,16 @@ const CategoryManagement = () => {
 
       {/* Notifications */}
       {error && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between shadow-lg">
-          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {error}</span>
-          <button onClick={() => setError('')} className="text-red-400 hover:text-white"><X className="w-4 h-4" /></button>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-medium flex items-center justify-between shadow-xs">
+          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-600 shrink-0" /> {error}</span>
+          <button onClick={() => setError('')} className="text-red-600 hover:text-red-800 cursor-pointer"><X className="w-4 h-4" /></button>
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-300 text-xs font-medium flex items-center justify-between shadow-lg">
-          <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> {success}</span>
-          <button onClick={() => setSuccess('')} className="text-emerald-400 hover:text-white"><X className="w-4 h-4" /></button>
+        <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 text-xs font-semibold flex items-center justify-between shadow-xs">
+          <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-700 shrink-0" /> {success}</span>
+          <button onClick={() => setSuccess('')} className="text-green-700 hover:text-green-900 cursor-pointer"><X className="w-4 h-4" /></button>
         </div>
       )}
 
@@ -177,27 +177,27 @@ const CategoryManagement = () => {
       {loading ? (
         <Loader message="Loading equipment categories from database..." />
       ) : categories.length === 0 ? (
-        <div className="glass-panel p-12 rounded-3xl border border-slate-800 text-center space-y-3">
-          <FolderPlus className="w-12 h-12 text-slate-600 mx-auto" />
-          <h3 className="text-base font-bold text-slate-200">No Categories Configured</h3>
-          <p className="text-xs text-slate-400">Click below to create the first equipment category in the database.</p>
+        <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3 shadow-xs">
+          <FolderPlus className="w-12 h-12 text-slate-400 mx-auto" />
+          <h3 className="text-base font-bold text-slate-900">No Categories Configured</h3>
+          <p className="text-xs text-slate-500">Click below to create the first equipment category in the database.</p>
           <button
             onClick={handleOpenAddModal}
-            className="text-xs font-bold text-emerald-400 hover:underline cursor-pointer pt-2"
+            className="text-xs font-bold text-green-700 hover:underline cursor-pointer pt-2"
           >
             + Create First Category
           </button>
         </div>
       ) : (
-        <div className="glass-panel rounded-2xl border border-slate-800 p-6 space-y-4">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Total Categories: <strong className="text-white font-bold">{categories.length}</strong></span>
+        <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-slate-600">
+            <span>Total Categories: <strong className="text-slate-900 font-bold">{categories.length}</strong></span>
             <span className="text-slate-500 text-[11px]">Taxonomy synchronization active</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-800/80 uppercase text-[10px] text-slate-400 tracking-wider">
+            <table className="w-full text-left text-xs text-slate-600">
+              <thead className="bg-slate-50 uppercase text-[10px] text-slate-500 font-semibold tracking-wider border-y border-slate-200">
                 <tr>
                   <th className="p-3">Category ID</th>
                   <th className="p-3">Category Name</th>
@@ -206,38 +206,38 @@ const CategoryManagement = () => {
                   <th className="p-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-slate-100">
                 {categories.map((cat) => {
                   const catId = cat.id || cat._id;
                   const isConfirmingDelete = deletingId === catId;
 
                   return (
-                    <tr key={catId} className="hover:bg-slate-800/40 transition">
-                      <td className="p-3 font-mono text-slate-500 text-[10px]">#{catId}</td>
-                      <td className="p-3 font-semibold text-white flex items-center gap-2">
-                        <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <tr key={catId} className="hover:bg-slate-50 transition">
+                      <td className="p-3 font-mono text-slate-400 text-[10px]">#{catId}</td>
+                      <td className="p-3 font-semibold text-slate-900 flex items-center gap-2">
+                        <Folder className="w-4 h-4 text-green-700 shrink-0" />
                         <span>{cat.name}</span>
                       </td>
-                      <td className="p-3 text-slate-300 max-w-xs truncate">
-                        {cat.description || <span className="text-slate-500 italic">No description</span>}
+                      <td className="p-3 text-slate-600 max-w-xs truncate">
+                        {cat.description || <span className="text-slate-400 italic">No description</span>}
                       </td>
-                      <td className="p-3 text-slate-400">
+                      <td className="p-3 text-slate-500">
                         {cat.createdAt ? new Date(cat.createdAt).toLocaleDateString() : 'N/A'}
                       </td>
                       <td className="p-3 text-right">
                         {isConfirmingDelete ? (
                           <div className="flex items-center justify-end gap-2">
-                            <span className="text-[11px] text-amber-400 font-semibold">Confirm Delete?</span>
+                            <span className="text-[11px] text-amber-700 font-semibold">Confirm Delete?</span>
                             <button
                               disabled={deleteLoading}
                               onClick={() => handleDelete(catId)}
-                              className="px-2 py-1 bg-red-600 hover:bg-red-500 text-white font-bold rounded text-[10px] transition disabled:opacity-50 cursor-pointer"
+                              className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px] transition disabled:opacity-50 cursor-pointer"
                             >
                               {deleteLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Yes'}
                             </button>
                             <button
                               onClick={() => setDeletingId(null)}
-                              className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium rounded text-[10px] transition cursor-pointer"
+                              className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded text-[10px] transition cursor-pointer"
                             >
                               Cancel
                             </button>
@@ -246,14 +246,14 @@ const CategoryManagement = () => {
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => handleOpenEditModal(cat)}
-                              className="p-1.5 text-slate-400 hover:text-emerald-400 hover:bg-slate-800 rounded-lg transition cursor-pointer"
+                              className="p-1.5 text-slate-500 hover:text-green-700 hover:bg-slate-100 rounded-lg transition cursor-pointer"
                               title="Edit Category"
                             >
                               <Edit2 className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => setDeletingId(catId)}
-                              className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition cursor-pointer"
+                              className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
                               title="Delete Category"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -272,32 +272,32 @@ const CategoryManagement = () => {
 
       {/* Add / Edit Category Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-700 max-w-md w-full space-y-5 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <FolderPlus className="w-5 h-5 text-emerald-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="bg-white p-6 rounded-xl border border-slate-200 max-w-md w-full space-y-5 shadow-xl relative">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <FolderPlus className="w-5 h-5 text-green-700" />
                 {editingCategory ? 'Edit Category' : 'Create New Category'}
               </h3>
               <button 
                 onClick={handleCloseModal}
-                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {formError && (
-              <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                 <span>{formError}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Category Name <span className="text-red-400">*</span>
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                  Category Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -306,12 +306,12 @@ const CategoryManagement = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   maxLength={50}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -319,23 +319,23 @@ const CategoryManagement = () => {
                   placeholder="Brief summary of machinery types included under this category..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+              <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={handleCloseModal}
                   disabled={submitting}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {submitting ? (
                     <>

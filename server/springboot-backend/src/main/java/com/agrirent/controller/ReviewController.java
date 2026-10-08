@@ -25,7 +25,7 @@ public class ReviewController {
     private final UserRepository userRepository;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FARMER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<ReviewResponse>> create(
             @RequestBody Map<String, Object> body,
             @AuthenticationPrincipal UserDetails ud) {
@@ -47,7 +47,7 @@ public class ReviewController {
     }
 
     @GetMapping("/my")
-    @PreAuthorize("hasAnyRole('FARMER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getMyReviews(@AuthenticationPrincipal UserDetails ud) {
         User user = resolve(ud);
         List<ReviewResponse> list = reviewService.getByFarmer(user.getId());

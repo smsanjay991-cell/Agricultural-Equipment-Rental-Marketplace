@@ -119,19 +119,19 @@ const OwnerDashboard = () => {
   const pendingRequests = bookings.filter(b => getBookingStatus(b) === 'pending');
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Header & Stats */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Fleet Owner Portal</div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Machinery & Bookings Manager</h1>
+          <div className="text-xs font-bold text-green-700 uppercase tracking-wider">Fleet Owner Portal</div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Machinery & Bookings Manager</h1>
         </div>
 
         <div className="flex items-center gap-3">
           <button 
             onClick={loadData}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition flex items-center gap-1 text-xs font-semibold cursor-pointer"
             title="Refresh Fleet Data"
           >
             <RefreshCw className="w-4 h-4" /> Refresh
@@ -139,7 +139,7 @@ const OwnerDashboard = () => {
           
           <Link 
             to="/equipment/new"
-            className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer w-fit"
+            className="bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition flex items-center gap-2 cursor-pointer w-fit"
           >
             <PlusCircle className="w-4 h-4" /> Add New Equipment
           </Link>
@@ -148,19 +148,19 @@ const OwnerDashboard = () => {
 
       {/* Revenue & Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Approved Revenue</div>
-          <div className="text-2xl font-extrabold text-emerald-400">₹{totalRevenue.toLocaleString()}</div>
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Approved Revenue</div>
+          <div className="text-2xl font-extrabold text-green-700">₹{totalRevenue.toLocaleString()}</div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Listed Machines</div>
-          <div className="text-2xl font-extrabold text-white">{equipmentList.length} Units</div>
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Listed Machines</div>
+          <div className="text-2xl font-extrabold text-slate-900">{equipmentList.length} Units</div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-xs text-slate-400 font-medium">Pending Requests</div>
-          <div className="text-2xl font-extrabold text-amber-400">
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-1">
+          <div className="text-xs text-slate-500 font-medium">Pending Requests</div>
+          <div className="text-2xl font-extrabold text-amber-600">
             {pendingRequests.length} Requests
           </div>
         </div>
@@ -168,32 +168,32 @@ const OwnerDashboard = () => {
 
       {/* Action Alerts */}
       {actionSuccess && (
-        <div className="p-4 bg-emerald-950/60 border border-emerald-500/50 rounded-2xl text-emerald-400 text-xs font-bold flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" /> {actionSuccess}
+        <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
+          <CheckCircle className="w-4 h-4 text-green-700 shrink-0" /> {actionSuccess}
         </div>
       )}
 
       {actionError && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {actionError}
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-medium flex items-center gap-2 shadow-xs">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0" /> {actionError}
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-2xl text-red-300 text-xs font-medium flex items-center justify-between">
-          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> {error}</span>
-          <button onClick={loadData} className="underline text-emerald-400 font-bold">Retry</button>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-medium flex items-center justify-between shadow-xs">
+          <span className="flex items-center gap-2"><AlertCircle className="w-4 h-4 text-red-600 shrink-0" /> {error}</span>
+          <button onClick={loadData} className="underline text-green-700 font-semibold cursor-pointer">Retry</button>
         </div>
       )}
 
       {/* Incoming Rental Requests */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <Clock className="w-5 h-5 text-emerald-400" /> Incoming Rental Requests ({bookings.length})
+        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Clock className="w-4 h-4 text-green-700" /> Incoming Rental Requests ({bookings.length})
         </h2>
 
         {bookings.length === 0 ? (
-          <div className="glass-panel p-6 rounded-2xl text-center text-xs text-slate-400">
+          <div className="bg-white p-8 rounded-xl border border-slate-200 text-center text-xs text-slate-500 shadow-xs">
             No rental requests received yet for your listed equipment.
           </div>
         ) : (
@@ -211,45 +211,45 @@ const OwnerDashboard = () => {
               return (
                 <div 
                   key={bookingId} 
-                  className="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-bold text-white">{eqName}</span>
+                      <span className="text-sm font-bold text-slate-900">{eqName}</span>
                       <span className="text-[10px] text-slate-400 font-mono">#{bookingId}</span>
-                      <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${normStatus === 'pending' ? 'bg-amber-950 text-amber-400 border border-amber-800' : normStatus === 'approved' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : normStatus === 'rejected' ? 'bg-red-950 text-red-400 border border-red-800' : 'bg-slate-800 text-slate-400 border border-slate-700'}`}>
+                      <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${normStatus === 'pending' ? 'bg-amber-100 text-amber-800 border border-amber-200' : normStatus === 'approved' ? 'bg-green-100 text-green-800 border border-green-200' : normStatus === 'rejected' ? 'bg-red-100 text-red-800 border border-red-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
                         {normStatus}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-400">
-                      Renter: <strong className="text-slate-200">{farmerName}</strong> ({farmerPhone})
+                    <p className="text-xs text-slate-600">
+                      Renter: <strong className="text-slate-800">{farmerName}</strong> ({farmerPhone})
                     </p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       Dates: {new Date(booking.startDate || booking.start_date).toLocaleDateString()} - {new Date(booking.endDate || booking.end_date).toLocaleDateString()} ({booking.totalDays || booking.total_days || 1} Days)
                     </p>
                     {(booking.notes || booking.remarks) && (
-                      <p className="text-[11px] text-slate-400 italic pt-0.5">"{booking.notes || booking.remarks}"</p>
+                      <p className="text-[11px] text-slate-600 italic pt-0.5">"{booking.notes || booking.remarks}"</p>
                     )}
                   </div>
 
-                  <div className="flex items-center gap-4 justify-between md:justify-end border-t md:border-t-0 border-slate-800 pt-3 md:pt-0 shrink-0">
+                  <div className="flex items-center gap-4 justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-3 md:pt-0 shrink-0">
                     <div className="text-right">
-                      <div className="text-xs text-slate-400">Total Price</div>
-                      <div className="text-lg font-bold text-emerald-400">₹{Number(totalFee).toLocaleString()}</div>
+                      <div className="text-[10px] uppercase font-semibold text-slate-500">Total Price</div>
+                      <div className="text-base font-bold text-green-700">₹{Number(totalFee).toLocaleString()}</div>
                     </div>
 
                     {isPending && (
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleApproveBooking(bookingId)}
-                          className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
+                          className="bg-green-700 hover:bg-green-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer shadow-xs"
                         >
                           <CheckCircle className="w-3.5 h-3.5" /> Accept
                         </button>
                         <button
                           onClick={() => handleRejectBooking(bookingId)}
-                          className="bg-red-950 hover:bg-red-900 text-red-400 border border-red-800 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
+                          className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1 transition cursor-pointer"
                         >
                           <XCircle className="w-3.5 h-3.5" /> Reject
                         </button>
@@ -265,21 +265,21 @@ const OwnerDashboard = () => {
 
       {/* Owner Listed Equipment */}
       <div className="space-y-4 pt-4">
-        <h2 className="text-xl font-bold text-white flex items-center justify-between">
+        <h2 className="text-lg font-bold text-slate-900 flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <Tractor className="w-5 h-5 text-emerald-400" /> My Equipment Listings ({equipmentList.length})
+            <Tractor className="w-4 h-4 text-green-700" /> My Equipment Listings ({equipmentList.length})
           </span>
-          <Link to="/equipment/new" className="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
+          <Link to="/equipment/new" className="text-xs text-green-700 hover:underline flex items-center gap-1 font-semibold">
             + Add New
           </Link>
         </h2>
 
         {equipmentList.length === 0 ? (
-          <div className="glass-panel p-8 rounded-2xl text-center space-y-3 border border-slate-800">
-            <Tractor className="w-10 h-10 text-slate-600 mx-auto" />
-            <h3 className="text-sm font-bold text-slate-300">No Equipment Listed Yet</h3>
+          <div className="bg-white p-8 rounded-xl text-center space-y-3 border border-slate-200 shadow-xs">
+            <Tractor className="w-10 h-10 text-slate-400 mx-auto" />
+            <h3 className="text-sm font-bold text-slate-800">No Equipment Listed Yet</h3>
             <p className="text-xs text-slate-500">List your tractors or harvesters to start earning rental income.</p>
-            <Link to="/equipment/new" className="inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-xl">
+            <Link to="/equipment/new" className="inline-block bg-green-700 hover:bg-green-800 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm">
               Create First Listing
             </Link>
           </div>
@@ -292,9 +292,9 @@ const OwnerDashboard = () => {
               const dailyRent = item.daily_rent !== undefined ? item.daily_rent : (item.dailyRate !== undefined ? item.dailyRate : item.daily_rate);
 
               return (
-                <div key={itemId} className="glass-card rounded-2xl overflow-hidden border border-slate-800 relative group flex flex-col justify-between">
+                <div key={itemId} className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xs relative group flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition">
                   <div>
-                    <div className="relative h-40 w-full overflow-hidden bg-slate-800">
+                    <div className="relative h-40 w-full overflow-hidden bg-slate-100">
                       <img 
                         src={imgSrc} 
                         alt={item.name} 
@@ -305,13 +305,13 @@ const OwnerDashboard = () => {
                         }}
                       />
                       
-                      <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-emerald-400 border border-slate-700">
+                      <div className="absolute top-3 left-3 bg-white/95 px-2 py-0.5 rounded-md text-[10px] font-bold text-green-800 border border-slate-200 shadow-xs">
                         {item.category || 'General'}
                       </div>
 
                       <button 
                         onClick={() => handleDeleteEquipment(itemId)}
-                        className="absolute top-3 right-3 p-2 bg-red-950/90 hover:bg-red-900 text-red-400 rounded-lg border border-red-800 transition cursor-pointer"
+                        className="absolute top-3 right-3 p-1.5 bg-white/90 hover:bg-red-50 text-red-600 rounded-md border border-slate-200 transition cursor-pointer shadow-xs"
                         title="Delete Listing"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -319,28 +319,28 @@ const OwnerDashboard = () => {
                     </div>
 
                     <div className="p-4 space-y-2">
-                      <h3 className="text-base font-bold text-white line-clamp-1">{item.name}</h3>
-                      <p className="text-xs text-slate-400 line-clamp-2">{item.description}</p>
-                      <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800">
+                      <h3 className="text-base font-bold text-slate-900 line-clamp-1">{item.name}</h3>
+                      <p className="text-xs text-slate-600 line-clamp-2">{item.description}</p>
+                      <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-emerald-400" />
+                          <MapPin className="w-3 h-3 text-slate-400" />
                           {item.location}
                         </span>
-                        <span className="text-emerald-400 font-extrabold text-sm">₹{Number(dailyRent).toLocaleString()}/day</span>
+                        <span className="text-green-700 font-bold text-sm">₹{Number(dailyRent).toLocaleString()}/day</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-4 pt-0 flex items-center justify-between gap-2 border-t border-slate-800/80 mt-2">
+                  <div className="p-4 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-2">
                     <Link 
                       to={`/equipment/${itemId}`} 
-                      className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold py-2 rounded-xl text-center flex items-center justify-center gap-1 transition border border-slate-700"
+                      className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-medium py-2 rounded-lg text-center flex items-center justify-center gap-1 transition border border-slate-200"
                     >
                       <Eye className="w-3.5 h-3.5" /> View Specs
                     </Link>
                     <Link 
                       to={`/equipment/${itemId}/edit`} 
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2 rounded-xl text-center flex items-center justify-center gap-1 transition shadow-md shadow-emerald-600/20"
+                      className="flex-1 bg-green-700 hover:bg-green-800 text-white text-xs font-semibold py-2 rounded-lg text-center flex items-center justify-center gap-1 transition shadow-xs"
                     >
                       <Edit3 className="w-3.5 h-3.5" /> Edit
                     </Link>

@@ -55,7 +55,7 @@ public class BookingController {
 
     // Root route
     @PostMapping
-    @PreAuthorize("hasAnyRole('FARMER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<BookingResponse>> create(
             @RequestBody Map<String, Object> body,
             @AuthenticationPrincipal UserDetails ud) {

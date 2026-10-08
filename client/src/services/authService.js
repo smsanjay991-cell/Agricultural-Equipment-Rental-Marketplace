@@ -1,10 +1,12 @@
 import { fetchWithAuth } from './api';
 
 export const authService = {
-  login: async (email, password) => {
+  login: async (email, password, role) => {
+    const body = { email, password };
+    if (role) body.role = role;
     return await fetchWithAuth('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify(body)
     });
   },
 

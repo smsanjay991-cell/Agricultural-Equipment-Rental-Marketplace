@@ -232,50 +232,50 @@ const EquipmentForm = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
       {/* Top Header & Navigation */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
         <div>
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-emerald-400 transition mb-1"
+            className="flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-green-700 transition mb-1 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Cancel & Back
           </button>
-          <h1 className="text-2xl font-extrabold text-white flex items-center gap-2">
-            <Tractor className="w-6 h-6 text-emerald-400" />
+          <h1 className="text-2xl font-extrabold text-slate-900 flex items-center gap-2">
+            <Tractor className="w-6 h-6 text-green-700" />
             {isEdit ? 'Edit Machinery Listing' : 'List New Machinery'}
           </h1>
         </div>
 
-        <div className="text-xs text-slate-400">
-          Role: <strong className="text-emerald-400 uppercase">Owner / Admin</strong>
+        <div className="text-xs text-slate-500">
+          Role: <strong className="text-green-700 uppercase">Owner / Admin</strong>
         </div>
       </div>
 
       {/* Alert Notifications */}
       {error && (
-        <div className="glass-panel p-4 rounded-2xl border border-red-800/60 bg-red-950/40 text-red-300 text-xs flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+        <div className="p-4 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="glass-panel p-4 rounded-2xl border border-emerald-800/60 bg-emerald-950/40 text-emerald-300 text-xs flex items-center gap-3">
-          <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+        <div className="p-4 rounded-xl border border-green-200 bg-green-50 text-green-700 text-xs flex items-center gap-3">
+          <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
           <span>{success}</span>
         </div>
       )}
 
       {/* Main Form */}
-      <form onSubmit={handleSubmit} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6">
 
         {/* Basic Information */}
         <div className="space-y-4">
-          <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">1. Basic Machine Details</h3>
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">1. Basic Machine Details</h3>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Equipment Name <span className="text-red-400">*</span>
+            <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              Equipment Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -284,20 +284,20 @@ const EquipmentForm = () => {
               placeholder="e.g. John Deere 5050D 50HP Tractor"
               value={formData.name}
               onChange={handleChange}
-              className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Category <span className="text-red-400">*</span>
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                Category <span className="text-red-500">*</span>
               </label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition cursor-pointer"
               >
                 {categoriesList.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -306,7 +306,7 @@ const EquipmentForm = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
                 Brand / Manufacturer
               </label>
               <input
@@ -315,12 +315,12 @@ const EquipmentForm = () => {
                 placeholder="e.g. Mahindra, Sonalika"
                 value={formData.brand}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
                 Model Variant
               </label>
               <input
@@ -329,14 +329,14 @@ const EquipmentForm = () => {
                 placeholder="e.g. Rotavator 6ft, DC-68G"
                 value={formData.model}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Machine Description <span className="text-red-400">*</span>
+            <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              Machine Description <span className="text-red-500">*</span>
             </label>
             <textarea
               name="description"
@@ -345,19 +345,19 @@ const EquipmentForm = () => {
               placeholder="Describe machine condition, attachments included, ideal crop applications..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
             />
           </div>
         </div>
 
         {/* Pricing & Location */}
         <div className="space-y-4 pt-2">
-          <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">2. Pricing & Location</h3>
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">2. Pricing & Location</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Daily Rent (₹) <span className="text-red-400">*</span>
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                Daily Rent (₹) <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
@@ -367,12 +367,12 @@ const EquipmentForm = () => {
                 placeholder="e.g. 1500"
                 value={formData.daily_rent}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
                 Security Deposit (₹)
               </label>
               <input
@@ -382,13 +382,13 @@ const EquipmentForm = () => {
                 placeholder="e.g. 2000"
                 value={formData.deposit}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Location / District <span className="text-red-400">*</span>
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                Location / District <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -397,7 +397,7 @@ const EquipmentForm = () => {
                 placeholder="e.g. Trichy, Tamil Nadu"
                 value={formData.location}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
           </div>
@@ -405,11 +405,11 @@ const EquipmentForm = () => {
 
         {/* Specifications & Driver */}
         <div className="space-y-4 pt-2">
-          <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">3. Technical Specs & Operator</h3>
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">3. Technical Specs & Operator</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
                 Horsepower (HP)
               </label>
               <input
@@ -419,19 +419,19 @@ const EquipmentForm = () => {
                 placeholder="e.g. 50"
                 value={formData.horsepower}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 mb-1.5">
                 Fuel Type
               </label>
               <select
                 name="fuel_type"
                 value={formData.fuel_type}
                 onChange={handleChange}
-                className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition cursor-pointer"
               >
                 {FUEL_OPTIONS.map(f => (
                   <option key={f} value={f}>{f}</option>
@@ -440,7 +440,7 @@ const EquipmentForm = () => {
             </div>
           </div>
 
-          <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/60 space-y-3">
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -448,16 +448,16 @@ const EquipmentForm = () => {
                 name="is_driver_available"
                 checked={formData.is_driver_available}
                 onChange={handleChange}
-                className="w-4 h-4 text-emerald-600 rounded border-slate-700 bg-slate-900 focus:ring-emerald-500"
+                className="w-4 h-4 text-green-700 rounded border-slate-300 focus:ring-green-600"
               />
-              <label htmlFor="is_driver_available" className="text-xs font-bold text-slate-200 cursor-pointer">
+              <label htmlFor="is_driver_available" className="text-xs font-semibold text-slate-800 cursor-pointer">
                 Machine Operator / Driver Available for Hire?
               </label>
             </div>
 
             {formData.is_driver_available && (
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-slate-700 mb-1">
                   Driver Operator Daily Rate (₹)
                 </label>
                 <input
@@ -467,7 +467,7 @@ const EquipmentForm = () => {
                   placeholder="e.g. 400"
                   value={formData.driver_rate_per_day}
                   onChange={handleChange}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100"
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-green-600"
                 />
               </div>
             )}
@@ -476,19 +476,19 @@ const EquipmentForm = () => {
 
         {/* Image Upload */}
         <div className="space-y-4 pt-2">
-          <h3 className="text-base font-bold text-white border-b border-slate-800/80 pb-2">4. Machinery Photo</h3>
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">4. Machinery Photo</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
 
             {/* File Upload Trigger */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-300">
+              <label className="block text-xs font-medium text-slate-700">
                 Upload Image File (Max 5MB: JPG, PNG, WEBP)
               </label>
 
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-emerald-500/80 bg-slate-800/50 hover:bg-slate-800 p-6 rounded-2xl cursor-pointer transition text-center space-y-2">
-                <Upload className="w-8 h-8 text-emerald-400" />
-                <span className="text-xs font-semibold text-slate-300">Click to Select Image File</span>
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 hover:border-green-600 bg-slate-50 hover:bg-slate-100/60 p-6 rounded-xl cursor-pointer transition text-center space-y-2">
+                <Upload className="w-7 h-7 text-green-700" />
+                <span className="text-xs font-semibold text-slate-700">Click to Select Image File</span>
                 <span className="text-[10px] text-slate-500">Supports JPG, JPEG, PNG, WEBP</span>
                 <input
                   type="file"
@@ -501,8 +501,8 @@ const EquipmentForm = () => {
 
             {/* Image Preview Window */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-300">Image Preview</label>
-              <div className="h-40 bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden flex items-center justify-center relative">
+              <label className="block text-xs font-medium text-slate-700">Image Preview</label>
+              <div className="h-40 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden flex items-center justify-center relative">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
@@ -514,8 +514,8 @@ const EquipmentForm = () => {
                     }}
                   />
                 ) : (
-                  <div className="text-center text-slate-500 space-y-1">
-                    <ImageIcon className="w-8 h-8 mx-auto text-slate-600" />
+                  <div className="text-center text-slate-400 space-y-1">
+                    <ImageIcon className="w-8 h-8 mx-auto text-slate-300" />
                     <span className="text-xs block">No Image Selected</span>
                   </div>
                 )}
@@ -526,11 +526,11 @@ const EquipmentForm = () => {
         </div>
 
         {/* Form Controls */}
-        <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-4">
+        <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl transition"
+            className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs rounded-lg transition cursor-pointer"
           >
             Cancel
           </button>
@@ -538,7 +538,7 @@ const EquipmentForm = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
+            className="px-6 py-2.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             {submitting ? 'Saving Listing...' : (isEdit ? 'Update Machinery' : 'Publish Machinery Listing')}

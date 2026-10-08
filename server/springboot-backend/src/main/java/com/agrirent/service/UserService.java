@@ -46,9 +46,14 @@ public class UserService {
         }
 
         User.Role targetRole = user.getRole();
-        if (role != null) {
-            try { targetRole = User.Role.valueOf(role.toLowerCase()); }
-            catch (IllegalArgumentException e) { throw new BadRequestException("Invalid user role specified. Allowed roles: farmer, owner, admin"); }
+        if (role != null && !role.isBlank()) {
+            String roleVal = role.trim().toLowerCase();
+            if ("farmer".equals(roleVal)) {
+                targetRole = User.Role.user;
+            } else {
+                try { targetRole = User.Role.valueOf(roleVal); }
+                catch (IllegalArgumentException e) { throw new BadRequestException("Invalid user role specified. Allowed roles: user, owner, admin"); }
+            }
         }
 
         user.setName(name.trim());
@@ -98,13 +103,17 @@ public class UserService {
     }
 
     private AuthResponse toResponse(User u) {
+        String roleStr = u.getRole() != null ? u.getRole().name().toLowerCase() : "user";
+        if ("farmer".equals(roleStr)) {
+            roleStr = "user";
+        }
         return AuthResponse.builder()
                 ._id(u.getId())
                 .id(u.getId())
                 .name(u.getName())
                 .email(u.getEmail())
                 .phone(u.getPhone())
-                .role(u.getRole().name())
+                .role(roleStr)
                 .location(u.getLocation())
                 .avatar(u.getAvatar())
                 .createdAt(u.getCreatedAt())
